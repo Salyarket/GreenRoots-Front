@@ -1,9 +1,9 @@
-import Header from "../components/Header";
+import Hero from "@/components/Hero/Hero";
 
 const page = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-brand-white ">
-      <Header backgroundTransparent={false} />
+    <div className=" min-h-screen ">
+      <Hero />
     </div>
   );
 };

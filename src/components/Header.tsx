@@ -30,7 +30,7 @@ const Header = ({
 
   return (
     <header
-      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center relative  ${
+      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center relative z-50  ${
         backgroundTransparent && "bg-transparent"
       } `}
     >
