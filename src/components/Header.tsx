@@ -13,7 +13,7 @@ const Header = ({
 
   return (
     <header
-      className={`w-full bg-brand-green  text-white p-4 flex justify-between items-center relative ${
+      className={`w-full bg-brand-darkgreen  text-white p-4 flex justify-between items-center relative ${
         backgroundTransparent && "bg-transparent"
       } `}
     >
@@ -75,7 +75,7 @@ const Header = ({
       </nav>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 h-screen w-full bg-red-400 text-white flex flex-col items-center justify-center space-y-8   md:hidden">
+        <div className="absolute top-full left-0 h-screen w-full bg-brand-green text-white flex flex-col items-center justify-center space-y-8   md:hidden">
           <Link href="/catalogue" onClick={() => setMenuOpen(false)}>
             Catalogue
           </Link>
