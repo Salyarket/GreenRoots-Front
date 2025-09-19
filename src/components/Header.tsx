@@ -1,15 +1,32 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link.js";
+import { useState } from "react";
 
-const Header = () => {
+const Header = ({
+  backgroundTransparent,
+}: {
+  backgroundTransparent: boolean;
+}) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <header className="w-full bg-brand-green text-white p-4 flex justify-between items-center">
-      <Link href={"/"} className="md:hidden">
+    <header
+      className={`w-full bg-brand-green  text-white p-4 flex justify-between items-center relative ${
+        backgroundTransparent && "bg-transparent"
+      } `}
+    >
+      <Link
+        href={"/"}
+        className="md:hidden"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
         <Image
           src="/icon_menu.svg"
           alt="GreenRoots"
-          width={40}
-          height={40}
+          width={30}
+          height={30}
           priority
         />
       </Link>
@@ -56,6 +73,20 @@ const Header = () => {
           </Link>
         </div>
       </nav>
+
+      {menuOpen && (
+        <div className="absolute top-full left-0 h-screen w-full bg-red-400 text-white flex flex-col items-center justify-center space-y-8   md:hidden">
+          <Link href="/catalogue" onClick={() => setMenuOpen(false)}>
+            Catalogue
+          </Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)}>
+            Contact
+          </Link>
+          <Link href="/apropos" onClick={() => setMenuOpen(false)}>
+            À propos
+          </Link>
+        </div>
+      )}
     </header>
   );
 };
