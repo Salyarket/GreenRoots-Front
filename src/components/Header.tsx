@@ -13,16 +13,39 @@ const Header = () => {
           priority
         />
       </Link>
-      <nav className="space-x-4">
-        <Link href="/catalogue" className={""}>
-          Catalogue
-        </Link>
-        <Link href="/contact" className="hover:underline">
-          Contact
-        </Link>
-        <Link href="/contact" className="hover:underline">
-          À propos
-        </Link>
+      {/* nav invisible en mode md + */}
+      <nav className="space-x-4 flex  ">
+        <div className="hidden md:flex space-x-4">
+          <Link href="/catalogue" className={"hover:underline"}>
+            Catalogue
+          </Link>
+          <Link href="/contact" className="hover:underline">
+            Contact
+          </Link>
+          <Link href="/contact" className="hover:underline">
+            À propos
+          </Link>
+        </div>
+        <div className="space-x-4 flex">
+          <Link href={"/profil"}>
+            <Image
+              src="/icon_profil.svg"
+              alt="GreenRoots"
+              width={20}
+              height={20}
+              priority
+            />
+          </Link>
+          <Link href={"/profil"}>
+            <Image
+              src="/icon_cart.svg"
+              alt="GreenRoots"
+              width={20}
+              height={20}
+              priority
+            />
+          </Link>
+        </div>
       </nav>
     </header>
   );
