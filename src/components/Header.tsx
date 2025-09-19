@@ -4,9 +4,9 @@ import Link from "next/link.js";
 const Header = () => {
   return (
     <header className="w-full bg-brand-green text-white p-4 flex justify-between items-center">
-      <Link href={"/"}>
+      <Link href={"/"} className="md:hidden">
         <Image
-          src="/logo_white.svg"
+          src="/icon_menu.svg"
           alt="GreenRoots"
           width={40}
           height={40}
