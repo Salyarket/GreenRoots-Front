@@ -3,7 +3,7 @@ import Header from "../Header";
 
 const Hero = () => {
   return (
-    <section className="relative h-screen flex flex-col ">
+    <section className="relative h-screen md:h-[70vh] flex flex-col ">
       {/* header first */}
       <Header backgroundTransparent={true} />
 
@@ -27,7 +27,7 @@ const Hero = () => {
 
       {/* puis le text centré */}
       <div className="flex flex-1 justify-center items-center px-5 text-center">
-        <h1 className="text-white text-xl md:text-5xl font-bold uppercase max-w-full md:max-w-3xl drop-shadow-lg">
+        <h1 className="text-white text-xl md:text-5xl font-bold uppercase md:max-w-3xl drop-shadow-2xl drop-shadow-black">
           Plantez ou offrez un arbre et vivez son histoire.
         </h1>
       </div>

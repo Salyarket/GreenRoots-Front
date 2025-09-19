@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link.js";
+import Link from "next/link";
 import { useState } from "react";
 
 const Header = ({
@@ -9,7 +9,7 @@ const Header = ({
 }: {
   backgroundTransparent: boolean;
 }) => {
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const links_url = [
     {
       id: 1,
@@ -34,19 +34,20 @@ const Header = ({
         backgroundTransparent && "bg-transparent"
       } `}
     >
-      <Link
-        href={"/"}
-        className="md:hidden"
+      <button
         onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden"
+        aria-label="Toggle menu"
       >
         <Image
-          src="/icon_menu.svg"
-          alt="GreenRoots"
+          src={menuOpen ? "/icon_menu_close.svg" : "/icon_menu_open.svg"}
+          alt="Menu"
           width={30}
           height={30}
           priority
         />
-      </Link>
+      </button>
+
       <Link href={"/"}>
         <Image
           src="/logo_white.svg"
@@ -56,8 +57,9 @@ const Header = ({
           priority
         />
       </Link>
+
       {/* nav invisible en mode md + */}
-      <nav className="space-x-4 flex  ">
+      <nav role="navigation" className="space-x-4 flex  ">
         <div className="hidden md:flex space-x-4">
           {links_url.map((el) => (
             <Link
