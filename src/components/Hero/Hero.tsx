@@ -18,7 +18,7 @@ const Hero = () => {
       <header></header>
       <div className="absolute flex justify-center items-center px-5">
         <h1 className="text-white text-xl md:text-5xl font-bold uppercase max-w-full md:max-w-3xl">
-          Planter ou offrez un arbre et vivez son histoire.
+          Plantez ou offrez un arbre et vivez son histoire.
         </h1>
       </div>
     </section>
