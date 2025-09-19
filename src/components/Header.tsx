@@ -13,6 +13,15 @@ const Header = () => {
           priority
         />
       </Link>
+      <Link href={"/"}>
+        <Image
+          src="/logo_white.svg"
+          alt="GreenRoots"
+          width={40}
+          height={40}
+          priority
+        />
+      </Link>
       {/* nav invisible en mode md + */}
       <nav className="space-x-4 flex  ">
         <div className="hidden md:flex space-x-4">
