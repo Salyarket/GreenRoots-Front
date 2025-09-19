@@ -9,11 +9,28 @@ const Header = ({
 }: {
   backgroundTransparent: boolean;
 }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
+  const links_url = [
+    {
+      id: 1,
+      link: "catalogue",
+      href: "/catalogue",
+    },
+    {
+      id: 2,
+      link: "contact",
+      href: "/contact",
+    },
+    {
+      id: 3,
+      link: "à propos",
+      href: "/a-propos",
+    },
+  ];
 
   return (
     <header
-      className={`w-full bg-brand-darkgreen  text-white p-4 flex justify-between items-center relative ${
+      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center relative  ${
         backgroundTransparent && "bg-transparent"
       } `}
     >
@@ -42,15 +59,15 @@ const Header = ({
       {/* nav invisible en mode md + */}
       <nav className="space-x-4 flex  ">
         <div className="hidden md:flex space-x-4">
-          <Link href="/catalogue" className={"hover:underline"}>
-            Catalogue
-          </Link>
-          <Link href="/contact" className="hover:underline">
-            Contact
-          </Link>
-          <Link href="/contact" className="hover:underline">
-            À propos
-          </Link>
+          {links_url.map((el) => (
+            <Link
+              key={el.id}
+              href={el.href}
+              className={"capitalize hover:scale-125"}
+            >
+              {el.link}
+            </Link>
+          ))}
         </div>
         <div className="space-x-4 flex">
           <Link href={"/profil"}>
@@ -75,16 +92,17 @@ const Header = ({
       </nav>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 h-screen w-full bg-brand-green text-white flex flex-col items-center justify-center space-y-8   md:hidden">
-          <Link href="/catalogue" onClick={() => setMenuOpen(false)}>
-            Catalogue
-          </Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </Link>
-          <Link href="/apropos" onClick={() => setMenuOpen(false)}>
-            À propos
-          </Link>
+        <div className="absolute top-full left-0 w-full h-[92vh] bg-brand-green text-white flex flex-col  items-center justify-center space-y-8 text-2xl  md:hidden">
+          {links_url.map((el) => (
+            <Link
+              key={el.id}
+              href={el.href}
+              onClick={() => setMenuOpen(false)}
+              className={"capitalize hover:scale-125 "}
+            >
+              {el.link}
+            </Link>
+          ))}
         </div>
       )}
     </header>
