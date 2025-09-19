@@ -1,7 +1,9 @@
+import Header from "../components/Header";
+
 const page = () => {
   return (
-    <div className=" min-h-screen ">
-      <h1 className="bg-brand-green">Hello from Greenroots </h1>
+    <div className="flex flex-col min-h-screen bg-brand-white">
+      <Header />
     </div>
   );
 };
