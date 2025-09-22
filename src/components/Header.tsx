@@ -30,7 +30,7 @@ const Header = ({
 
   return (
     <header
-      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50  ${
+      className={`w-full  bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50 max-w-[1920px]  ${
         backgroundTransparent ? "bg-transparent absolute" : "relative"
       } `}
     >
@@ -51,8 +51,8 @@ const Header = ({
         <Image
           src="/logo_white.svg"
           alt="GreenRoots"
-          width={40}
-          height={40}
+          width={80}
+          height={80}
           priority
           className="hover:scale-125"
         />
