@@ -30,8 +30,8 @@ const Header = ({
 
   return (
     <header
-      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center relative z-50  ${
-        backgroundTransparent && "bg-transparent"
+      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50  ${
+        backgroundTransparent ? "bg-transparent absolute" : "relative"
       } `}
     >
       <button
@@ -44,7 +44,6 @@ const Header = ({
           alt="Menu"
           width={30}
           height={30}
-          priority
         />
       </button>
 
@@ -78,7 +77,6 @@ const Header = ({
               alt="GreenRoots"
               width={20}
               height={20}
-              priority
             />
           </Link>
           <Link href={"/profil"}>
@@ -87,7 +85,6 @@ const Header = ({
               alt="GreenRoots"
               width={20}
               height={20}
-              priority
             />
           </Link>
         </div>

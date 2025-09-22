@@ -5,23 +5,17 @@ const Hero = () => {
   return (
     <section className="relative h-screen md:h-[70vh] flex flex-col ">
       {/* header first */}
-      <Header backgroundTransparent={true} />
+      {/* <Header backgroundTransparent={true} /> */}
 
       {/* la div de background avec les images différentes tailles */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/landing_page_small.webp"
-          alt="Hero mobile"
-          fill
-          priority
-          className="object-cover md:hidden"
-        />
-        <Image
           src="/landing_page_large.webp"
-          alt="Hero desktop"
+          alt="Hero"
           fill
           priority
-          className="object-cover hidden md:block"
+          className="object-cover"
+          sizes="100vw"
         />
       </div>
 
