@@ -6,8 +6,8 @@ export const CounterSection = () => {
   const digits = arbresVendus.toString().padStart(7, "0").split("");
 
   return (
-    <section className=" py-16 text-black text-center font-extrabold">
-      <h3 className="uppercase text-xl md:text-2xl  mb-6">
+    <section className=" py-16 text-black text-center font-extrabold select-none">
+      <h3 className="uppercase text-xl md:text-2xl mb-6">
         Ensemble, nous avons déjà planté :
       </h3>
 
