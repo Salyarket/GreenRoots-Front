@@ -54,6 +54,7 @@ const Header = ({
           width={40}
           height={40}
           priority
+          className="hover:scale-125"
         />
       </Link>
 
@@ -77,6 +78,7 @@ const Header = ({
               alt="GreenRoots"
               width={20}
               height={20}
+              className="hover:scale-125"
             />
           </Link>
           <Link href={"/profil"}>
@@ -85,6 +87,7 @@ const Header = ({
               alt="GreenRoots"
               width={20}
               height={20}
+              className="hover:scale-125"
             />
           </Link>
         </div>
