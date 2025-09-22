@@ -13,9 +13,13 @@ const Footer = () => {
         />
         <span className="pb-16">{"Vert l'avenir"}</span>
 
-        <p>Mentions légales - Termes et conditions</p>
-        <p>Utilisation des cookies - Politique de confidentialité</p>
-        <p>Copyright © 2025 - GreenRoots</p>
+        <p className="cursor-pointer">
+          Mentions légales - Termes et conditions
+        </p>
+        <p className="cursor-pointer">
+          Utilisation des cookies - Politique de confidentialité
+        </p>
+        <p className="cursor-pointer">Copyright © 2025 - GreenRoots</p>
       </div>
     </div>
   );

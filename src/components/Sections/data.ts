@@ -6,7 +6,7 @@ export const dataProducts = [
     price: 60,
     description:
       "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
-    image_urls: ["chene.jpg"],
+    image_urls: ["test.webp"],
     stock: 120,
     scientific_name: "Quercus robur",
     carbon: 20,
@@ -18,7 +18,7 @@ export const dataProducts = [
     price: 55,
     description:
       "Arbre robuste adapté aux climats tempérés. Feuillage dense, idéal pour la reforestation urbaine et rurale.",
-    image_urls: ["erable.jpg"],
+    image_urls: ["test.webp"],
     stock: 90,
     scientific_name: "Acer pseudoplatanus",
     carbon: 18,
@@ -30,7 +30,7 @@ export const dataProducts = [
     price: 70,
     description:
       "Conifère résistant aux sols pauvres et aux zones côtières. Croissance rapide, essentiel pour fixer les dunes.",
-    image_urls: ["pin.jpg"],
+    image_urls: ["test.webp"],
     stock: 150,
     scientific_name: "Pinus pinaster",
     carbon: 25,
@@ -42,7 +42,7 @@ export const dataProducts = [
     price: 90,
     description:
       "Arbre méditerranéen emblématique. Symbole de paix, il vit plusieurs siècles et stocke durablement le carbone.",
-    image_urls: ["olivier.jpg"],
+    image_urls: ["test.webp"],
     stock: 60,
     scientific_name: "Olea europaea",
     carbon: 30,
@@ -54,7 +54,7 @@ export const dataProducts = [
     price: 80,
     description:
       "Grand conifère originaire d’Afrique du Nord. Résistant et majestueux, il contribue à la reforestation en altitude.",
-    image_urls: ["cedre.jpg"],
+    image_urls: ["test.webp"],
     stock: 75,
     scientific_name: "Cedrus atlantica",
     carbon: 28,
