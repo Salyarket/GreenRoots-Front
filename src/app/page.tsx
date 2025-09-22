@@ -1,5 +1,8 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero/Hero";
+import BestSellers from "@/components/Sections/BestSellers";
+import { CounterSection } from "@/components/Sections/CounterSection";
 import WhyUs from "@/components/Sections/WhyUs";
 
 const page = () => {
@@ -9,13 +12,11 @@ const page = () => {
       <main>
         {/* main image + h1 */}
         <Hero />
-
         <WhyUs />
-        {/* <ValuesSection />
         <BestSellers />
-        <CounterSection /> */}
+        <CounterSection />
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
