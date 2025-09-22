@@ -81,7 +81,7 @@ const Header = ({
               className="hover:scale-125"
             />
           </Link>
-          <Link href={"/profil"}>
+          <Link href={"/panier"}>
             <Image
               src="/icon_cart.svg"
               alt="GreenRoots"
