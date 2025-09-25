@@ -14,7 +14,7 @@ const BestSellers = () => {
   //   },
 
   return (
-    <div className="bg-brand-green py-8  ">
+    <div className="bg-brand-green py-8">
       <div className="flex w-full text-white text-2xl">
         <div className="flex-1 w-full border-t-2 translate-y-1/2  border-slate-400 opacity-50"></div>
         <h3 className="text-center uppercase px-4 font-bold pb-8 select-none ">

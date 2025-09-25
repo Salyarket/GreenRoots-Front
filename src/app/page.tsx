@@ -18,7 +18,7 @@ const Page = () => {
   // }, []);
 
   return (
-    <div className="min-h-screen min-w-[360px] max-w-[1920px] m-auto">
+    <div className="min-h-screen custom-size-minmax m-auto md:px-2">
       {/* main image + h1 */}
       <Hero />
       <WhyUs />

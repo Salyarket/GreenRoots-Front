@@ -2,7 +2,7 @@ import SectionWithImage from "./SectionWithImage";
 
 const WhyUs = () => {
   return (
-    <div className="px-4">
+    <>
       <SectionWithImage
         title="Pourquoi planter des arbres avec nous ?"
         text="Chez GreenRoots, chaque arbre financé agit directement contre le réchauffement climatique : reforestation, stockage de carbone, restauration d’écosystèmes. En plus de l’impact environnemental, votre geste soutient l’emploi local et s’accompagne d’un suivi transparent de chaque plantation."
@@ -15,7 +15,7 @@ const WhyUs = () => {
         image="/baby_tree_small.webp"
         reverse // pour inverser l'image et le texte en écran large (meilleur rendu visuel)
       />
-    </div>
+    </>
   );
 };
 
