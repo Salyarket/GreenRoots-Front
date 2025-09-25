@@ -9,6 +9,12 @@
   --color-toto-brown: #eb9e3f;
 }
 
+@utility custom-btn-hover {
+  @apply transition-transform duration-200 ease-in-out
+         hover:scale-125 hover:cursor-pointer
+         focus:outline-none focus:ring-2 focus:ring-brand-green;
+}
+
 body {
   margin: 0;
   padding: 0;

@@ -30,7 +30,7 @@ const Header = () => {
     >
       <button
         onClick={() => setMenuOpen(!menuOpen)}
-        className="md:hidden"
+        className="md:hidden custom-btn-hover"
         aria-label="Toggle menu"
       >
         <Image
@@ -48,7 +48,7 @@ const Header = () => {
           width={80}
           height={80}
           priority
-          className="hover:scale-125"
+          className="custom-btn-hover"
         />
       </Link>
 
@@ -56,11 +56,7 @@ const Header = () => {
       <nav role="navigation" className="space-x-8 flex   ">
         <div className="hidden md:flex space-x-8">
           {links_url.map((el) => (
-            <Link
-              key={el.id}
-              href={el.href}
-              className={"capitalize hover:scale-125"}
-            >
+            <Link key={el.id} href={el.href} className={"capitalize custom-btn-hover"}>
               {el.link}
             </Link>
           ))}
@@ -72,7 +68,7 @@ const Header = () => {
               alt="GreenRoots"
               width={20}
               height={20}
-              className="hover:scale-125"
+              className="custom-btn-hover"
             />
           </Link>
           <Link href={"/panier"}>
@@ -81,7 +77,7 @@ const Header = () => {
               alt="GreenRoots"
               width={20}
               height={20}
-              className="hover:scale-125"
+              className="custom-btn-hover"
             />
           </Link>
         </div>
@@ -94,7 +90,7 @@ const Header = () => {
               key={el.id}
               href={el.href}
               onClick={() => setMenuOpen(false)}
-              className={"capitalize hover:scale-125 "}
+              className={"capitalize custom-btn-hover "}
             >
               {el.link}
             </Link>

@@ -1,6 +1,7 @@
 "use client"; // test API
-import { useEffect, useState } from "react";
-import { getHello } from "@/services/api"; // on importe la fonction pour tester l'API
+// import { useEffect, useState } from "react";
+// import { getHello } from "@/services/api";
+// on importe la fonction pour tester l'API
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
