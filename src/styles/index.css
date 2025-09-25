@@ -19,7 +19,7 @@
          hover:scale-90 hover:cursor-pointer;
 }
 @utility custom-size-minmax {
-  @apply min-w-[360px] max-w-[1920px] mx-auto;
+  @apply min-w-[360px] max-w-[1920px] m-auto;
 }
 
 body {

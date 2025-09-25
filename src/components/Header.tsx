@@ -26,7 +26,7 @@ const Header = () => {
 
   return (
     <header
-      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50  text-2xl  custom-size-minmax relative } `}
+      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50 text-2xl custom-size-minmax relative`}
     >
       <button
         onClick={() => setMenuOpen(!menuOpen)}
