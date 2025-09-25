@@ -7,6 +7,7 @@
   --color-brand-darkgreen: #02431e;
   --color-brand-white: #f7f5ee;
   --color-toto-brown: #eb9e3f;
+  --breakpoint-4xl: 2000px;
 }
 
 @utility custom-btn-hover {
@@ -18,7 +19,7 @@
          hover:scale-90 hover:cursor-pointer;
 }
 @utility custom-size-minmax {
-  @apply min-w-[360px] max-w-[1920px];
+  @apply min-w-[360px] max-w-[1920px] mx-auto;
 }
 
 body {
