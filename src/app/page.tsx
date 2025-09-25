@@ -34,7 +34,7 @@ const Page = () => {
           <p>Message du back : {message || "Chargement..."}</p>
         </section>
       </main>
-      <Footer />
+      <Footer/>
     </div>
   );
 };

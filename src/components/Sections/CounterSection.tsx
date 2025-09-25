@@ -28,7 +28,7 @@ interface NumberItemProps {
 
 export const NumberItem = ({ digit }: NumberItemProps) => {
   return (
-    <div className="bg-orange-400 text-xl md:text-7xl p-2 md:p-4 rounded-md shadow-md">
+    <div className="bg-brand-lightgreen text-white text-xl md:text-7xl p-2 md:p-4 rounded-md shadow-md">
       {digit}
     </div>
   );
