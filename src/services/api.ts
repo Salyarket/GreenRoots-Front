@@ -11,6 +11,7 @@ export async function apiGet<T>(endpoint: string): Promise<T> {
   return res.json();
 }
 
+// Ajouter authorization dans les headers avec JWT bearer
 // Fonction pour POST
 export async function apiPost<T>(endpoint: string, body: object): Promise<T> {
   const res = await fetch(`${API_URL}${endpoint}`, {
