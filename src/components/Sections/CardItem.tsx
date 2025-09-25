@@ -28,7 +28,7 @@ const CardItem = ({
   carbon,
 }: CardItemProps) => {
   return (
-    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg hover:scale-110 cursor-pointer max-w-[400px] m-auto">
+    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg hover:scale-110 cursor-pointer">
       <Image
         src={`/${image_urls[0]}`}
         alt={name}
@@ -36,11 +36,11 @@ const CardItem = ({
         width={400}
         className="w-full h-full object-cover rounded-t-lg"
       />
-      <div className="flex flex-col px-2">
+      <div className="flex flex-col px-2 min-h-[150px]">
         <h4 className="text-lg font-extrabold text-brand-darkgreen uppercase">
           {name}
         </h4>
-        <p className="text-gray-500 font-semibold">
+        <p className="text-gray-500  font-semibold break-words w-[80%] ">
           Nom scientifique : {scientific_name}
         </p>
         <p className="text-brand-green font-semibold">CO² : {carbon} kg/an</p>

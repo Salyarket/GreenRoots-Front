@@ -6,7 +6,7 @@ export const dataProducts = [
     price: 60,
     description:
       "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
-    image_urls: ["test.webp"],
+    image_urls: ["testcard1.webp"],
     stock: 120,
     scientific_name: "Quercus robur",
     carbon: 20,
@@ -18,7 +18,7 @@ export const dataProducts = [
     price: 55,
     description:
       "Arbre robuste adapté aux climats tempérés. Feuillage dense, idéal pour la reforestation urbaine et rurale.",
-    image_urls: ["test.webp"],
+    image_urls: ["testcard2.webp"],
     stock: 90,
     scientific_name: "Acer pseudoplatanus",
     carbon: 18,
@@ -30,7 +30,7 @@ export const dataProducts = [
     price: 70,
     description:
       "Conifère résistant aux sols pauvres et aux zones côtières. Croissance rapide, essentiel pour fixer les dunes.",
-    image_urls: ["test.webp"],
+    image_urls: ["testcard3.webp"],
     stock: 150,
     scientific_name: "Pinus pinaster",
     carbon: 25,

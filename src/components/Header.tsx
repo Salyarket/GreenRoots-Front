@@ -4,12 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const Header = ({
-  backgroundTransparent,
-}: {
-  backgroundTransparent: boolean;
-}) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(true);
   const links_url = [
     {
       id: 1,
@@ -30,9 +26,7 @@ const Header = ({
 
   return (
     <header
-      className={`w-full bg-brand-darkgreen text-white p-6 flex justify-between items-center z-50  text-xl ${
-        backgroundTransparent ? "bg-brand-darkgreen absolute" : "relative"
-      } `}
+      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50  text-xl min-w-[360px] relative } `}
     >
       <button
         onClick={() => setMenuOpen(!menuOpen)}
@@ -51,14 +45,15 @@ const Header = ({
         <Image
           src="/logo_white.svg"
           alt="GreenRoots"
-          width={40}
-          height={40}
+          width={80}
+          height={80}
           priority
+          className="hover:scale-125"
         />
       </Link>
 
       {/* nav invisible en mode md + */}
-      <nav role="navigation" className="space-x-8 flex  ">
+      <nav role="navigation" className="space-x-8 flex   ">
         <div className="hidden md:flex space-x-8">
           {links_url.map((el) => (
             <Link
@@ -77,21 +72,23 @@ const Header = ({
               alt="GreenRoots"
               width={20}
               height={20}
+              className="hover:scale-125"
             />
           </Link>
-          <Link href={"/profil"}>
+          <Link href={"/panier"}>
             <Image
               src="/icon_cart.svg"
               alt="GreenRoots"
               width={20}
               height={20}
+              className="hover:scale-125"
             />
           </Link>
         </div>
       </nav>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 w-full h-[50vh] bg-brand-white text-black flex flex-col  items-center justify-center space-y-8 text-2xl  md:hidden">
+        <div className="absolute top-20 left-0 w-full  min-h-[50vh] bg-brand-white text-black flex flex-col  items-center justify-center space-y-8 text-2xl  md:hidden">
           {links_url.map((el) => (
             <Link
               key={el.id}
