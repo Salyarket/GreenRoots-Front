@@ -28,7 +28,7 @@ const CardItem = ({
   carbon,
 }: CardItemProps) => {
   return (
-    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg hover:scale-110 cursor-pointer max-w-[400px] m-auto">
+    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg custom cursor-pointer max-w-[400px]  m-auto">
       <Image
         src={`/${image_urls[0]}`}
         alt={name}
