@@ -6,6 +6,8 @@ interface CardItemProps {
   image_urls: string[];
   scientific_name?: string;
   carbon: number;
+  description?: string;
+  variant?: "simple" | "detailed";
 }
 
 //    {
@@ -26,9 +28,11 @@ const CardItem = ({
   image_urls,
   scientific_name,
   carbon,
+  description,
+  variant,
 }: CardItemProps) => {
   return (
-    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg max-w-[450px] m-auto custom-card-hover">
+    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative">
       <Image
         src={`/${image_urls[0]}`}
         alt={name}
@@ -40,10 +44,22 @@ const CardItem = ({
         <h4 className="text-lg font-extrabold text-brand-darkgreen uppercase">
           {name}
         </h4>
-        <p className="text-gray-500 font-semibold ">{scientific_name}</p>
+        <p className="text-gray-500 font-semibold break-words ">
+          {scientific_name}
+        </p>
         <p className="text-brand-green font-semibold">CO² : {carbon} kg/an</p>
+        {variant === "detailed" && (
+          <p className="text-black font-semibold mb-8  line-clamp-2">
+            {description} kg/an
+          </p>
+        )}
         <p className="text-black font-semibold">Prix : {price}€</p>
       </div>
+      {variant === "detailed" && (
+        <button className="absolute bottom-6 right-6 text-white bg-brand-green px-4 py-2 font-bold rounded-lg cursor-pointer hover:bg-brand-lightgreen">
+          Découvrir
+        </button>
+      )}
     </li>
   );
 };

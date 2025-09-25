@@ -34,6 +34,7 @@ const BestSellers = () => {
               carbon={el.carbon}
               scientific_name={el.scientific_name}
               image_urls={el.image_urls}
+              variant={"simple"}
             />
           ))}
         </ul>

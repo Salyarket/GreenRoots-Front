@@ -1,5 +1,20 @@
+import CardItem from "@/components/Sections/CardItem";
+import { dataProducts } from "@/components/Sections/data";
 import Image from "next/image";
 const CataloguePage = () => {
+  // {
+  //   id: 1,
+  //   name: "Chêne pédonculé",
+  //   slug: "chene-pedoncule",
+  //   price: 60,
+  //   description:
+  //     "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
+  //   image_urls: ["testcard1.webp"],
+  //   stock: 120,
+  //   scientific_name: "Quercus robur",
+  //   carbon: 20,
+  // },
+
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
       {/* section titre */}
@@ -27,6 +42,24 @@ const CataloguePage = () => {
         <button className="bg-brand-green mt-8 md:mt-0 w-full md:w-fit   px-6 py-2 rounded-lg text-white font-semibold hover:bg-brand-darkgreen cursor-pointer">
           Filtre
         </button>
+      </section>
+
+      {/* section ul avec cards */}
+      <section className="py-8">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-white items-stretch">
+          {dataProducts.slice(0, 8).map((product) => (
+            <CardItem
+              key={product.id}
+              name={product.name}
+              price={product.price}
+              image_urls={product.image_urls}
+              scientific_name={product.scientific_name}
+              carbon={product.carbon}
+              description={product.description}
+              variant="detailed"
+            />
+          ))}
+        </ul>
       </section>
     </main>
   );
