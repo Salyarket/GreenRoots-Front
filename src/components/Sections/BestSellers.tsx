@@ -25,7 +25,7 @@ const BestSellers = () => {
 
       {/* partie des cards  */}
       <div className="px-4 ">
-        <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 p-4 md:p-8">
+        <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
           {dataProducts.slice(0, 3).map((el) => (
             <CardItem
               key={el.id}

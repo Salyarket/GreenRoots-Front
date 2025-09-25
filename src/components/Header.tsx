@@ -45,8 +45,8 @@ const Header = () => {
         <Image
           src="/logo_white.svg"
           alt="GreenRoots"
-          width={80}
-          height={80}
+          width={100}
+          height={100}
           priority
           className="custom-btn-hover"
         />

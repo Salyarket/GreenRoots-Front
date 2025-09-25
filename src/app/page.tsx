@@ -3,8 +3,6 @@
 // import { getHello } from "@/services/api";
 // on importe la fonction pour tester l'API
 
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Hero from "@/components/Hero/Hero";
 import BestSellers from "@/components/Sections/BestSellers";
 import { CounterSection } from "@/components/Sections/CounterSection";
@@ -21,21 +19,17 @@ const Page = () => {
 
   return (
     <div className="min-h-screen min-w-[360px] max-w-[1920px] m-auto">
-      <Header />
-      <main>
-        {/* main image + h1 */}
-        <Hero />
-        <WhyUs />
-        <BestSellers />
-        <CounterSection />
+      {/* main image + h1 */}
+      <Hero />
+      <WhyUs />
+      <BestSellers />
+      <CounterSection />
 
-        {/* Bloc de test connexion au back */}
-        {/* <section className="p-4 bg-gray-100 mt-8 rounded">
+      {/* Bloc de test connexion au back */}
+      {/* <section className="p-4 bg-gray-100 mt-8 rounded">
           <h2 className="text-xl font-bold">Connexion API</h2>
           <p>Message du back : {message || "Chargement..."}</p>
         </section> */}
-      </main>
-      <Footer />
     </div>
   );
 };
