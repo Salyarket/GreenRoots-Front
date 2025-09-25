@@ -20,15 +20,9 @@ interface CardItemProps {
 //     carbon: 20,
 //   },
 
-const CardItem = ({
-  name,
-  price,
-  image_urls,
-  scientific_name,
-  carbon,
-}: CardItemProps) => {
+const CardItem = ({ name, price, image_urls, carbon }: CardItemProps) => {
   return (
-    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg custom cursor-pointer max-w-[400px]  m-auto">
+    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg max-w-[400px] m-auto custom-card-hover ">
       <Image
         src={`/${image_urls[0]}`}
         alt={name}
@@ -36,15 +30,12 @@ const CardItem = ({
         width={400}
         className="w-full h-full object-cover rounded-t-lg"
       />
-      <div className="flex flex-col px-2">
+      <div className="flex flex-col space-y-1.5 px-2 min-h-[100px]">
         <h4 className="text-lg font-extrabold text-brand-darkgreen uppercase">
           {name}
         </h4>
-        <p className="text-gray-500 font-semibold">
-          Nom scientifique : {scientific_name}
-        </p>
         <p className="text-brand-green font-semibold">CO² : {carbon} kg/an</p>
-        <p className="text-black font-semibold">Prix : {price}€</p>
+        <p className="text-brand-darkgreen font-semibold">Prix : {price}€</p>
       </div>
     </li>
   );
