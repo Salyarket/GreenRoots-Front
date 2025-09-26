@@ -1,6 +1,9 @@
 import CardItem from "@/components/Sections/CardItem";
 import { dataProducts } from "@/components/Sections/data";
 import Image from "next/image";
+import { GrCaretNext } from "react-icons/gr";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+
 const CataloguePage = () => {
   // {
   //   id: 1,
@@ -60,6 +63,13 @@ const CataloguePage = () => {
             />
           ))}
         </ul>
+        <div className=" flex justify-center items-center space-x-8 mt-4 ">
+          <MdNavigateBefore className="w-20 h-20 text-brand-lightgreen custom-btn-hover" />
+          <p className="bg-brand-green text-white p-2 w-10 h-10 flex items-center justify-center rounded-full ">
+            1
+          </p>
+          <MdNavigateNext className="w-20 h-20 text-brand-lightgreen custom-btn-hover" />
+        </div>
       </section>
     </main>
   );
