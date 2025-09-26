@@ -1,36 +1,16 @@
-// // URL de base du back (provenant de .env.local)
-// const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+// URL de base du back (provenant de .env.local)
+const API_URL = process.env.NEXT_API_BASE_URL || "http://localhost:4000";
+// NEXT_API_BASE_URL=http://localhost:4000
 
-// // Fonction pour GET
-// export async function apiGet<T>(endpoint: string): Promise<T> {
-//   const res = await fetch(`${API_URL}${endpoint}`);
-//   if (!res.ok) {
-//     throw new Error(`Erreur API GET ${endpoint}: ${res.status}`);
-//   }
-//   return res.json();
-// }
-
-// // Ajouter authorization dans les headers avec JWT bearer
-// // Fonction pour POST
-// export async function apiPost<T>(endpoint: string, body: object): Promise<T> {
-//   const res = await fetch(`${API_URL}${endpoint}`, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(body),
-//   });
-//   if (!res.ok) {
-//     throw new Error(`Erreur API POST ${endpoint}: ${res.status}`);
-//   }
-//   return res.json();
-// }
-
-// // au lieu d’appeler directement apiGet("/api/hello") pour tester on l’encapsule dans une fonction dédiée
-// export function getProducts() {
-//   return apiGet<any[]>("/api/products");
-// }
-// export function loginUser(email: string, password: string) {
-//   return apiPost<{ token: string }>("/api/login", { email, password });
-// }
-// export function getHello() {
-//   return apiGet<{ message: string }>("/api/hello");
-// }
+export async function getProducts() {
+  try {
+    const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error; // avec le throw error, next va envoyer automatiquement la page error.tsx
+  }
+}

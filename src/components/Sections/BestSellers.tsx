@@ -1,5 +1,5 @@
 import CardItem from "./CardItem";
-import { dataProducts } from "./data";
+import { dataProducts } from "../../services/data";
 const BestSellers = () => {
   //    {
   //     name: "Chêne pédonculé",
