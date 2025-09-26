@@ -45,10 +45,14 @@ const ContactPage = () => {
         <form className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex-1">
-              <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+              <label
+                htmlFor="lastname"
+                className="block text-brand-darkgreen font-medium mb-1 text-sm"
+              >
                 Nom
               </label>
               <input
+                id="lastname"
                 type="text"
                 placeholder="Votre nom"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
@@ -56,10 +60,14 @@ const ContactPage = () => {
               />
             </div>
             <div className="flex-1">
-              <label className="block text-brand-darkgreen font-medium mb-1 text-sm focus:outline-none focus:ring-1 focus:ring-brand-green">
+              <label
+                htmlFor="firstname"
+                className="block text-brand-darkgreen font-medium mb-1 text-sm focus:outline-none focus:ring-1 focus:ring-brand-green"
+              >
                 Prénom
               </label>
               <input
+                id="firstname"
                 type="text"
                 placeholder="Votre prénom"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
@@ -69,10 +77,14 @@ const ContactPage = () => {
           </div>
 
           <div className="flex-1">
-            <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+            <label
+              htmlFor="email"
+              className="block text-brand-darkgreen font-medium mb-1 text-sm"
+            >
               Adresse e-mail
             </label>
             <input
+              id="email"
               type="email"
               placeholder="Votre adresse email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
@@ -81,10 +93,14 @@ const ContactPage = () => {
           </div>
 
           <div className="flex-1">
-            <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+            <label
+              htmlFor="message"
+              className="block text-brand-darkgreen font-medium mb-1 text-sm"
+            >
               Message
             </label>
             <textarea
+              id="message"
               placeholder="Votre message..."
               rows={4}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none resize-vertical focus:outline-none focus:ring-1 focus:ring-brand-green"

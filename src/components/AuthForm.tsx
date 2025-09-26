@@ -8,10 +8,14 @@ const AuthForm = ({ isLogin = true }) => {
           {/* Nom/Prénom - uniquement pour register */}
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
-              <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+              <label
+                htmlFor="firstname"
+                className="block text-brand-darkgreen font-medium mb-1 text-sm"
+              >
                 Prénom
               </label>
               <input
+                id="firstname"
                 type="text"
                 placeholder="Votre prénom"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
@@ -20,10 +24,14 @@ const AuthForm = ({ isLogin = true }) => {
             </div>
 
             <div className="flex-1">
-              <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+              <label
+                htmlFor="lastname"
+                className="block text-brand-darkgreen font-medium mb-1 text-sm"
+              >
                 Nom
               </label>
               <input
+                id="lastname"
                 type="text"
                 placeholder="Votre nom"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
@@ -36,10 +44,14 @@ const AuthForm = ({ isLogin = true }) => {
 
       {/* Email */}
       <div>
-        <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+        <label
+          htmlFor="email"
+          className="block text-brand-darkgreen font-medium mb-1 text-sm"
+        >
           Adresse e-mail
         </label>
         <input
+          id="email"
           type="email"
           placeholder="exemple@email.com"
           className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
@@ -49,28 +61,36 @@ const AuthForm = ({ isLogin = true }) => {
 
       {/* Mot de passe */}
       <div>
-        <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+        <label
+          htmlFor="password"
+          className="block text-brand-darkgreen font-medium mb-1 text-sm"
+        >
           Mot de passe
         </label>
         <input
+          id="password"
           type="password"
           placeholder="Votre mot de passe"
           className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
           required
         />
         <p className="text-xs text-brand-lightgreen mt-1">
-          Au moins 8 caractères requis
+          {isLogin ? "" : "Au moins 8 caractères requis"}
         </p>
       </div>
 
-      {isLogin! && (
+      {!isLogin && (
         <>
           {/* Confirmation mot de passe - uniquement pour register*/}
           <div>
-            <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-brand-darkgreen font-medium mb-1 text-sm"
+            >
               Confirmation du mot de passe
             </label>
             <input
+              id="confirmPassword"
               type="password"
               placeholder="Confirmez votre mot de passe"
               className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
@@ -80,10 +100,16 @@ const AuthForm = ({ isLogin = true }) => {
 
           {/* Type de compte - uniquement pour register */}
           <div>
-            <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+            <label
+              htmlFor="accountType"
+              className="block text-brand-darkgreen font-medium mb-1 text-sm"
+            >
               Type de compte
             </label>
-            <select className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base bg-brand-white">
+            <select
+              id="accountType"
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base bg-brand-white"
+            >
               <option value="">Sélectionnez votre profil</option>
               <option value="professional">Professionnel</option>
               <option value="individual">Particulier</option>
