@@ -23,9 +23,13 @@
   @apply min-w-[360px] max-w-[1920px] m-auto;
 }
 
+<<<<<<< HEAD
 @utility h3-style-page-rules {
   @apply text-xl font-semibold text-gray-800 mb-4 mt-8;
 }
+=======
+
+>>>>>>> dev
 
 body {
   margin: 0;
