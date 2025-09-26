@@ -44,33 +44,53 @@ const ContactPage = () => {
 
         <form className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex-1">
+              <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+                Nom
+              </label>
+              <input
+                type="text"
+                placeholder="Votre nom"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-brand-darkgreen font-medium mb-1 text-sm focus:outline-none focus:ring-1 focus:ring-brand-green">
+                Prénom
+              </label>
+              <input
+                type="text"
+                placeholder="Votre prénom"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+              Adresse e-mail
+            </label>
             <input
-              type="text"
-              placeholder="Votre nom"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Votre prénom"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
+              type="email"
+              placeholder="Votre adresse email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
               required
             />
           </div>
 
-          <input
-            type="email"
-            placeholder="Votre adresse email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
-            required
-          />
-
-          <textarea
-            placeholder="Votre message..."
-            rows={4}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none resize-vertical"
-            required
-          ></textarea>
+          <div className="flex-1">
+            <label className="block text-brand-darkgreen font-medium mb-1 text-sm">
+              Message
+            </label>
+            <textarea
+              placeholder="Votre message..."
+              rows={4}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none resize-vertical focus:outline-none focus:ring-1 focus:ring-brand-green"
+              required
+            ></textarea>
+          </div>
 
           <button
             type="submit"
