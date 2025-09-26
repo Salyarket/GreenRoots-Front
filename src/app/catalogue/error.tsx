@@ -1,0 +1,24 @@
+"use client";
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset: () => void;
+}) {
+  return (
+    <div className="p-8 text-center min-h-[60vh] flex flex-col justify-center items-center space-y-8">
+      <h2 className="text-xl font-bold text-red-500 uppercase">
+        Oups, une erreur est survenue.
+      </h2>
+      <p className="font-bold">{error.message}</p>
+      <button
+        onClick={() => reset()} // relance la tentative
+        className="mt-4 px-4 py-2 w-fit bg-brand-green text-white rounded"
+      >
+        Réessayer
+      </button>
+    </div>
+  );
+}
