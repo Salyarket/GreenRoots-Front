@@ -21,7 +21,7 @@ const InscriptionPage = () => {
         <div className="text-center mt-6">
           <p className="text-brand-green">
             Déjà un compte ?{" "}
-            <a href="/connexion" className="text-brand-darkgreen font-semibold">
+            <a href="/login" className="text-brand-darkgreen font-semibold">
               Se connecter
             </a>
           </p>
