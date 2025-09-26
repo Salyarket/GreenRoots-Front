@@ -21,8 +21,15 @@ type ValidatorFn = (value: string, formData: IFormData) => string;
 type Validators = Partial<Record<FieldName, ValidatorFn>>;
 
 const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
-  const [loading, setLoading] = useState(false);
+  // loader pour l'attente de la réponse api
+  const [isLoading, setIsLoading] = useState(false);
+  // retour du message d'erreur de l'api si email pris etc
+  const [apiError, setApiError] = useState<string | null>(null);
 
+  // texte en dessous de chaque input avec message d'erreur ex si mdp trop court
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
+
+  // boite avec les données de l'user
   const [formData, setFormData] = useState<IFormData>({
     firstname: "",
     lastname: "",
@@ -31,9 +38,8 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
     confirmPassword: "",
     accountType: "",
   });
-  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
 
-  // 🔹 Règles de validation
+  // validation via regex des inputs
   const validators: Validators = {
     firstname: (value) =>
       /^[A-Za-zÀ-ÖØ-öø-ÿ\- ]+$/.test(value)
@@ -53,7 +59,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         : "Les mots de passe ne correspondent pas",
   };
 
-  // 🔹 Vérifie un champ
+  // validation inputs via fonction validators
   const handleValidation = (id: FieldName, value: string) => {
     const validator = validators[id];
     if (validator) {
@@ -62,7 +68,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
     }
   };
 
-  // 🔹 Gère les changements
+  // event qui ajoute le text ecrit pas l'user dans formData
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -71,7 +77,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
     handleValidation(id as FieldName, value);
   };
 
-  // 🔹 Submit global
+  // gère la submit du formulaire
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -85,11 +91,12 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      setLoading(true);
+      setIsLoading(true);
 
       setTimeout(() => {
         console.log("✅ Formulaire valide:", formData);
-        setLoading(false);
+        setIsLoading(false);
+        setApiError("Error de l'api, email déjà utilisé");
       }, 4000);
     } else {
       console.log("❌ Erreurs:", newErrors);
@@ -248,14 +255,19 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
       {/* Bouton */}
       <button
         type="submit"
-        disabled={loading} //user ne peut recliquer si réponse envoyée
+        disabled={isLoading} //user ne peut recliquer si réponse envoyée
         className="w-full bg-brand-green hover:bg-brand-darkgreen text-white font-semibold py-2 rounded"
       >
         {alreadyRegistered ? "Se connecter" : "Créer mon compte GreenRoots"}
       </button>
 
+      {/* Erreur API affichée en bas du formulaire */}
+      {apiError && (
+        <p className="text-red-600 text-xl text-center mt-2">{apiError}</p>
+      )}
+
       {/* loader en attente réponse */}
-      {loading && (
+      {isLoading && (
         <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full bg-red-300 text-xl font-bold">
           LOADING
         </div>
