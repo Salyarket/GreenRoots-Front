@@ -2,8 +2,8 @@
 
 export default function Custom404() {
   return (
-    <main className="flex items-center justify-center m-4">
-      <h2>...404 vous etes perdus dans la forêt .... REVOIR TEXTE</h2>
+    <main className="flex md:text-2xl items-center justify-center m-4 min-h-[50vh]">
+      <h2>🌲404 vous etes perdus dans la forêt 🌲</h2>
     </main>
   );
 }

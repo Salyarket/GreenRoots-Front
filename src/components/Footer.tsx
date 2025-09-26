@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-brand-darkgreen text-white py-12 px-16">
+    <footer className="bg-brand-darkgreen text-white py-12 px-16 brand custom-size-minmax">
       {/* Haut du footer en 3 colonnes */}
       <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8  ">
         {/* Colonne gauche : menu */}
