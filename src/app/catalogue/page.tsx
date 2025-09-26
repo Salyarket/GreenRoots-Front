@@ -1,7 +1,10 @@
-import CardItem from "@/components/Sections/CardItem";
-import { dataProducts } from "@/components/Sections/data";
 import Image from "next/image";
-const CataloguePage = () => {
+import CardItem from "@/components/Sections/CardItem";
+import { dataProducts } from "@/services/data";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+import { getProducts } from "@/services/api";
+
+const CataloguePage = async () => {
   // {
   //   id: 1,
   //   name: "Chêne pédonculé",
@@ -14,6 +17,9 @@ const CataloguePage = () => {
   //   scientific_name: "Quercus robur",
   //   carbon: 20,
   // },
+
+  const products = await getProducts();
+  console.log(products);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -47,7 +53,7 @@ const CataloguePage = () => {
       {/* section ul avec cards */}
       <section className="py-8">
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-white items-stretch">
-          {dataProducts.slice(0, 8).map((product) => (
+          {products.slice(0, 20).map((product) => (
             <CardItem
               key={product.id}
               name={product.name}
@@ -60,6 +66,13 @@ const CataloguePage = () => {
             />
           ))}
         </ul>
+        <div className=" flex justify-center items-center space-x-8 mt-4 ">
+          <MdNavigateBefore className="w-20 h-20 text-brand-lightgreen custom-btn-hover" />
+          <p className="bg-brand-green text-white p-2 w-10 h-10 flex items-center justify-center rounded-full ">
+            1
+          </p>
+          <MdNavigateNext className="w-20 h-20 text-brand-lightgreen custom-btn-hover" />
+        </div>
       </section>
     </main>
   );

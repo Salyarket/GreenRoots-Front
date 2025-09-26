@@ -14,11 +14,21 @@ const Header = () => {
     },
     {
       id: 2,
+      link: "se connecter",
+      href: "/login",
+    },
+    {
+      id: 3,
+      link: "s'inscrire",
+      href: "/register",
+    },
+    {
+      id: 4,
       link: "contact",
       href: "/contact",
     },
     {
-      id: 3,
+      id: 5,
       link: "à propos",
       href: "/a-propos",
     },
