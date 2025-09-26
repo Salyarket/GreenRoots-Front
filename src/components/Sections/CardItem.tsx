@@ -44,9 +44,6 @@ const CardItem = ({
         <h4 className="text-lg font-extrabold text-brand-darkgreen uppercase">
           {name}
         </h4>
-        <p className="text-gray-500 font-semibold break-words ">
-          {scientific_name}
-        </p>
         <p className="text-brand-green font-semibold">CO² : {carbon} kg/an</p>
         {variant === "detailed" && (
           <p className="text-black font-semibold mb-8  line-clamp-2">
