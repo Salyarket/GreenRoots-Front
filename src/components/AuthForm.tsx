@@ -1,5 +1,3 @@
-const isLogin = "...";
-
 const AuthForm = ({ isLogin = true }) => {
   return (
     <form className="flex flex-col gap-4">
