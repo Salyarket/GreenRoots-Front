@@ -1,6 +1,29 @@
-const isLogin = "...";
+"use client";
+
+import { useState } from "react";
 
 const AuthForm = ({ isLogin = true }) => {
+  // const [loading, setLoading] = useState(false);
+  // const [errorMsg, setErrorMsg] = useState("");
+
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    accountType: "",
+  });
+
+  console.log(formData);
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
   return (
     <form className="flex flex-col gap-4">
       {!isLogin && (
@@ -20,6 +43,8 @@ const AuthForm = ({ isLogin = true }) => {
                 placeholder="Votre prénom"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
                 required
+                value={formData.firstname}
+                onChange={handleChange}
               />
             </div>
 
@@ -36,6 +61,8 @@ const AuthForm = ({ isLogin = true }) => {
                 placeholder="Votre nom"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
                 required
+                value={formData.lastname}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -56,6 +83,8 @@ const AuthForm = ({ isLogin = true }) => {
           placeholder="exemple@email.com"
           className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
           required
+          value={formData.email}
+          onChange={handleChange}
         />
       </div>
 
@@ -73,6 +102,8 @@ const AuthForm = ({ isLogin = true }) => {
           placeholder="Votre mot de passe"
           className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
           required
+          value={formData.password}
+          onChange={handleChange}
         />
         <p className="text-xs text-brand-lightgreen mt-1">
           {isLogin ? "" : "Au moins 8 caractères requis"}
@@ -95,6 +126,8 @@ const AuthForm = ({ isLogin = true }) => {
               placeholder="Confirmez votre mot de passe"
               className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
               required
+              value={formData.confirmPassword}
+              onChange={handleChange}
             />
           </div>
 
@@ -107,6 +140,8 @@ const AuthForm = ({ isLogin = true }) => {
               Type de compte
             </label>
             <select
+              value={formData.accountType}
+              onChange={handleChange}
               id="accountType"
               className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base bg-brand-white"
             >

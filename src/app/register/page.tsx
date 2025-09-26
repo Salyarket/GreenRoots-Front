@@ -15,7 +15,7 @@ const InscriptionPage = () => {
         </div>
 
         <div className="bg-white rounded-xl p-6 border border-brand-lightgreen/30 shadow-2xl">
-          <AuthForm />
+          <AuthForm isLogin={false} />
         </div>
 
         <div className="text-center mt-6">
