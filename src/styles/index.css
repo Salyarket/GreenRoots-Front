@@ -1,12 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-avocado-100: oklch(0.99 0 0);
   --color-brand-green: #1a7c55;
   --color-brand-lightgreen: #33aa66;
   --color-brand-darkgreen: #02431e;
   --color-brand-white: #f7f5ee;
-  --color-toto-brown: #eb9e3f;
+  --color-brand-brown: #eb9e3f;
   --breakpoint-4xl: 2000px;
 }
 
