@@ -2,11 +2,28 @@
 
 import { useState } from "react";
 
-const AuthForm = ({ isLogin = true }) => {
-  // const [loading, setLoading] = useState(false);
-  // const [errorMsg, setErrorMsg] = useState("");
+interface IFormData {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  accountType: string;
+}
 
-  const [formData, setFormData] = useState({
+interface AuthFormProps {
+  alreadyRegistered: boolean;
+}
+
+type FieldName = keyof IFormData;
+type ValidatorFn = (value: string, formData: IFormData) => string;
+
+type Validators = Partial<Record<FieldName, ValidatorFn>>;
+
+const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState<IFormData>({
     firstname: "",
     lastname: "",
     email: "",
@@ -14,109 +31,179 @@ const AuthForm = ({ isLogin = true }) => {
     confirmPassword: "",
     accountType: "",
   });
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
 
-  console.log(formData);
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
+  // 🔹 Règles de validation
+  const validators: Validators = {
+    firstname: (value) =>
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\- ]+$/.test(value)
+        ? ""
+        : "Le prénom ne doit contenir que des lettres",
+    lastname: (value) =>
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\- ]+$/.test(value)
+        ? ""
+        : "Le nom ne doit contenir que des lettres",
+    email: (value) =>
+      /^\S+@\S+\.\S+$/.test(value) ? "" : "Adresse e-mail invalide",
+    password: (value) =>
+      value.length >= 8 ? "" : "Mot de passe trop court (8 caractères min.)",
+    confirmPassword: (value, formData) =>
+      value === formData.password
+        ? ""
+        : "Les mots de passe ne correspondent pas",
   };
 
-  return (
-    <form className="flex flex-col gap-4">
-      {!isLogin && (
-        <>
-          {/* Nom/Prénom - uniquement pour register */}
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="flex-1">
-              <label
-                htmlFor="firstname"
-                className="block text-brand-darkgreen font-medium mb-1 text-sm"
-              >
-                Prénom
-              </label>
-              <input
-                id="firstname"
-                type="text"
-                placeholder="Votre prénom"
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-                required
-                value={formData.firstname}
-                onChange={handleChange}
-              />
-            </div>
+  // 🔹 Vérifie un champ
+  const handleValidation = (id: FieldName, value: string) => {
+    const validator = validators[id];
+    if (validator) {
+      const error = validator(value, formData);
+      setErrors((prev) => ({ ...prev, [id]: error }));
+    }
+  };
 
-            <div className="flex-1">
-              <label
-                htmlFor="lastname"
-                className="block text-brand-darkgreen font-medium mb-1 text-sm"
-              >
-                Nom
-              </label>
-              <input
-                id="lastname"
-                type="text"
-                placeholder="Votre nom"
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-                required
-                value={formData.lastname}
-                onChange={handleChange}
-              />
-            </div>
+  // 🔹 Gère les changements
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+    handleValidation(id as FieldName, value);
+  };
+
+  // 🔹 Submit global
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newErrors: Partial<Record<FieldName, string>> = {};
+    (Object.keys(formData) as FieldName[]).forEach((key) => {
+      if (validators[key]) {
+        const error = validators[key]!(formData[key], formData);
+        if (error) newErrors[key] = error;
+      }
+    });
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      setLoading(true);
+
+      setTimeout(() => {
+        console.log("✅ Formulaire valide:", formData);
+        setLoading(false);
+      }, 4000);
+    } else {
+      console.log("❌ Erreurs:", newErrors);
+    }
+  };
+
+  // 🔹 Utilitaire CSS
+  const inputClass = (field: FieldName) =>
+    `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
+    ${
+      errors[field]
+        ? "border-red-500 focus:ring-red-500"
+        : formData[field]
+        ? "border-green-500 focus:ring-green-500"
+        : "border-gray-300 focus:ring-brand-green"
+    }`;
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 relative">
+      {!alreadyRegistered && (
+        <div className="flex flex-col gap-4 sm:flex-row">
+          {/* Prénom */}
+          <div className="flex-1">
+            <label htmlFor="firstname" className="block text-sm font-medium">
+              Prénom
+            </label>
+            <input
+              id="firstname"
+              type="text"
+              placeholder="Votre prénom"
+              value={formData.firstname}
+              onChange={handleChange}
+              className={inputClass("firstname")}
+              required
+            />
+            {errors.firstname ? (
+              <p className="text-red-500 text-sm">{errors.firstname}</p>
+            ) : formData.firstname ? (
+              <p className="text-green-500 text-sm">Prénom valide</p>
+            ) : null}
           </div>
-        </>
+
+          {/* Nom */}
+          <div className="flex-1">
+            <label htmlFor="lastname" className="block text-sm font-medium">
+              Nom
+            </label>
+            <input
+              id="lastname"
+              type="text"
+              placeholder="Votre nom"
+              value={formData.lastname}
+              onChange={handleChange}
+              className={inputClass("lastname")}
+              required
+            />
+            {errors.lastname ? (
+              <p className="text-red-500 text-sm">{errors.lastname}</p>
+            ) : formData.lastname ? (
+              <p className="text-green-500 text-sm">Nom valide</p>
+            ) : null}
+          </div>
+        </div>
       )}
 
       {/* Email */}
       <div>
-        <label
-          htmlFor="email"
-          className="block text-brand-darkgreen font-medium mb-1 text-sm"
-        >
+        <label htmlFor="email" className="block text-sm font-medium">
           Adresse e-mail
         </label>
         <input
           id="email"
           type="email"
           placeholder="exemple@email.com"
-          className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-          required
           value={formData.email}
           onChange={handleChange}
+          className={inputClass("email")}
+          required
         />
+        {errors.email ? (
+          <p className="text-red-500 text-sm">{errors.email}</p>
+        ) : formData.email ? (
+          <p className="text-green-500 text-sm">Email valide</p>
+        ) : null}
       </div>
 
       {/* Mot de passe */}
       <div>
-        <label
-          htmlFor="password"
-          className="block text-brand-darkgreen font-medium mb-1 text-sm"
-        >
+        <label htmlFor="password" className="block text-sm font-medium">
           Mot de passe
         </label>
         <input
           id="password"
           type="password"
           placeholder="Votre mot de passe"
-          className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-          required
           value={formData.password}
           onChange={handleChange}
+          className={inputClass("password")}
+          required
         />
-        <p className="text-xs text-brand-lightgreen mt-1">
-          {isLogin ? "" : "Au moins 8 caractères requis"}
-        </p>
+        {errors.password ? (
+          <p className="text-red-500 text-sm">{errors.password}</p>
+        ) : formData.password ? (
+          <p className="text-green-500 text-sm">Mot de passe valide</p>
+        ) : null}
       </div>
 
-      {!isLogin && (
+      {!alreadyRegistered && (
         <>
-          {/* Confirmation mot de passe - uniquement pour register*/}
+          {/* Confirmation mot de passe */}
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-brand-darkgreen font-medium mb-1 text-sm"
+              className="block text-sm font-medium"
             >
               Confirmation du mot de passe
             </label>
@@ -124,26 +211,28 @@ const AuthForm = ({ isLogin = true }) => {
               id="confirmPassword"
               type="password"
               placeholder="Confirmez votre mot de passe"
-              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-              required
               value={formData.confirmPassword}
               onChange={handleChange}
+              className={inputClass("confirmPassword")}
+              required
             />
+            {errors.confirmPassword ? (
+              <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
+            ) : formData.confirmPassword ? (
+              <p className="text-green-500 text-sm">Confirmation OK</p>
+            ) : null}
           </div>
 
-          {/* Type de compte - uniquement pour register */}
+          {/* Type de compte */}
           <div>
-            <label
-              htmlFor="accountType"
-              className="block text-brand-darkgreen font-medium mb-1 text-sm"
-            >
+            <label htmlFor="accountType" className="block text-sm font-medium">
               Type de compte
             </label>
             <select
+              id="accountType"
               value={formData.accountType}
               onChange={handleChange}
-              id="accountType"
-              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base bg-brand-white"
+              className={inputClass("accountType")}
             >
               <option value="">Sélectionnez votre profil</option>
               <option value="professional">Professionnel</option>
@@ -156,13 +245,21 @@ const AuthForm = ({ isLogin = true }) => {
         </>
       )}
 
-      {/* Bouton - adapter le texte pour register ou login */}
+      {/* Bouton */}
       <button
         type="submit"
-        className="w-full bg-brand-green hover:bg-brand-darkgreen text-white font-semibold py-2 sm:py-3 px-6 rounded-lg transition-colors durantion-200 text-sm sm:text-base"
+        disabled={loading} //user ne peut recliquer si réponse envoyée
+        className="w-full bg-brand-green hover:bg-brand-darkgreen text-white font-semibold py-2 rounded"
       >
-        {isLogin ? "Se connecter" : "Créer mon compte GreenRoots"}
+        {alreadyRegistered ? "Se connecter" : "Créer mon compte GreenRoots"}
       </button>
+
+      {/* loader en attente réponse */}
+      {loading && (
+        <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full bg-red-300 text-xl font-bold">
+          LOADING
+        </div>
+      )}
     </form>
   );
 };

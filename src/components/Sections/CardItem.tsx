@@ -34,7 +34,7 @@ const CardItem = ({
   return (
     <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative">
       <Image
-        src={`http://localhost:4000/uploads/arbres/chene.jpg`}
+        src={`http://localhost:4000/uploads/arbres/${image_urls[0]}`}
         alt={name}
         height={600}
         width={400}
