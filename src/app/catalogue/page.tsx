@@ -20,7 +20,7 @@ const CataloguePage = () => {
       {/* section titre */}
       <section>
         <h1 className="text-xl md:text-2xl text-brand-darkgreen uppercase font-bold text-center">
-          les arbres soigneuseement séléctionnés par greenroots
+          les arbres soigneusement sélectionnés par greenroots
         </h1>
         <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold uppercase text-center">
           il a en a pour tous les goûts dans la nature
