@@ -6,6 +6,8 @@
   --color-brand-darkgreen: #02431e;
   --color-brand-white: #f7f5ee;
   --color-brand-brown: #eb9e3f;
+  --color-brand-warning: #c20f1d;
+  --color-brand-warning-light: #fff4f5;
   --breakpoint-4xl: 2000px;
 }
 
@@ -19,6 +21,10 @@
 }
 @utility custom-size-minmax {
   @apply min-w-[360px] max-w-[1920px] m-auto;
+}
+
+@utility h3-style-page-rules {
+  @apply text-xl font-semibold text-gray-800 mb-4 mt-8;
 }
 
 body {
