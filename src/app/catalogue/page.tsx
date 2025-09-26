@@ -1,6 +1,5 @@
 import Image from "next/image";
 import CardItem from "@/components/Sections/CardItem";
-import { dataProducts } from "@/services/data";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { getProducts } from "@/services/api";
 

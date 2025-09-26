@@ -21,7 +21,7 @@ const LoginPage = () => {
           <p className="text-brand-green">
             Pas encore de compte ?{" "}
             <a href="/connexion" className="text-brand-darkgreen font-semibold">
-              S'inscrire
+              S&apos;inscrire
             </a>
           </p>
         </div>
