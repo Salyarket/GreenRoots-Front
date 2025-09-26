@@ -13,7 +13,7 @@ const ContactPage = () => {
       </section>
 
       {/* Section contact info */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      <section className="flex flex-col md:flex-row justify-center space-x-4 md:space-x-10 mt-8">
         <div className="text-center p-4">
           <h3 className="font-semibold text-brand-darkgreen">Téléphone</h3>
           <p className="text-brand-green">+33 1 23 45 67 89</p>
@@ -82,7 +82,7 @@ const ContactPage = () => {
       </section>
 
       {/* Footer */}
-      <div className="text-center mt-8">
+      <div className="text-center m-8">
         <p className="text-brand-green text-sm">
           Engagement écologique • 100% des profits reinvestis
         </p>
