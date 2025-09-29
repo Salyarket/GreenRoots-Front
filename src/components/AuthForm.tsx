@@ -1,244 +1,184 @@
 "use client";
 
 import { useState } from "react";
-
-interface IFormData {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  accountType: string;
-}
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { login, registerUser } from "@/services/api";
+import {
+  registerSchema,
+  loginSchema,
+  RegisterFormData,
+  LoginFormData,
+} from "@/lib/validators/authSchema";
 
 interface AuthFormProps {
   alreadyRegistered: boolean;
 }
 
-type FieldName = keyof IFormData;
-type ValidatorFn = (value: string, formData: IFormData) => string;
-
-type Validators = Partial<Record<FieldName, ValidatorFn>>;
+interface AuthFormData {
+  email: string;
+  password: string;
+  firstname?: string;
+  lastname?: string;
+  confirmPassword?: string;
+  accountType?: string;
+}
 
 const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
-  // loader pour l'attente de la réponse api
-  const [isLoading, setIsLoading] = useState(false);
-  // retour du message d'erreur de l'api si email pris etc
   const [apiError, setApiError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // texte en dessous de chaque input avec message d'erreur ex si mdp trop court
-  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
+  // Choix du schéma selon login ou register
+  const schema = alreadyRegistered ? loginSchema : registerSchema;
 
-  // boite avec les données de l'user
-  const [formData, setFormData] = useState<IFormData>({
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    accountType: "",
+  // useForm est le hook principal de react-hook-form (donne acces a register / handlesubmit / errors)
+  // on crée le "form manager"
+  const form = useForm<AuthFormData>({
+    resolver: zodResolver(schema),
+    mode: "onChange", // validation en direct
   });
 
-  // validation via regex des inputs
-  const validators: Validators = {
-    firstname: (value) =>
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\- ]+$/.test(value)
-        ? ""
-        : "Le prénom ne doit contenir que des lettres",
-    lastname: (value) =>
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\- ]+$/.test(value)
-        ? ""
-        : "Le nom ne doit contenir que des lettres",
-    email: (value) =>
-      /^\S+@\S+\.\S+$/.test(value) ? "" : "Adresse e-mail invalide",
-    password: (value) =>
-      value.length >= 8 ? "" : "Mot de passe trop court (8 caractères min.)",
-    confirmPassword: (value, formData) =>
-      value === formData.password
-        ? ""
-        : "Les mots de passe ne correspondent pas",
-  };
+  // maintenant on récupère juste ce qu’on veut
+  const register = form.register;
+  const handleSubmit = form.handleSubmit;
+  const errors = form.formState.errors;
 
-  // validation inputs via fonction validators
-  const handleValidation = (id: FieldName, value: string) => {
-    const validator = validators[id];
-    if (validator) {
-      const error = validator(value, formData);
-      setErrors((prev) => ({ ...prev, [id]: error }));
-    }
-  };
+  const onSubmit = async (data: RegisterFormData | LoginFormData) => {
+    setIsLoading(true);
+    setApiError(null);
 
-  // event qui ajoute le text ecrit pas l'user dans formData
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-    handleValidation(id as FieldName, value);
-  };
-
-  // gère la submit du formulaire
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); //evite le rechargement de la page par défaut
-
-    const newErrors: Partial<Record<FieldName, string>> = {};
-    (Object.keys(formData) as FieldName[]).forEach((key) => {
-      if (validators[key]) {
-        const error = validators[key]!(formData[key], formData);
-        if (error) newErrors[key] = error;
+    try {
+      if (alreadyRegistered) {
+        const loggedUser = await login({
+          email: data.email,
+          password: data.password,
+        });
+        console.log("✅ Utilisateur connecté :", loggedUser);
+      } else {
+        const newUser = await registerUser({
+          firstname: (data as RegisterFormData).firstname,
+          lastname: (data as RegisterFormData).lastname,
+          email: data.email,
+          password: data.password,
+          confirmPassword: (data as RegisterFormData).confirmPassword,
+          accountType: (data as RegisterFormData).accountType,
+        });
+        console.log("✅ Utilisateur inscrit :", newUser);
       }
-    });
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      setIsLoading(true);
-
-      setTimeout(() => {
-        console.log("✅ Formulaire valide:", formData);
-        setIsLoading(false);
-        setApiError("Error de l'api, email déjà utilisé");
-      }, 4000);
-    } else {
-      console.log("❌ Erreurs:", newErrors);
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Une erreur est survenue";
+      setApiError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // 🔹 Utilitaire CSS
-  const inputClass = (field: FieldName) =>
+  // Class CSS messages d'erreurs (rouge si erreur, vert si champ valide)
+  const inputClass = (fieldName: keyof (RegisterFormData & LoginFormData)) =>
     `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
     ${
-      errors[field]
+      (errors as any)[fieldName]
         ? "border-red-500 focus:ring-red-500"
-        : formData[field]
-        ? "border-green-500 focus:ring-green-500"
         : "border-gray-300 focus:ring-brand-green"
     }`;
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 relative">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 relative"
+    >
       {!alreadyRegistered && (
         <div className="flex flex-col gap-4 sm:flex-row">
           {/* Prénom */}
           <div className="flex-1">
-            <label htmlFor="firstname" className="block text-sm font-medium">
-              Prénom
-            </label>
+            <label className="block text-sm font-medium">Prénom</label>
             <input
-              id="firstname"
-              type="text"
+              {...register("firstname")}
               placeholder="Votre prénom"
-              value={formData.firstname}
-              onChange={handleChange}
               className={inputClass("firstname")}
-              required
             />
-            {errors.firstname ? (
-              <p className="text-red-500 text-sm">{errors.firstname}</p>
-            ) : formData.firstname ? (
-              <p className="text-green-500 text-sm">Prénom valide</p>
-            ) : null}
+            {errors.firstname && (
+              <p className="text-red-500 text-sm">
+                {errors.firstname.message as string}
+              </p>
+            )}
           </div>
 
           {/* Nom */}
           <div className="flex-1">
-            <label htmlFor="lastname" className="block text-sm font-medium">
-              Nom
-            </label>
+            <label className="block text-sm font-medium">Nom</label>
             <input
-              id="lastname"
-              type="text"
+              {...register("lastname")}
               placeholder="Votre nom"
-              value={formData.lastname}
-              onChange={handleChange}
               className={inputClass("lastname")}
-              required
             />
-            {errors.lastname ? (
-              <p className="text-red-500 text-sm">{errors.lastname}</p>
-            ) : formData.lastname ? (
-              <p className="text-green-500 text-sm">Nom valide</p>
-            ) : null}
+            {errors.lastname && (
+              <p className="text-red-500 text-sm">
+                {errors.lastname.message as string}
+              </p>
+            )}
           </div>
         </div>
       )}
 
       {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium">
-          Adresse e-mail
-        </label>
+        <label className="block text-sm font-medium">Adresse e-mail</label>
         <input
-          id="email"
           type="email"
+          {...register("email")}
           placeholder="exemple@email.com"
-          value={formData.email}
-          onChange={handleChange}
           className={inputClass("email")}
-          required
         />
-        {errors.email ? (
-          <p className="text-red-500 text-sm">{errors.email}</p>
-        ) : formData.email ? (
-          <p className="text-green-500 text-sm">Email valide</p>
-        ) : null}
+        {errors.email && (
+          <p className="text-red-500 text-sm">
+            {errors.email.message as string}
+          </p>
+        )}
       </div>
 
       {/* Mot de passe */}
       <div>
-        <label htmlFor="password" className="block text-sm font-medium">
-          Mot de passe
-        </label>
+        <label className="block text-sm font-medium">Mot de passe</label>
         <input
-          id="password"
           type="password"
+          {...register("password")}
           placeholder="Votre mot de passe"
-          value={formData.password}
-          onChange={handleChange}
           className={inputClass("password")}
-          required
         />
-        {errors.password ? (
-          <p className="text-red-500 text-sm">{errors.password}</p>
-        ) : formData.password ? (
-          <p className="text-green-500 text-sm">Mot de passe valide</p>
-        ) : null}
+        {errors.password && (
+          <p className="text-red-500 text-sm">
+            {errors.password.message as string}
+          </p>
+        )}
       </div>
 
       {!alreadyRegistered && (
         <>
           {/* Confirmation mot de passe */}
           <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium"
-            >
+            <label className="block text-sm font-medium">
               Confirmation du mot de passe
             </label>
             <input
-              id="confirmPassword"
               type="password"
+              {...register("confirmPassword")}
               placeholder="Confirmez votre mot de passe"
-              value={formData.confirmPassword}
-              onChange={handleChange}
               className={inputClass("confirmPassword")}
-              required
             />
-            {errors.confirmPassword ? (
-              <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-            ) : formData.confirmPassword ? (
-              <p className="text-green-500 text-sm">Confirmation OK</p>
-            ) : null}
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">
+                {errors.confirmPassword.message as string}
+              </p>
+            )}
           </div>
 
           {/* Type de compte */}
           <div>
-            <label htmlFor="accountType" className="block text-sm font-medium">
-              Type de compte
-            </label>
+            <label className="block text-sm font-medium">Type de compte</label>
             <select
-              id="accountType"
-              value={formData.accountType}
-              onChange={handleChange}
+              {...register("accountType")}
               className={inputClass("accountType")}
             >
               <option value="">Sélectionnez votre profil</option>
@@ -248,6 +188,11 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
               <option value="company">Entreprise</option>
               <option value="entrepreneur">Auto-entrepreneur</option>
             </select>
+            {errors.accountType && (
+              <p className="text-red-500 text-sm">
+                {errors.accountType.message as string}
+              </p>
+            )}
           </div>
         </>
       )}
@@ -255,21 +200,21 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
       {/* Bouton */}
       <button
         type="submit"
-        disabled={isLoading} //user ne peut recliquer si réponse envoyée
+        disabled={isLoading}
         className="w-full bg-brand-green hover:bg-brand-darkgreen text-white font-semibold py-2 rounded"
       >
         {alreadyRegistered ? "Se connecter" : "Créer mon compte GreenRoots"}
       </button>
 
-      {/* Erreur API affichée en bas du formulaire */}
+      {/* Erreur API */}
       {apiError && (
         <p className="text-red-600 text-xl text-center mt-2">{apiError}</p>
       )}
 
-      {/* loader en attente réponse */}
+      {/* Loader */}
       {isLoading && (
-        <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full bg-red-300 text-xl font-bold">
-          LOADING
+        <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full bg-black/30 text-xl font-bold text-white">
+          LOADING...
         </div>
       )}
     </form>
