@@ -69,6 +69,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           accountType: (data as RegisterFormData).accountType,
         });
         console.log("✅ Utilisateur inscrit :", newUser);
+        router.push("/login");
       }
     } catch (err: unknown) {
       const message =
