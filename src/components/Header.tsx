@@ -64,7 +64,7 @@ const Header = () => {
 
       {/* nav invisible en mode md + */}
       <nav role="navigation" className="space-x-8 flex items-center   ">
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 text-xl">
           {links_url.map((el) => (
             <Link
               key={el.id}
