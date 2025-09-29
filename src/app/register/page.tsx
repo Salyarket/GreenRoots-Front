@@ -15,13 +15,13 @@ const InscriptionPage = () => {
         </div>
 
         <div className="bg-white rounded-xl p-6 border border-brand-lightgreen/30 shadow-2xl">
-          <AuthForm isLogin={false} />
+          <AuthForm alreadyRegistered={false} />
         </div>
 
         <div className="text-center mt-6">
           <p className="text-brand-green">
             Déjà un compte ?{" "}
-            <a href="/login" className="text-brand-darkgreen font-semibold">
+            <a href="/connexion" className="text-brand-darkgreen font-semibold">
               Se connecter
             </a>
           </p>

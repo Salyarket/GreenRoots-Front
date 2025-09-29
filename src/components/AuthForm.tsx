@@ -1,131 +1,228 @@
-const AuthForm = ({ isLogin = true }) => {
-  return (
-    <form className="flex flex-col gap-4">
-      {!isLogin && (
-        <>
-          {/* Nom/Prénom - uniquement pour register */}
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="flex-1">
-              <label
-                htmlFor="firstname"
-                className="block text-brand-darkgreen font-medium mb-1 text-sm"
-              >
-                Prénom
-              </label>
-              <input
-                id="firstname"
-                type="text"
-                placeholder="Votre prénom"
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-                required
-              />
-            </div>
+"use client";
 
-            <div className="flex-1">
-              <label
-                htmlFor="lastname"
-                className="block text-brand-darkgreen font-medium mb-1 text-sm"
-              >
-                Nom
-              </label>
-              <input
-                id="lastname"
-                type="text"
-                placeholder="Votre nom"
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-                required
-              />
-            </div>
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { login, registerUser } from "@/services/api";
+import {
+  registerSchema,
+  loginSchema,
+  RegisterFormData,
+  LoginFormData,
+} from "@/lib/validators/authSchema";
+
+interface AuthFormProps {
+  alreadyRegistered: boolean;
+}
+
+interface AuthFormData {
+  email: string;
+  password: string;
+  firstname?: string;
+  lastname?: string;
+  confirmPassword?: string;
+  user_type_id?: number;
+}
+
+const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // pour la redirection apres connexion
+  const router = useRouter();
+
+  // Choix du schéma selon login ou register
+  const schema = alreadyRegistered ? loginSchema : registerSchema;
+
+  // useForm est le hook principal de react-hook-form (donne acces a register / handlesubmit / errors)
+  // on crée le "form manager"
+  const form = useForm<AuthFormData>({
+    resolver: zodResolver(schema),
+    mode: "onChange", // validation en direct
+  });
+
+  // maintenant on récupère juste ce qu’on veut
+  const register = form.register;
+  const handleSubmit = form.handleSubmit;
+  const errors = form.formState.errors;
+
+  const onSubmit = async (data: RegisterFormData | LoginFormData) => {
+    setIsLoading(true);
+    setApiError(null);
+
+    try {
+      if (alreadyRegistered) {
+        const loggedUser = await login({
+          email: data.email,
+          password: data.password,
+        });
+        console.log("✅ Utilisateur connecté :", loggedUser);
+        router.push("/profil");
+      } else {
+        const newUser = await registerUser({
+          firstname: (data as RegisterFormData).firstname,
+          lastname: (data as RegisterFormData).lastname,
+          email: data.email,
+          password: data.password,
+          confirmPassword: (data as RegisterFormData).confirmPassword,
+          user_type_id: (data as RegisterFormData).user_type_id,
+        });
+        console.log(newUser);
+
+        console.log("✅ Utilisateur inscrit :", newUser);
+        router.push("/login");
+      }
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Une erreur est survenue";
+      setApiError(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Class CSS messages d'erreurs (rouge si erreur, vert si champ valide)
+  const inputClass = (fieldName: keyof (RegisterFormData & LoginFormData)) =>
+    `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
+    ${
+      (errors as any)[fieldName]
+        ? "border-red-500 focus:ring-red-500"
+        : "border-gray-300 focus:ring-brand-green"
+    }`;
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 relative"
+    >
+      {!alreadyRegistered && (
+        <div className="flex flex-col gap-4 sm:flex-row">
+          {/* Prénom */}
+          <div className="flex-1">
+            <label className="block text-sm font-medium">Prénom</label>
+            <input
+              {...register("firstname")}
+              placeholder="Votre prénom"
+              className={inputClass("firstname")}
+            />
+            {errors.firstname && (
+              <p className="text-red-500 text-sm">
+                {errors.firstname.message as string}
+              </p>
+            )}
           </div>
-        </>
+
+          {/* Nom */}
+          <div className="flex-1">
+            <label className="block text-sm font-medium">Nom</label>
+            <input
+              {...register("lastname")}
+              placeholder="Votre nom"
+              className={inputClass("lastname")}
+            />
+            {errors.lastname && (
+              <p className="text-red-500 text-sm">
+                {errors.lastname.message as string}
+              </p>
+            )}
+          </div>
+        </div>
       )}
 
       {/* Email */}
       <div>
-        <label
-          htmlFor="email"
-          className="block text-brand-darkgreen font-medium mb-1 text-sm"
-        >
-          Adresse e-mail
-        </label>
+        <label className="block text-sm font-medium">Adresse e-mail</label>
         <input
-          id="email"
           type="email"
+          {...register("email")}
           placeholder="exemple@email.com"
-          className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-          required
+          className={inputClass("email")}
         />
+        {errors.email && (
+          <p className="text-red-500 text-sm">
+            {errors.email.message as string}
+          </p>
+        )}
       </div>
 
       {/* Mot de passe */}
       <div>
-        <label
-          htmlFor="password"
-          className="block text-brand-darkgreen font-medium mb-1 text-sm"
-        >
-          Mot de passe
-        </label>
+        <label className="block text-sm font-medium">Mot de passe</label>
         <input
-          id="password"
           type="password"
+          {...register("password")}
           placeholder="Votre mot de passe"
-          className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-          required
+          className={inputClass("password")}
         />
-        <p className="text-xs text-brand-lightgreen mt-1">
-          {isLogin ? "" : "Au moins 8 caractères requis"}
-        </p>
+        {errors.password && (
+          <p className="text-red-500 text-sm">
+            {errors.password.message as string}
+          </p>
+        )}
       </div>
 
-      {!isLogin && (
+      {!alreadyRegistered && (
         <>
-          {/* Confirmation mot de passe - uniquement pour register*/}
+          {/* Confirmation mot de passe */}
           <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-brand-darkgreen font-medium mb-1 text-sm"
-            >
+            <label className="block text-sm font-medium">
               Confirmation du mot de passe
             </label>
             <input
-              id="confirmPassword"
               type="password"
+              {...register("confirmPassword")}
               placeholder="Confirmez votre mot de passe"
-              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base"
-              required
+              className={inputClass("confirmPassword")}
             />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">
+                {errors.confirmPassword.message as string}
+              </p>
+            )}
           </div>
 
-          {/* Type de compte - uniquement pour register */}
+          {/* Type de compte */}
           <div>
-            <label
-              htmlFor="accountType"
-              className="block text-brand-darkgreen font-medium mb-1 text-sm"
-            >
-              Type de compte
-            </label>
+            <label className="block text-sm font-medium">Type de compte</label>
             <select
-              id="accountType"
-              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-brand-lightgreen/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green text-sm sm:text-base bg-brand-white"
+              {...register("user_type_id")}
+              className={inputClass("user_type_id")}
             >
               <option value="">Sélectionnez votre profil</option>
-              <option value="professional">Professionnel</option>
-              <option value="individual">Particulier</option>
-              <option value="association">Association</option>
-              <option value="company">Entreprise</option>
-              <option value="entrepreneur">Auto-entrepreneur</option>
+              <option value={1}>Particulier</option>
+              <option value={2}>Association</option>
+              <option value={3}>Entreprise</option>
             </select>
+            {errors.user_type_id && (
+              <p className="text-red-500 text-sm">
+                {errors.user_type_id.message as string}
+              </p>
+            )}
           </div>
         </>
       )}
 
-      {/* Bouton - adapter le texte pour register ou login */}
+      {/* Bouton */}
       <button
         type="submit"
-        className="w-full bg-brand-green hover:bg-brand-darkgreen text-white font-semibold py-2 sm:py-3 px-6 rounded-lg transition-colors durantion-200 text-sm sm:text-base"
+        disabled={isLoading}
+        className="w-full bg-brand-green hover:bg-brand-darkgreen text-white font-semibold py-2 rounded"
       >
-        {isLogin ? "Se connecter" : "Créer mon compte GreenRoots"}
+        {alreadyRegistered ? "Se connecter" : "Créer mon compte GreenRoots"}
       </button>
+
+      {/* Erreur API */}
+      {apiError && (
+        <p className="text-red-600 text-xl text-center mt-2">{apiError}</p>
+      )}
+
+      {/* Loader */}
+      {isLoading && (
+        <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full bg-black/30 text-xl font-bold text-white">
+          LOADING...
+        </div>
+      )}
     </form>
   );
 };

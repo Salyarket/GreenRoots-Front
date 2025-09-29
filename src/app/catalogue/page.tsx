@@ -1,6 +1,5 @@
 import Image from "next/image";
 import CardItem from "@/components/Sections/CardItem";
-import { dataProducts } from "@/services/data";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { getProducts } from "@/services/api";
 
@@ -19,14 +18,13 @@ const CataloguePage = async () => {
   // },
 
   const products = await getProducts();
-  console.log(products);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
       {/* section titre */}
       <section>
         <h1 className="text-xl md:text-2xl text-brand-darkgreen uppercase font-bold text-center">
-          les arbres soigneuseement séléctionnés par greenroots
+          les arbres soigneusement sélectionnés par greenroots
         </h1>
         <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold uppercase text-center">
           il a en a pour tous les goûts dans la nature
@@ -62,6 +60,8 @@ const CataloguePage = async () => {
               scientific_name={product.scientific_name}
               carbon={product.carbon}
               description={product.description}
+              slug={product.slug}
+              id={product.id}
               variant="detailed"
             />
           ))}

@@ -14,14 +14,14 @@ const LoginPage = () => {
         </div>
 
         <div className="bg-white rounded-xl p-6 border border-brand-lightgreen/30 shadow-2xl">
-          <AuthForm isLogin={true} />
+          <AuthForm alreadyRegistered={true} />
         </div>
 
         <div className="text-center mt-6">
           <p className="text-brand-green">
             Pas encore de compte ?{" "}
             <a href="/register" className="text-brand-darkgreen font-semibold">
-              S'inscrire
+              S&apos;inscrire
             </a>
           </p>
         </div>

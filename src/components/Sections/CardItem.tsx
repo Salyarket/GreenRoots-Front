@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface CardItemProps {
   name: string;
@@ -6,6 +9,8 @@ interface CardItemProps {
   image_urls: string[];
   scientific_name?: string;
   carbon: number;
+  slug: string;
+  id: string;
   description?: string;
   variant?: "simple" | "detailed";
 }
@@ -25,16 +30,24 @@ interface CardItemProps {
 const CardItem = ({
   name,
   price,
+  slug,
   image_urls,
   scientific_name,
   carbon,
   description,
   variant,
+  id,
 }: CardItemProps) => {
+  // pour faire la redirection slug
+  const router = useRouter();
+
   return (
-    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative">
+    <li
+      onClick={() => router.push(`/catalogue/${id}`)}
+      className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative"
+    >
       <Image
-        src={`http://localhost:4000/uploads/arbres/chene.jpg`}
+        src={`http://localhost:4000/uploads/arbres/${image_urls[0]}`}
         alt={name}
         height={600}
         width={400}
