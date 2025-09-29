@@ -79,7 +79,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
 
   // gère la submit du formulaire
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); //evite le rechargement de la page par défaut
 
     const newErrors: Partial<Record<FieldName, string>> = {};
     (Object.keys(formData) as FieldName[]).forEach((key) => {

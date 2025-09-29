@@ -18,7 +18,6 @@ const CataloguePage = async () => {
   // },
 
   const products = await getProducts();
-  console.log(products);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">

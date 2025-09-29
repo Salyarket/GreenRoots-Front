@@ -3,19 +3,18 @@ const API_URL = process.env.NEXT_API_BASE_URL || "http://localhost:4000";
 // NEXT_API_BASE_URL=http://localhost:4000
 
 // login
-export async function authentification() {
+export async function login(data: { email: string; password: string }) {
   try {
     const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: "admin@admin.com", password: "password" }),
+      body: JSON.stringify(data),
       cache: "no-store",
     });
 
     if (!res.ok) {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
-
     return res.json();
   } catch (error) {
     console.error("Erreur loggin", error);
