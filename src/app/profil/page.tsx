@@ -51,9 +51,12 @@ const ProfilPage = () => {
           <p className="text-brand-green text-xs md:text-sm mb-3 md:mb-4">
             Suivez votre historique d'achat
           </p>
-          <button className="text-brand-lightgreen text-xs md:text-sm font-medium hover:text-brand-darkgreen transition-colors">
+          <Link
+            href={"/profil/orders"}
+            className="text-brand-lightgreen text-xs md:text-sm font-medium hover:text-brand-darkgreen transition-colors"
+          >
             Voir mes commandes ›
-          </button>
+          </Link>
         </div>
 
         {/* Carte Messages */}
