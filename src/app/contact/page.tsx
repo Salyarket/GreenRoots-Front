@@ -4,7 +4,7 @@ const ContactPage = () => {
       {/* Section titre */}
       <section>
         <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center">
-          Contactez l'équipe greenroots
+          Contactez l&apos;équipe greenroots
         </h1>
         <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold  text-center">
           Une question sur nos plantations ? Notre équipe vous répond avec

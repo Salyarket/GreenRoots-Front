@@ -1,40 +1,43 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface CardItemProps {
-  name: string;
-  price: number;
-  image_urls: string[];
-  scientific_name?: string;
-  carbon: number;
+  avalaible: boolean;
+  carbon: string;
   description?: string;
+  id: number;
+  image_urls: string[];
+  name: string;
+  price: string;
+  scientific_name?: string;
+  stock?: number;
+  slug: string;
   variant?: "simple" | "detailed";
 }
-
-//    {
-//     name: "Chêne pédonculé",
-//     slug: "chene-pedoncule",
-//     price: 60,
-//     description:
-//       "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
-//     image_urls: ["chene.jpg"],
-//     stock: 120,
-//     scientific_name: "Quercus robur",
-//     carbon: 20,
-//   },
 
 const CardItem = ({
   name,
   price,
+  slug,
   image_urls,
   scientific_name,
   carbon,
   description,
   variant,
+  id,
 }: CardItemProps) => {
+  // pour faire la redirection slug
+  const router = useRouter();
+
   return (
-    <li className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative">
+    <li
+      onClick={() => router.push(`/catalogue/${id}`)}
+      className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative"
+    >
       <Image
-        src={`http://localhost:4000/uploads/arbres/chene.jpg`}
+        src={`http://localhost:4000/uploads/arbres/${image_urls[0]}`}
         alt={name}
         height={600}
         width={400}
