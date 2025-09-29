@@ -11,7 +11,7 @@ export default function WarningBox({ message }: WarningBoxProps) {
       <h2 className="text-xl md:text-2xl text-brand-warning uppercase font-bold my-3">
         Attention !
       </h2>
-      <p className="text-lg text-brand-warning uppercase text-center">
+      <p className="text-base text-brand-warning uppercase text-center">
         {message}
       </p>
     </div>

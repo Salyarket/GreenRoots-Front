@@ -1,11 +1,12 @@
-import Image from "next/image";
-import { IoWarningOutline } from "react-icons/io5";
-import  WarningBox from "@/components/Sections/WarningBox"
+import WarningBox from "@/components/Sections/WarningBox"
+import HrWithImage from "@/components/Sections/HrWithImage";
+import { GiLindenLeaf, GiMonsteraLeaf, GiVineLeaf } from "react-icons/gi";
+import { FaCanadianMapleLeaf } from "react-icons/fa6";
 
 const Page = () => {
 
     return (
-        <main className="min-h-screen mt-16 mb-16 px-4 custom-size-minmax">
+        <main className="min-h-screen mt-16 mb-16 px-4 custom-size-minmax max-w-[1200px]">
 
             <h1 className="text-xl md:text-2xl text-brand-darkgreen uppercase font-bold text-center">
                 Mentions légales
@@ -15,12 +16,12 @@ const Page = () => {
 
             <section>
                 <div className="flex flex-col">
-                    <div className="flex justify-between">
-                        <div className="px-40">
+                    <div className="flex flex-col md:flex-row justify-around">
+                        <div>
                             <h3 className="h3-style-page-rules">
-                                Éditeur du site / Responsable de la publication
+                                Éditeur du site
                             </h3>
-                            <ul>
+                            <ul className="leaf-chip">
                                 <li>Nom / Dénomination sociale : GreenRoots SAS</li>
                                 <li>Forme juridique : SAS</li>
                                 <li>Capital social : 20 000 €</li>
@@ -33,10 +34,10 @@ const Page = () => {
                             </ul>
                         </div>
 
-                        <div className="px-40">
+                        <div>
                             <h3 className="h3-style-page-rules">Hébergeur du site</h3>
                             <ul>
-                                <li>Nom de l’hébergeur : OVH SAS</li>
+                                <li>Nom de l’hébergeur : OVH Cocorico SAS</li>
                                 <li>Adresse de l’hébergeur : 2 rue Kellermann, 59100 Roubaix, France</li>
                                 <li>Téléphone de l’hébergeur : +33 9 72 10 10 07</li>
                             </ul>
@@ -45,12 +46,16 @@ const Page = () => {
 
                     <div>
                         <p className="text-center my-10">
-                            Responsable de publication : <b>Jean Dupont</b> 
+                            Responsable de publication : <b>Jean Dupont</b>
                         </p>
                     </div>
                 </div>
 
                 <div>
+                    <HrWithImage icon={GiLindenLeaf} />
+                </div>
+
+                <div  className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Objet du site / Activité</h3>
                     <p>
                         Ce site permet aux utilisateurs de financer la plantation d’arbres via l’achat
@@ -61,8 +66,12 @@ const Page = () => {
                 </div>
 
                 <div>
+                    <HrWithImage icon={GiVineLeaf} />
+                </div>
+
+                <div className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Propriété intellectuelle</h3>
-                    <p>
+                    <p className="mb-3">
                         L’ensemble des contenus (textes, images, logos, vidéos, etc.) présents sur ce site est
                         protégé par le droit d’auteur. Toute reproduction, représentation, modification,
                         publication totale ou partielle, ou adaptation de ces contenus est strictement
@@ -75,12 +84,16 @@ const Page = () => {
                 </div>
 
                 <div>
+                    <HrWithImage icon={GiMonsteraLeaf} />
+                </div>
+
+                <div className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Responsabilité</h3>
-                    <p>
+                    <p className="mb-3">
                         L’éditeur s’efforce d’assurer l’exactitude des informations diffusées sur le site,
                         mais ne peut garantir leur caractère complet, fiable ou à jour.
                     </p>
-                    <p>
+                    <p className="mb-3">
                         L’éditeur n’assume pas la responsabilité des dommages directs ou indirects pouvant
                         résulter de l’accès au site ou de l’impossibilité d’y accéder, ou de l’utilisation
                         des informations diffusées.
@@ -95,9 +108,13 @@ const Page = () => {
                 </div>
 
                 <div>
+                    <HrWithImage icon={FaCanadianMapleLeaf} />
+                </div>
+
+                <div className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Données personnelles & vie privée</h3>
-                    <ul>
-                        <li>Responsable du traitement : [Nom de l’entreprise ou du responsable]</li>
+                    <ul className="list-none md:list-custom md:pl-0 md:text-left text-center">
+                        <li>Responsable du traitement : John Doe</li>
                         <li>
                             Finalités du traitement des données : gestion des commandes, facturation,
                             communication avec les clients, envoi de newsletters (si applicable),
@@ -105,14 +122,14 @@ const Page = () => {
                         </li>
                         <li>
                             Données collectées : nom, prénom, adresse postale, adresse e-mail, téléphone,
-                            données de paiement (via prestataire)
+                            données de paiement
                         </li>
                         <li>Bases légales du traitement : exécution du contrat, consentement (ex : newsletter)</li>
                         <li>
                             Destinataires des données : services internes, prestataires (hébergeur, emailing,
                             comptabilité), autorités légales le cas échéant
                         </li>
-                        <li>Durée de conservation : [indiquer durée selon nature des données]</li>
+                        <li>Durée de conservation en comformité avec la RGPD</li>
                         <li>
                             Droits des personnes : accès, rectification, effacement, opposition, limitation,
                             portabilité, réclamation auprès de la CNIL
@@ -120,13 +137,16 @@ const Page = () => {
                         <li>
                             Modalités d’exercice : courrier ou e-mail à l’adresse de contact mentionnée ci-dessus
                         </li>
-                        <li>Transferts hors UE éventuels : [indiquer le cas échéant]</li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 className="h3-style-page-rules">Cookies / traceurs</h3>
-                    <p>
+                    <HrWithImage icon={GiLindenLeaf} />
+                </div>
+
+                <div className="text-center md:text-start">
+                    <h3 className="h3-style-page-rules">Cookies</h3>
+                    <p className="mb-3">
                         Le site utilise des cookies ou traceurs pour assurer son bon fonctionnement
                         (gestion de session, panier) et pour des finalités analytiques ou marketing.
                     </p>
@@ -135,7 +155,13 @@ const Page = () => {
                         l’accord de l’utilisateur. Celui-ci peut refuser ou retirer son consentement à tout
                         moment via les paramètres du navigateur ou un outil dédié.
                     </p>
+                </div>
 
+                <div>
+                    <HrWithImage icon={GiVineLeaf} />
+                </div>
+
+                <div className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Conditions Générales de Vente (CGV)</h3>
                     <ul>
                         <li>Modalités de commande (achat virtuel de l’arbre)</li>
@@ -149,6 +175,10 @@ const Page = () => {
                 </div>
 
                 <div>
+                    <HrWithImage icon={GiMonsteraLeaf} />
+                </div>
+
+                <div className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Litiges</h3>
                     <p>
                         Tout litige relatif à l’interprétation ou l’exécution du contrat sera soumis au droit
@@ -156,7 +186,13 @@ const Page = () => {
                         compétents dans le ressort du siège social de l’éditeur ou, le cas échéant,
                         devant la juridiction compétente selon la réglementation applicable aux consommateurs.
                     </p>
+                </div>
 
+                    <div>
+                        <HrWithImage icon={FaCanadianMapleLeaf} />
+                    </div>
+
+                <div className="text-center md:text-start">
                     <h3 className="h3-style-page-rules">Mise à jour des mentions légales</h3>
                     <p>
                         Ces mentions légales peuvent être modifiées à tout moment pour respecter l’évolution
