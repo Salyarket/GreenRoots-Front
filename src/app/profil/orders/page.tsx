@@ -66,7 +66,7 @@ const OrdersPage = () => {
                   Total : {order.total}
                 </p>
                 <Link
-                  href={`/orders/${order.id}`}
+                  href={`/profil/orders/${order.id}`}
                   className="text-brand-lightgreen hover:text-brand-darkgreen font-medium text-sm md:text-base"
                 >
                   Voir en détail ›
