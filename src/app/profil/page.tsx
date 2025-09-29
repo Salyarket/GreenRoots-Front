@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const ProfilPage = () => {
   return (
@@ -25,9 +26,12 @@ const ProfilPage = () => {
           <p className="text-brand-green text-xs md:text-sm mb-3 md:mb-4">
             Gérez vos informations personnelles
           </p>
-          <button className="text-brand-lightgreen text-xs md:text-sm font-medium hover:text-brand-darkgreen transition-colors">
+          <Link
+            href={"/profil/edit"}
+            className="text-brand-lightgreen text-xs md:text-sm font-medium hover:text-brand-darkgreen transition-colors"
+          >
             Modifier le profil ›
-          </button>
+          </Link>
         </div>
 
         {/* Carte Commandes */}
