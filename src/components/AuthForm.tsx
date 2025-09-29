@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login, registerUser } from "@/services/api";
 import {
@@ -27,6 +28,9 @@ interface AuthFormData {
 const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // pour la redirection apres connexion
+  const router = useRouter();
 
   // Choix du schéma selon login ou register
   const schema = alreadyRegistered ? loginSchema : registerSchema;
@@ -54,6 +58,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           password: data.password,
         });
         console.log("✅ Utilisateur connecté :", loggedUser);
+        router.push("/");
       } else {
         const newUser = await registerUser({
           firstname: (data as RegisterFormData).firstname,
