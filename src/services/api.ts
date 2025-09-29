@@ -30,7 +30,7 @@ export async function registerUser(data: {
   email: string;
   password: string;
   confirmPassword: string;
-  accountType: string;
+  user_type_id: number;
 }) {
   try {
     const res = await fetch(`${API_URL}/auth/register`, {

@@ -60,6 +60,8 @@ const CataloguePage = async () => {
               scientific_name={product.scientific_name}
               carbon={product.carbon}
               description={product.description}
+              slug={product.slug}
+              id={product.id}
               variant="detailed"
             />
           ))}

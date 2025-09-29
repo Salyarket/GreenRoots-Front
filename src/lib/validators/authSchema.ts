@@ -1,14 +1,34 @@
 import { z } from "zod";
 
+// regex pour prenom nom
+const onlyLetters = /^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/;
 // Schéma pour l'inscription
 export const registerSchema = z
   .object({
-    firstname: z.string().min(2, "Le prénom doit faire au moins 2 caractères"),
-    lastname: z.string().min(2, "Le nom doit faire au moins 2 caractères"),
-    email: z.string().email("Adresse e-mail invalide"),
-    password: z.string().min(8, "Mot de passe trop court (8 caractères min.)"),
+    firstname: z
+      .string()
+      .min(2, "Minimum 2 charactères, pas de charactères spéciaux ou nombre")
+      .max(255, "Maximum 255 charactères")
+      .regex(onlyLetters),
+    lastname: z
+      .string()
+      .min(2, "Minimum 2 charactères, pas de charactères spéciaux ou nombre")
+      .max(255, "Maximum 255 charactères")
+      .regex(onlyLetters),
+    email: z.email("Adresse e-mail invalide"),
+    password: z
+      .string()
+      .min(8, "Mot de passe trop court (8 caractères min.)")
+      .max(255, {
+        message: "Le mot de passe ne peut pas dépasser 255 caractères",
+      }),
     confirmPassword: z.string(),
-    accountType: z.string().min(1, "Veuillez choisir un type de compte"),
+    user_type_id: z
+      .string()
+      .transform((val) => Number(val))
+      .refine((val) => [1, 2, 3].includes(val), {
+        message: "Veuillez choisir un type de compte",
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -17,7 +37,7 @@ export const registerSchema = z
 
 // Schéma pour la connexion
 export const loginSchema = z.object({
-  email: z.string().email("Adresse e-mail invalide"),
+  email: z.email("Adresse e-mail invalide"),
   password: z.string().min(8, "Mot de passe trop court (8 caractères min.)"),
 });
 

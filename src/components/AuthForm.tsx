@@ -22,7 +22,7 @@ interface AuthFormData {
   firstname?: string;
   lastname?: string;
   confirmPassword?: string;
-  accountType?: string;
+  user_type_id?: number;
 }
 
 const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
@@ -58,7 +58,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           password: data.password,
         });
         console.log("✅ Utilisateur connecté :", loggedUser);
-        router.push("/");
+        // router.push("/");
       } else {
         const newUser = await registerUser({
           firstname: (data as RegisterFormData).firstname,
@@ -66,8 +66,10 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           email: data.email,
           password: data.password,
           confirmPassword: (data as RegisterFormData).confirmPassword,
-          accountType: (data as RegisterFormData).accountType,
+          user_type_id: (data as RegisterFormData).user_type_id,
         });
+        console.log(newUser);
+
         console.log("✅ Utilisateur inscrit :", newUser);
         router.push("/login");
       }
@@ -184,19 +186,17 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           <div>
             <label className="block text-sm font-medium">Type de compte</label>
             <select
-              {...register("accountType")}
-              className={inputClass("accountType")}
+              {...register("user_type_id")}
+              className={inputClass("user_type_id")}
             >
               <option value="">Sélectionnez votre profil</option>
-              <option value="professional">Professionnel</option>
-              <option value="individual">Particulier</option>
-              <option value="association">Association</option>
-              <option value="company">Entreprise</option>
-              <option value="entrepreneur">Auto-entrepreneur</option>
+              <option value={1}>Particulier</option>
+              <option value={2}>Association</option>
+              <option value={3}>Entreprise</option>
             </select>
-            {errors.accountType && (
+            {errors.user_type_id && (
               <p className="text-red-500 text-sm">
-                {errors.accountType.message as string}
+                {errors.user_type_id.message as string}
               </p>
             )}
           </div>
