@@ -1,17 +1,8 @@
 import CardItem from "./CardItem";
-import { dataProducts } from "../../services/data";
-const BestSellers = () => {
-  //    {
-  //     name: "Chêne pédonculé",
-  //     slug: "chene-pedoncule",
-  //     price: 60,
-  //     description:
-  //       "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
-  //     image_urls: ["chene.jpg"],
-  //     stock: 120,
-  //     scientific_name: "Quercus robur",
-  //     carbon: 20,
-  //   },
+import { getProductsPagination } from "@/services/api";
+
+const BestSellers = async () => {
+  const productsWithPagination = await getProductsPagination();
 
   return (
     <div className="bg-brand-green py-8">
@@ -26,9 +17,12 @@ const BestSellers = () => {
       {/* partie des cards  */}
       <div className="px-4 ">
         <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
-          {dataProducts.slice(0, 3).map((el) => (
+          {productsWithPagination.data.slice(0, 3).map((el) => (
             <CardItem
               key={el.id}
+              avalaible={el.available}
+              slug={el.slug}
+              id={el.id}
               name={el.name}
               price={el.price}
               carbon={el.carbon}

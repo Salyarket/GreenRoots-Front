@@ -4,28 +4,18 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface CardItemProps {
-  name: string;
-  price: number;
-  image_urls: string[];
-  scientific_name?: string;
-  carbon: number;
-  slug: string;
-  id: string;
+  avalaible: boolean;
+  carbon: string;
   description?: string;
+  id: number;
+  image_urls: string[];
+  name: string;
+  price: string;
+  scientific_name?: string;
+  stock?: number;
+  slug: string;
   variant?: "simple" | "detailed";
 }
-
-//    {
-//     name: "Chêne pédonculé",
-//     slug: "chene-pedoncule",
-//     price: 60,
-//     description:
-//       "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
-//     image_urls: ["chene.jpg"],
-//     stock: 120,
-//     scientific_name: "Quercus robur",
-//     carbon: 20,
-//   },
 
 const CardItem = ({
   name,
