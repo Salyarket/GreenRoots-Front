@@ -71,14 +71,17 @@ const ProfilPage = () => {
             />
           </div>
           <h2 className="text-base md:text-lg font-semibold text-brand-darkgreen mb-2">
-            Mes messages
+            Messages
           </h2>
           <p className="text-brand-green text-xs md:text-sm mb-3 md:mb-4">
             Échangez avec notre service client
           </p>
-          <button className="text-brand-lightgreen text-xs md:text-sm font-medium hover:text-brand-darkgreen transition-colors">
+          <Link
+            href={"/contact"}
+            className="text-brand-lightgreen text-xs md:text-sm font-medium hover:text-brand-darkgreen transition-colors"
+          >
             Contacter le support ›
-          </button>
+          </Link>
         </div>
       </section>
     </main>
