@@ -58,7 +58,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           password: data.password,
         });
         console.log("✅ Utilisateur connecté :", loggedUser);
-        // router.push("/");
+        router.push("/profil");
       } else {
         const newUser = await registerUser({
           firstname: (data as RegisterFormData).firstname,
