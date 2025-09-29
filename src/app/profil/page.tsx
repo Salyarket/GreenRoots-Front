@@ -1,5 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
+import { BsCart } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { TbMessage } from "react-icons/tb";
 
 const ProfilPage = () => {
   return (
@@ -12,13 +14,7 @@ const ProfilPage = () => {
         {/* Carte Profil */}
         <div className="flex-1 bg-brand-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-brand-lightgreen/30 shadow-sm custom-card-hover text-center">
           <div className="bg-brand-lightgreen/10 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
-            <Image
-              src="/icon_profil.svg"
-              alt="Icône profil"
-              width={20}
-              height={20}
-              className="w-5 h-5 md:w-6 md:h-6"
-            />
+            <CgProfile className="text-xl md:text-2xl" />
           </div>
           <h2 className="text-base md:text-lg font-semibold text-brand-darkgreen mb-2">
             Mon profil
@@ -37,13 +33,7 @@ const ProfilPage = () => {
         {/* Carte Commandes */}
         <div className="flex-1 bg-brand-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-brand-lightgreen/30 shadow-sm custom-card-hover text-center">
           <div className="bg-brand-lightgreen/10 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
-            <Image
-              src="/icon_cart.svg"
-              alt="Icône commandes"
-              width={20}
-              height={20}
-              className="w-5 h-5 md:w-6 md:h-6"
-            />
+            <BsCart className="text-xl md:text-2xl" />
           </div>
           <h2 className="text-base md:text-lg font-semibold text-brand-darkgreen mb-2">
             Mes commandes
@@ -62,13 +52,7 @@ const ProfilPage = () => {
         {/* Carte Messages */}
         <div className="flex-1 bg-brand-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-brand-lightgreen/30 shadow-sm custom-card-hover text-center">
           <div className="bg-brand-lightgreen/10 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
-            <Image
-              src="/icon_message.svg"
-              alt="Icône messages"
-              width={20}
-              height={20}
-              className="w-5 h-5 md:w-6 md:h-6"
-            />
+            <TbMessage className="text-xl md:text-2xl" />
           </div>
           <h2 className="text-base md:text-lg font-semibold text-brand-darkgreen mb-2">
             Messages
