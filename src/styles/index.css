@@ -6,6 +6,8 @@
   --color-brand-darkgreen: #02431e;
   --color-brand-white: #f7f5ee;
   --color-brand-brown: #eb9e3f;
+  --color-brand-warning: #c20f1d;
+  --color-brand-warning-light: #fff4f5;
   --breakpoint-4xl: 2000px;
 }
 
@@ -21,7 +23,12 @@
   @apply min-w-[360px] max-w-[1920px] m-auto;
 }
 
+/* ----  page mention légale  ----  */
+@utility h3-style-page-rules {
+  @apply text-xl font-semibold mb-4 mt-8 text-brand-darkgreen;
+}
 
+/* ----  *******************  ----  */
 
 body {
   margin: 0;
