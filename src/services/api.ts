@@ -1,6 +1,6 @@
 import { PaginatedResponse, Product } from "@/types/index.types";
 
-const API_URL = process.env.NEXT_API_BASE_URL || "http://localhost:4000";
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // login
 export async function login(data: { email: string; password: string }) {
@@ -94,3 +94,6 @@ export async function getProductsPagination(
     };
   }
 }
+
+// PATCH user (member only)
+export async function patchUserMember() {}

@@ -95,13 +95,14 @@ const Header = () => {
             <>
               {links_url_loggedIn.map((el) =>
                 el.link === "se déconnecter" ? (
-                  <button
+                  <Link
                     key={el.id}
+                    href={"/"}
                     onClick={logout}
                     className="capitalize custom-btn-hover"
                   >
                     {el.link}
-                  </button>
+                  </Link>
                 ) : (
                   <Link
                     key={el.id}

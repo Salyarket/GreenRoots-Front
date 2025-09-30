@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+console.log(API_URL);
+
 // TS user
 interface User {
   id: number;
@@ -21,7 +25,18 @@ const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       setUser: (user) => set({ user }),
-      logout: () => set({ user: null }),
+
+      logout: async () => {
+        try {
+          await fetch(`${API_URL}/auth/logout`, {
+            method: "POST",
+            credentials: "include",
+          });
+        } catch (e) {
+          console.error("Erreur lors du logout", e);
+        }
+        set({ user: null });
+      },
     }),
     {
       name: "auth-storage", // clé dans localStorage
