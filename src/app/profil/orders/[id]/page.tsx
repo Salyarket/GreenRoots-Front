@@ -12,13 +12,13 @@ const OneOrderPage = () => {
         name: "Chêne pédonculé",
         quantity: 2,
         price: "50€",
-        image: "/tree1.jpg",
+        image: "/testcard1.webp",
       },
       {
         name: "Érable champêtre",
         quantity: 1,
         price: "20€",
-        image: "/tree2.jpg",
+        image: "/testcard2.webp",
       },
     ],
   };
@@ -59,13 +59,13 @@ const OneOrderPage = () => {
               key={index}
               className="flex gap-4 items-start p-4 border border-brand-lightgreen/20 rounded-lg"
             >
-              <div className="w-16 h-16 bg-brand-lightgreen/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="flex items-center">
                 <Image
                   src={product.image}
                   alt={product.name}
-                  width={60}
-                  height={60}
-                  className="w-10 h-10"
+                  width={70}
+                  height={70}
+                  className="rounded-md mr-4"
                 />
               </div>
 
