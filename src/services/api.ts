@@ -1,8 +1,6 @@
 import { PaginatedResponse, Product } from "@/types/index.types";
 
-
 const API_URL = process.env.NEXT_API_BASE_URL || "http://localhost:4000";
-
 
 // login
 export async function login(data: { email: string; password: string }) {
@@ -11,6 +9,7 @@ export async function login(data: { email: string; password: string }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      credentials: "include",
       cache: "no-store",
     });
 
