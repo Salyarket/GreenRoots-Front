@@ -4,20 +4,8 @@ import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { getProducts } from "@/services/api";
 
 const CataloguePage = async () => {
-  // {
-  //   id: 1,
-  //   name: "Chêne pédonculé",
-  //   slug: "chene-pedoncule",
-  //   price: 60,
-  //   description:
-  //     "Arbre majestueux d’Europe, symbole de longévité. Excellent pour stocker du carbone et abriter la biodiversité.",
-  //   image_urls: ["testcard1.webp"],
-  //   stock: 120,
-  //   scientific_name: "Quercus robur",
-  //   carbon: 20,
-  // },
-
   const products = await getProducts();
+  console.log(products);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -54,6 +42,7 @@ const CataloguePage = async () => {
           {products.slice(0, 20).map((product) => (
             <CardItem
               key={product.id}
+              avalaible={product.available}
               name={product.name}
               price={product.price}
               image_urls={product.image_urls}
