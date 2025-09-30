@@ -10,14 +10,6 @@ interface Page {
   };
 }
 
-// name: string;
-// price: number;
-// image_urls: string[];
-// scientific_name?: string;
-// carbon: number;
-// description?: string;
-// variant?: "simple" | "detailed";
-
 const Page = async ({ params }: Page) => {
   const product = await getOneProduct(params.id);
   return (
