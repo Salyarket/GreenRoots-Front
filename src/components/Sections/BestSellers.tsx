@@ -4,7 +4,7 @@ import { getProductsPagination } from "@/services/api";
 const BestSellers = async () => {
   const productsWithPagination = await getProductsPagination(3);
   const products = productsWithPagination.data;
-  console.log(products);
+  // console.log(products);
 
   return (
     <div className="bg-brand-green py-8">

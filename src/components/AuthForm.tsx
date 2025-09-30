@@ -1,5 +1,7 @@
 "use client";
 
+import useAuthStore from "@/store/AuthStore";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -53,13 +55,17 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
 
     try {
       if (alreadyRegistered) {
+        // SE CONNECTER
         const loggedUser = await login({
           email: data.email,
           password: data.password,
         });
         console.log("✅ Utilisateur connecté :", loggedUser);
+        // on envoie au store zustand la res de la BDD avec l'USER
+        useAuthStore.getState().setUser(loggedUser.user);
         router.push("/profil");
       } else {
+        // S'ENREGISTRER
         const newUser = await registerUser({
           firstname: (data as RegisterFormData).firstname,
           lastname: (data as RegisterFormData).lastname,
@@ -68,10 +74,8 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           confirmPassword: (data as RegisterFormData).confirmPassword,
           user_type_id: (data as RegisterFormData).user_type_id,
         });
-        console.log(newUser);
-
         console.log("✅ Utilisateur inscrit :", newUser);
-        
+
         router.push("/login");
       }
     } catch (err: unknown) {

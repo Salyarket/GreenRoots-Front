@@ -6,7 +6,7 @@ import { getProducts, getProductsPagination } from "@/services/api";
 const CataloguePage = async () => {
   const productsWithPagination = await getProductsPagination(8);
   const products = productsWithPagination.data;
-  console.log(products);
+  // console.log(products);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
