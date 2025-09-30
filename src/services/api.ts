@@ -1,8 +1,6 @@
 import { PaginatedResponse, Product } from "@/types/index.types";
 
-
-const API_URL = process.env.NEXT_API_BASE_URL || "http://localhost:4000";
-
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // login
 export async function login(data: { email: string; password: string }) {
@@ -11,6 +9,7 @@ export async function login(data: { email: string; password: string }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      credentials: "include",
       cache: "no-store",
     });
 
@@ -66,36 +65,35 @@ export async function getProducts(): Promise<Product[]> {
   }
 }
 
-
-export async function getOneProduct(id: string) {
-  try {
-    const res = await fetch(`${API_URL}/products/with_location/${id}`, { cache: "no-store" });
-
-        if (!res.ok) {
-      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Erreur API:", error);
-    throw error; // avec le throw error, next va envoyer automatiquement la page error.tsx
-  }
-}
-
 // get 3 products landing page pagination
-export async function getProductsPagination(): Promise<
-  PaginatedResponse<Product>
-> {
+export async function getProductsPagination(
+  limitation: number
+): Promise<PaginatedResponse<Product>> {
   try {
-    const res = await fetch(`${API_URL}/products/pagination?limit=3`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${API_URL}/products/pagination?limit=${limitation}`,
+      {
+        cache: "no-store",
+      }
+    );
     if (!res.ok) {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
     return res.json();
   } catch (error) {
     console.error("Erreur API:", error);
-    throw error; // avec le throw error, next va envoyer automatiquement la page error.tsx
+    // si on throw new error et que le back est down, le site crash alors le mieux est de retourner un objet vide et gérer l'erreur dans le composant
+    return {
+      data: [],
+      pagination_State: {
+        total: 0,
+        page: 1,
+        limit: 3,
+        totalPages: 0,
+      },
+    };
   }
 }
 
+// PATCH user (member only)
+export async function patchUserMember() {}
