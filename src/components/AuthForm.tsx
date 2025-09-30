@@ -13,6 +13,7 @@ import {
   RegisterFormData,
   LoginFormData,
 } from "@/lib/validators/authSchema";
+import Image from "next/image";
 
 interface AuthFormProps {
   alreadyRegistered: boolean;
@@ -224,8 +225,14 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
 
       {/* Loader */}
       {isLoading && (
-        <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full bg-black/30 text-xl font-bold text-white">
-          LOADING...
+        <div className="absolute flex items-center justify-center top-0 left-0 h-full w-full  text-xl font-bold text-white">
+          <Image
+            width={80}
+            height={80}
+            src="/loader-clair.svg"
+            alt="Loader GreenRoots"
+            className="w-40 animate-spin"
+          />
         </div>
       )}
     </form>
