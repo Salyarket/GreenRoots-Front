@@ -120,7 +120,7 @@ const ContactPage = () => {
       {/* Footer */}
       <div className="text-center m-8">
         <p className="text-brand-green text-sm">
-          Engagement écologique • 100% des profits reinvestis
+          Engagement écologique • 100% des profits réinvestis
         </p>
       </div>
     </main>
