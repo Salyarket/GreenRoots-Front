@@ -23,13 +23,6 @@
   @apply min-w-[360px] max-w-[1920px] m-auto;
 }
 
-/* ----  page mention légale  ----  */
-@utility h3-style-page-rules {
-  @apply text-xl font-semibold mb-4 mt-8 text-brand-darkgreen;
-}
-
-/* ----  *******************  ----  */
-
 body {
   margin: 0;
   padding: 0;

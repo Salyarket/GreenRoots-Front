@@ -66,6 +66,21 @@ export async function getProducts(): Promise<Product[]> {
   }
 }
 
+
+export async function getOneProduct(id: string) {
+  try {
+    const res = await fetch(`${API_URL}/products/with_location/${id}`, { cache: "no-store" });
+
+        if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error; // avec le throw error, next va envoyer automatiquement la page error.tsx
+  }
+}
+
 // get 3 products landing page pagination
 export async function getProductsPagination(): Promise<
   PaginatedResponse<Product>
@@ -83,3 +98,4 @@ export async function getProductsPagination(): Promise<
     throw error; // avec le throw error, next va envoyer automatiquement la page error.tsx
   }
 }
+
