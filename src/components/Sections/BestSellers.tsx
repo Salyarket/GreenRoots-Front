@@ -2,7 +2,7 @@ import CardItem from "./CardItem";
 import { getProductsPagination } from "@/services/api";
 
 const BestSellers = async () => {
-  const productsWithPagination = await getProductsPagination();
+  const productsWithPagination = await getProductsPagination(3);
   const products = productsWithPagination.data;
   console.log(products);
 

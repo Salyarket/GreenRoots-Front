@@ -11,7 +11,8 @@ export async function login(data: { email: string; password: string }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      cache: "no-store",
+      credentials: "include", //pour stocker les cookies que le back nous envoie en res.cookies
+      cache: "no-store", //pour ne pas mettre en cache
     });
 
     if (!res.ok) {
@@ -67,13 +68,16 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 // get 3 products landing page pagination
-export async function getProductsPagination(): Promise<
-  PaginatedResponse<Product>
-> {
+export async function getProductsPagination(
+  limitation: number
+): Promise<PaginatedResponse<Product>> {
   try {
-    const res = await fetch(`${API_URL}/products/pagination?limit=3`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${API_URL}/products/pagination?limit=${limitation}`,
+      {
+        cache: "no-store",
+      }
+    );
     if (!res.ok) {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
