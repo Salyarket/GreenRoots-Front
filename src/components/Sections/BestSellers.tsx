@@ -3,6 +3,8 @@ import { getProductsPagination } from "@/services/api";
 
 const BestSellers = async () => {
   const productsWithPagination = await getProductsPagination();
+  const products = productsWithPagination.data;
+  console.log(products);
 
   return (
     <div className="bg-brand-green py-8">
@@ -16,22 +18,28 @@ const BestSellers = async () => {
 
       {/* partie des cards  */}
       <div className="px-4 ">
-        <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
-          {productsWithPagination.data.slice(0, 3).map((el) => (
-            <CardItem
-              key={el.id}
-              avalaible={el.available}
-              slug={el.slug}
-              id={el.id}
-              name={el.name}
-              price={el.price}
-              carbon={el.carbon}
-              scientific_name={el.scientific_name}
-              image_urls={el.image_urls}
-              variant={"simple"}
-            />
-          ))}
-        </ul>
+        {products.length === 0 ? (
+          <p className="text-white text-center opacity-70">
+            Les best sellers ne sont pas disponibles pour le moment.
+          </p>
+        ) : (
+          <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+            {productsWithPagination.data.slice(0, 3).map((el) => (
+              <CardItem
+                key={el.id}
+                avalaible={el.available}
+                slug={el.slug}
+                id={el.id}
+                name={el.name}
+                price={el.price}
+                carbon={el.carbon}
+                scientific_name={el.scientific_name}
+                image_urls={el.image_urls}
+                variant={"simple"}
+              />
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

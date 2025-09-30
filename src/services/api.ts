@@ -1,8 +1,8 @@
 import { PaginatedResponse, Product } from "@/types/index.types";
 
-
+// URL de base du back (provenant de .env.local)
 const API_URL = process.env.NEXT_API_BASE_URL || "http://localhost:4000";
-
+// NEXT_API_BASE_URL=http://localhost:4000
 
 // login
 export async function login(data: { email: string; password: string }) {
@@ -80,6 +80,15 @@ export async function getProductsPagination(): Promise<
     return res.json();
   } catch (error) {
     console.error("Erreur API:", error);
-    throw error; // avec le throw error, next va envoyer automatiquement la page error.tsx
+    // si on throw new error et que le back est down, le site crash alors le mieux est de retourner un objet vide et gérer l'erreur dans le composant
+    return {
+      data: [],
+      pagination_State: {
+        total: 0,
+        page: 1,
+        limit: 3,
+        totalPages: 0,
+      },
+    };
   }
 }
