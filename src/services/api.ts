@@ -65,6 +65,24 @@ export async function getProducts(): Promise<Product[]> {
   }
 }
 
+// get One product per id
+export async function getOneProductWithLocation(id: number): Promise<Product> {
+  try {
+    const res = await fetch(`${API_URL}/products/with_location/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error; // laisser throw pour que Next affiche error.tsx si ça bug
+  }
+}
+
 // get 3 products landing page pagination
 export async function getProductsPagination(
   limitation: number
