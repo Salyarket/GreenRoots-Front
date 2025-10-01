@@ -166,6 +166,11 @@ export async function apiFetch(
   return res;
 }
 
+// 
+export async function createPorduct () {
+
+}
+
 // get all orders from user (using the wrapper)
 export async function getMyOrders() {
   const res = await apiFetch("/orders/me/orders", { method: "GET" });
