@@ -10,14 +10,14 @@ export default function PanierPage() {
     {
       id: "1",
       name: "Chêne Vert",
-      price: 25,
+      price: 2500000,
       quantity: 2,
       image: "/testcard1.webp",
     },
     {
       id: "2",
       name: "Érable Rouge",
-      price: 30,
+      price: 3000,
       quantity: 1,
       image: "/testcard2.webp",
     },
