@@ -1,6 +1,11 @@
+"use client";
+
+import useAuthStore from "@/store/AuthStore";
 import Link from "next/link";
 
 const EditPage = () => {
+  const { user } = useAuthStore();
+
   return (
     <main className="min-h-screen mt-16 mb-16 px-4 custom-size-minmax py-6 md:py-8">
       {/* Header */}
@@ -38,7 +43,7 @@ const EditPage = () => {
                 id="firstname"
                 type="text"
                 className="w-full px-3 py-2 md:px-4 md:py-3 border border-brand-lightgreen/20 rounded-lg bg-white text-sm mb-3 md:mb-4 focus:outline-none focus:ring-1 focus:ring-brand-green"
-                placeholder="Votre prénom"
+                placeholder={user?.firstname}
               />
 
               <label
@@ -51,7 +56,7 @@ const EditPage = () => {
                 id="lastname"
                 type="text"
                 className="w-full px-3 py-2 md:px-4 md:py-3 border border-brand-lightgreen/20 rounded-lg bg-white text-sm focus:outline-none focus:ring-1 focus:ring-brand-green"
-                placeholder="Votre nom"
+                placeholder={user?.lastname}
               />
             </div>
           </div>

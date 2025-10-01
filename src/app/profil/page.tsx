@@ -1,13 +1,20 @@
+"use client";
+
+import useAuthStore from "@/store/AuthStore";
 import Link from "next/link";
 import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { TbMessage } from "react-icons/tb";
+import RefreshAccesToken from "@/components/RefreshAccesToken";
 
 const ProfilPage = () => {
+  const { user } = useAuthStore();
+
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax py-8">
-      <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center mb-6 md:mb-8">
-        Bonjour, User
+      <RefreshAccesToken />
+      <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center mb-6 md:mb-8 capitalize">
+        Bonjour {user?.firstname},
       </h1>
 
       <section className="flex flex-col gap-4 md:flex-row md:gap-6 justify-center max-w-4xl mx-auto">
@@ -39,7 +46,7 @@ const ProfilPage = () => {
             Mes commandes
           </h2>
           <p className="text-brand-green text-xs md:text-sm mb-3 md:mb-4">
-            Suivez votre historique d'achat
+            Suivez votre historique d&apos;achat
           </p>
           <Link
             href={"/profil/orders"}

@@ -11,13 +11,12 @@ import { FaBox } from "react-icons/fa";
 import { FaDropbox } from "react-icons/fa";
 
 const Page = async () => {
-
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
-
       <section>
-
-        <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">Vue d'ensemble des produits</h1>
+        <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">
+          Vue d'ensemble des produits
+        </h1>
 
         <div className="flex justify-center items-between gap-8">
           <div className="mt-10 h-53 w-80 bg-brand-white rounded-xl p-6 border border-brand-lightgreen/30 shadow-sm text-center">
@@ -33,7 +32,9 @@ const Page = async () => {
           </div>
 
           <div>
-            <h2 className="font-extrabold text-brand-green text-2xl text-center mb-2">Etat des stocks</h2>
+            <h2 className="font-extrabold text-brand-green text-2xl text-center mb-2">
+              Etat des stocks
+            </h2>
             <div className="flex gap-4">
               <div className="w-60  bg-brand-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-brand-lightgreen/30 shadow-sm text-center">
                 <p className="font-extrabold text-brand-green text-4xl mb-3">
@@ -58,9 +59,7 @@ const Page = async () => {
                 </div>
               </div>
               <div className="w-60 bg-red-300/10 rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-300 shadow-sm text-center">
-                <p className="font-extrabold text-red-400 text-4xl mb-3">
-                  4
-                </p>
+                <p className="font-extrabold text-red-400 text-4xl mb-3">4</p>
                 <h3 className="text-base font-semibold text-red-600 mb-2">
                   Rupture de Stocks
                 </h3>
@@ -71,8 +70,6 @@ const Page = async () => {
             </div>
           </div>
         </div>
-
-
       </section>
 
       <section className="pb-10">
@@ -87,7 +84,10 @@ const Page = async () => {
               <Image src={"/search.svg"} width={15} height={15} alt="search" />
             </button>
           </div>
-          <Link href={"/admin/produits/creation"} className="flex items-center px-8 border border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+          <Link
+            href={"/admin/produits/creation"}
+            className="flex items-center px-8 border border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+          >
             <MdOutlineCreate className="mr-4" />
             <p>Ajouter un produit</p>
           </Link>
@@ -96,50 +96,83 @@ const Page = async () => {
         <table className="border-collapse border border-brand-darkgreen w-full">
           <thead>
             <tr className="h-14">
-              <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen">Id</th>
-              <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen">
+              <th
+                scope="col"
+                className="border-x text-brand-white border-brand-white bg-brand-darkgreen"
+              >
+                Id
+              </th>
+              <th
+                scope="col"
+                className="border-x text-brand-white border-brand-white bg-brand-darkgreen"
+              >
                 <div className="flex justify-center items-center h-14">
                   Nom
                   <LuListFilter className="ml-5" />
                 </div>
               </th>
-              <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen">
+              <th
+                scope="col"
+                className="border-x text-brand-white border-brand-white bg-brand-darkgreen"
+              >
                 <div className="flex justify-center items-center h-14">
                   Prix
                   <LuListFilter className="ml-5" />
                 </div>
               </th>
-              <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen">
+              <th
+                scope="col"
+                className="border-x text-brand-white border-brand-white bg-brand-darkgreen"
+              >
                 <div className="flex justify-center items-center h-14">
                   Stock
                   <LuListFilter className="ml-5" />
                 </div>
               </th>
-              <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen">
+              <th
+                scope="col"
+                className="border-x text-brand-white border-brand-white bg-brand-darkgreen"
+              >
                 <div className="flex justify-center items-center h-14">
                   CO2
                   <LuListFilter className="ml-5" />
                 </div>
               </th>
-              <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen w-45">Action</th>
+              <th
+                scope="col"
+                className="border-x text-brand-white border-brand-white bg-brand-darkgreen w-45"
+              >
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr className="h-14">
-              <th scope="row" className="">1</th>
+              <th scope="row" className="">
+                1
+              </th>
               <td className="border border-brand-darkgreen pl-4">Chêne</td>
               <td className="border border-brand-darkgreen text-center">22</td>
               <td className="border border-brand-darkgreen text-center">34</td>
               <td className="border border-brand-darkgreen text-center">200</td>
               <td className="border border-brand-darkgreen">
                 <div className="flex justify-center items-center gap-4">
-                  <Link href={"/catalogue/1"} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+                  <Link
+                    href={"/catalogue/1"}
+                    className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                  >
                     <FaRegEye />
                   </Link>
-                  <Link href={"/admin/produits/edition/id"} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+                  <Link
+                    href={"/admin/produits/edition/id"}
+                    className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                  >
                     <FiEdit3 />
                   </Link>
-                  <Link href={"/admin/produits/suppresion/id"} className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white">
+                  <Link
+                    href={"/admin/produits/suppresion/id"}
+                    className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white"
+                  >
                     <MdDeleteOutline />
                   </Link>
                 </div>
