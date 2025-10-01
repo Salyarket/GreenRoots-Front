@@ -1,6 +1,32 @@
+"use client";
+
 import AuthForm from "@/components/AuthForm";
+import useAuthStore from "@/store/AuthStore";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const InscriptionPage = () => {
+  const { user } = useAuthStore();
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/profil"); // redirection immédiate si connecté
+    } else {
+      setChecking(false);
+    }
+  }, [user, router]);
+
+  if (checking) {
+    // Empêche le flash du formulaire si user est déjà loggé
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p>Chargement...</p>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen mt-12 px-4 custom-size-minmax py-12 mb-16">
       <section className="max-w-md mx-auto">
@@ -21,7 +47,7 @@ const InscriptionPage = () => {
         <div className="text-center mt-6">
           <p className="text-brand-green">
             Déjà un compte ?{" "}
-            <a href="/connexion" className="text-brand-darkgreen font-semibold">
+            <a href="/login" className="text-brand-darkgreen font-semibold">
               Se connecter
             </a>
           </p>

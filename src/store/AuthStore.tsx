@@ -3,8 +3,6 @@ import { persist } from "zustand/middleware";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-console.log(API_URL);
-
 // TS user
 interface User {
   id: number;
