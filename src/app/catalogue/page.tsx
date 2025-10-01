@@ -1,10 +1,10 @@
 import Image from "next/image";
 import CardItem from "@/components/Sections/CardItem";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
-import { getProducts, getProductsPagination } from "@/services/api";
+import { getProductsPagination } from "@/services/api";
 
 const CataloguePage = async () => {
-  const productsWithPagination = await getProductsPagination(8);
+  const productsWithPagination = await getProductsPagination(20);
   const products = productsWithPagination.data;
   // console.log(products);
 

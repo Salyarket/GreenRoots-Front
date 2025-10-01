@@ -5,13 +5,14 @@ import Link from "next/link";
 import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { TbMessage } from "react-icons/tb";
+import RefreshAccesToken from "@/components/RefreshAccesToken";
 
 const ProfilPage = () => {
   const { user } = useAuthStore();
-  console.log("LOG DE PROFIL",user);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax py-8">
+      {/* <RefreshAccesToken /> */}
       <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center mb-6 md:mb-8 capitalize">
         Bonjour {user?.firstname},
       </h1>

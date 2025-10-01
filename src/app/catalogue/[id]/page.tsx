@@ -12,7 +12,6 @@ interface PageProps {
 
 const Page = async ({ params }: PageProps) => {
   const product = await getOneProductWithLocation(Number(params.id));
-  console.log(product);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
