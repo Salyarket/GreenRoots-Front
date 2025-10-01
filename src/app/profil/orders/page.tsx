@@ -1,12 +1,30 @@
+"use client";
+
+import { getMyOrders } from "@/services/api";
+import useAuthStore, { Order } from "@/store/AuthStore";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const OrdersPage = () => {
-  const orders = [
-    { id: "123456", date: "29/09/2025", total: "70€", status: "Terminée" },
-    { id: "123457", date: "28/09/2025", total: "45€", status: "En cours" },
-    { id: "123458", date: "27/09/2025", total: "120€", status: "En cours" },
-    { id: "123459", date: "26/09/2025", total: "35€", status: "Terminée" },
-  ];
+  const { user } = useAuthStore();
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchOrders = async () => {
+      try {
+        const data = await getMyOrders(user.token);
+        setOrders(Array.isArray(data) ? data : data.orders || []);
+      } catch (e) {
+        console.error(e);
+        setOrders([]);
+      }
+    };
+
+    fetchOrders();
+  }, [user]);
 
   return (
     <main className="min-h-screen mt-16 mb-16 px-4 custom-size-minmax py-6 md:py-8">
@@ -36,6 +54,11 @@ const OrdersPage = () => {
 
         {/* Cartes des commandes */}
         <div className="space-y-4 md:space-y-6">
+          {orders.length === 0 && (
+            <p className="text-center text-brand-green">
+              Aucune commande pour le moment.
+            </p>
+          )}
           {orders.map((order) => (
             <div
               key={order.id}
@@ -63,7 +86,7 @@ const OrdersPage = () => {
 
               <div className="flex justify-between items-center">
                 <p className="text-brand-darkgreen font-medium text-sm md:text-base">
-                  Total : {order.total}
+                  Total : {order.total} €
                 </p>
                 <Link
                   href={`/profil/orders/${order.id}`}

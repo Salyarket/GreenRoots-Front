@@ -1,3 +1,4 @@
+import { Order } from "@/store/AuthStore";
 import { PaginatedResponse, Product } from "@/types/index.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -167,12 +168,17 @@ export async function apiFetch(
 }
 
 // get all orders from user (using the wrapper)
-export async function getMyOrders() {
-  const res = await apiFetch("/orders/me/orders", { method: "GET" });
+export async function getMyOrders(token: string): Promise<{ orders: Order[] }> {
+  const res = await apiFetch("/orders/me/orders", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
   }
 
-  return res.json(); // devrait renvoyer les commandes de l'user
+  return res.json(); // renvoie { orders: [...] }
 }

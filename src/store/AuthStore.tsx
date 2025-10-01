@@ -4,12 +4,21 @@ import { persist } from "zustand/middleware";
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // TS user
-interface User {
+export interface User {
   id: number;
   email: string;
   firstname: string;
   lastname: string;
   role: string;
+  token: string;
+}
+
+// TS order
+export interface Order {
+  id: number;
+  date: string;
+  status: string;
+  total: number;
 }
 
 interface AuthState {
