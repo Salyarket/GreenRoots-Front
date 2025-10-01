@@ -5,6 +5,7 @@ import useAuthStore from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
+import RefreshAccesToken from "@/components/RefreshAccesToken";
 
 const LoginPage = () => {
   const { user } = useAuthStore();
@@ -15,7 +16,7 @@ const LoginPage = () => {
     if (user) {
       router.replace("/profil"); // redirect si déjà connecté
     } else {
-      setChecking(false); 
+      setChecking(false);
     }
   }, [user, router]);
 
@@ -30,6 +31,8 @@ const LoginPage = () => {
 
   return (
     <main className="min-h-screen mt-12 px-4 custom-size-minmax py-12 mb-16">
+      <RefreshAccesToken   />
+
       <section className="max-w-md mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4">

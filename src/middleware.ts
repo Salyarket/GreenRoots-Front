@@ -26,17 +26,17 @@ export async function middleware(req: NextRequest) {
     // Protection des routes admin
     if (req.nextUrl.pathname.startsWith("/admin") && role !== "admin") {
       console.log("⛔ Accès refusé : admin uniquement");
-      return NextResponse.redirect(new URL("/contact", req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
 
-    // Protection des routes profil
+    // Redirection admin vers /admin
     if (req.nextUrl.pathname.startsWith("/profil") && role !== "member") {
       console.log("⛔ Accès refusé : membre uniquement");
-      return NextResponse.redirect(new URL("/mentions-legales", req.url));
+      return NextResponse.redirect(new URL("/admin", req.url));
     }
   } catch (err) {
     console.log("❌ AccessToken invalide ou expiré :", err);
-    return NextResponse.redirect(new URL("/test", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   console.log("✅ Accès autorisé");
