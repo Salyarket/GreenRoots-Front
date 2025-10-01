@@ -8,7 +8,7 @@ const Page = () => {
   return (
     <div className="min-h-screen custom-size-minmax">
       {/* main image + h1 */}
-      {/* <RefreshAccesToken /> */}
+      <RefreshAccesToken />
       <Hero />
       <WhyUs />
       <BestSellers />

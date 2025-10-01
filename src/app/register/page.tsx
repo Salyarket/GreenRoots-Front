@@ -1,6 +1,22 @@
+"use client";
+
 import AuthForm from "@/components/AuthForm";
 
+import useAuthStore from "@/store/AuthStore";
+import { useRouter } from "next/navigation";
+
+import { useEffect } from "react";
+
 const InscriptionPage = () => {
+  const { user } = useAuthStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/profil"); // ⬅️ redirect si déjà connecté
+    }
+  }, [user, router]);
+
   return (
     <main className="min-h-screen mt-12 px-4 custom-size-minmax py-12 mb-16">
       <section className="max-w-md mx-auto">
