@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { FaInfoCircle, FaChevronLeft } from "react-icons/fa";
 import ProductGallery from "@/components/Sections/ProductGallery";
 import { getOneProductWithLocation } from "@/services/product.api";
 import { IProduct } from "@/types/index.types";
+import CartForm from "@/components/CartForm";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -15,7 +15,7 @@ const Page = async ({ params }: PageProps) => {
   console.log(product);
 
   return (
-    <main className="md:w-[80vw] mx-auto py-8 px-4 custom-size-minmax">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
       {/* Fil d’ariane */}
       <nav
         aria-label="breadcrumb"
@@ -37,7 +37,7 @@ const Page = async ({ params }: PageProps) => {
       <section className="flex flex-col md:flex-row gap-8 bg-brand-white rounded-md py-8 px-4">
         {/* Image produit */}
         <article className="rounded-xl shadow  md:w-1/2">
-          <div className="relative w-full h-[500px] md:h-[800px]">
+          <div className="relative w-full h-[500px] md:h-[700px]">
             <ProductGallery product={product} />
           </div>
         </article>
@@ -81,31 +81,7 @@ const Page = async ({ params }: PageProps) => {
           </section>
 
           {/* Commander */}
-          <form className="flex flex-col md:flex-row  mt-6">
-            <div className="">
-              <label
-                htmlFor="quantity"
-                className="block text-sm text-center font-medium text-gray-700"
-              >
-                Quantité
-              </label>
-              <input
-                id="quantity"
-                name="quantity"
-                type="number"
-                min={1}
-                max={product.stock}
-                defaultValue={1}
-                className="mt-2 w-20 border rounded px-2 py-1 text-center"
-              />
-            </div>
-            <button
-              type="submit"
-              className="mt-4 mx-auto w-full md:w-1/2 bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition hover:cursor-pointer"
-            >
-              Ajouter au panier
-            </button>
-          </form>
+          <CartForm price={product.price} stock={product.stock} />
         </aside>
       </section>
 

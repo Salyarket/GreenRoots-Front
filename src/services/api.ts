@@ -1,54 +1,5 @@
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// login
-export async function login(data: { email: string; password: string }) {
-  try {
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      credentials: "include",
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error("Erreur loggin", error);
-    throw error;
-  }
-}
-
-// register
-export async function registerUser(data: {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  user_type_id: number;
-}) {
-  try {
-    const res = await fetch(`${API_URL}/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Erreur register", error);
-    throw error;
-  }
-}
-
 // refresh token mode manuel page accueil / profil
 export async function refreshAccessToken() {
   try {
@@ -116,16 +67,3 @@ export async function apiFetch(
   return res;
 }
 
-//
-export async function createPorduct() {}
-
-// get all orders from user (using the wrapper)
-export async function getMyOrders() {
-  const res = await apiFetch("/orders/me/orders", { method: "GET" });
-
-  if (!res.ok) {
-    throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-  }
-
-  return res.json(); // devrait renvoyer les commandes de l'user
-}

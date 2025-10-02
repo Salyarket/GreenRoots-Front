@@ -10,7 +10,7 @@ export interface IProduct {
   productLocations: IProductLocation[];
   scientific_name?: string;
   slug: string;
-  stock?: number;
+  stock: number;
   updated_at?: string;
 }
 
