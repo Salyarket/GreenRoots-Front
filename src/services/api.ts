@@ -69,35 +69,6 @@ export async function getOneProductWithLocation(id: number): Promise<Product> {
   }
 }
 
-// get products with choice (number)
-export async function getProductsPagination(
-  limitation: number
-): Promise<PaginatedResponse<Product>> {
-  try {
-    const res = await fetch(
-      `${API_URL}/products/pagination?limit=${limitation}`,
-      {
-        cache: "no-store",
-      }
-    );
-    if (!res.ok) {
-      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Erreur API:", error);
-    // si on throw new error et que le back est down, le site crash alors le mieux est de retourner un objet vide et gérer l'erreur dans le composant
-    return {
-      data: [],
-      pagination_State: {
-        total: 0,
-        page: 1,
-        limit: 3,
-        totalPages: 0,
-      },
-    };
-  }
-}
 
 // refresh token mode manuel page accueil / profil
 export async function refreshAccessToken() {
