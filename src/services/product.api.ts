@@ -1,13 +1,12 @@
-import { PaginatedResponse, Product } from "@/types/index.types";
+import { PaginatedResponse, IProduct } from "@/types/index.types";
 
-// ramener getproduct + getproduct withpagination
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // get products with choice (number)
 export async function getProductsPagination(
   limit: number,
   page: number = 1
-): Promise<PaginatedResponse<Product>> {
+): Promise<PaginatedResponse<IProduct>> {
   try {
     const res = await fetch(
       `${API_URL}/products/pagination?limit=${limit}&page=${page}`,
@@ -31,5 +30,23 @@ export async function getProductsPagination(
         totalPages: 0,
       },
     };
+  }
+}
+
+// get One product per id
+export async function getOneProductWithLocation(id: number): Promise<IProduct> {
+  try {
+    const res = await fetch(`${API_URL}/products/with_location/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error; // laisser throw pour que Next affiche error.tsx si ça bug
   }
 }

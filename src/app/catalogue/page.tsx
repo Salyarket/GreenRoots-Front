@@ -1,4 +1,3 @@
-import Image from "next/image";
 import CardItem from "@/components/Sections/CardItem";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { getProductsPagination } from "@/services/product.api";

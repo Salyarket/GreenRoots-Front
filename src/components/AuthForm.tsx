@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login, registerUser } from "@/services/api";
+import { login, registerUser } from "@/services/auth.api";
 import {
   registerSchema,
   loginSchema,

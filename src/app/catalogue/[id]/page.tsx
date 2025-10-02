@@ -1,17 +1,18 @@
-import { getOneProductWithLocation } from "@/services/api";
 import Link from "next/link";
 import Image from "next/image";
 import { FaInfoCircle, FaChevronLeft } from "react-icons/fa";
 import ProductGallery from "@/components/Sections/ProductGallery";
+import { getOneProductWithLocation } from "@/services/product.api";
+import { IProduct, IProductLocation } from "@/types/index.types";
 
 interface PageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const Page = async ({ params }: PageProps) => {
-  const product = await getOneProductWithLocation(Number(params.id));
+  const { id } = await params;
+  const product: IProduct = await getOneProductWithLocation(Number(id));
+  console.log(product);
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -45,7 +46,7 @@ const Page = async ({ params }: PageProps) => {
                 className={`font-semibold ${
                   product.stock === 0
                     ? "text-red-500"
-                    : product.stock <= 80
+                    : product.stock !== undefined && product.stock <= 80
                     ? "text-orange-500"
                     : "text-brand-green"
                 }`}
@@ -105,7 +106,7 @@ const Page = async ({ params }: PageProps) => {
             Zone de plantation
           </h3>
           <ul>
-            {product.productLocations?.map((pl: any) => (
+            {product.productLocations?.map((pl: IProductLocation) => (
               <li key={pl.location.id} className="text-center md:text-start">
                 {pl.location.name}
               </li>
@@ -124,12 +125,13 @@ const Page = async ({ params }: PageProps) => {
             </p>
           </div>
           <p className="mb-4">
-            Période d'absorption du CO₂ : 0 ans / 10 ans* <br />
-            Absorption annuelle moyenne : <b>{product.carbon / 10} Kg</b>
+            Période d&apos;absorption du CO₂ : 0 ans / 10 ans* <br />
+            Absorption annuelle moyenne :{" "}
+            <b>{Number(product.carbon) / 10} Kg</b>
           </p>
           <p className="text-xs italic">
-            * L'arbre continuera à absorber du CO₂ même après la dixième année.
-            Il s'agit donc d'une estimation prudente.
+            * L&apos;arbre continuera à absorber du CO₂ même après la dixième
+            année. Il s&apos;agit donc d&apos;une estimation prudente.
           </p>
         </article>
         <article className="flex flex-col justify-center bg-brand-white shadow-md p-5 rounded-md py-10">
@@ -142,8 +144,8 @@ const Page = async ({ params }: PageProps) => {
           <p className="mb-6">
             Tous les arbres de GreenRoots sont géolocalisés et photographiés
             lors de leur plantation. Une fois acheté, il faut compter entre
-            quelques semaines et plusieurs mois avant qu'il soit prêt à être
-            planté.
+            quelques semaines et plusieurs mois avant qu&apos;il soit prêt à
+            être planté.
           </p>
           <p className="text-lg font-bold text-brand-lightgreen mb-4">
             Une histoire qui dure

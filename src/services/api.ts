@@ -1,5 +1,3 @@
-import { PaginatedResponse, Product } from "@/types/index.types";
-
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // login
@@ -50,25 +48,6 @@ export async function registerUser(data: {
     throw error;
   }
 }
-
-// get One product per id
-export async function getOneProductWithLocation(id: number): Promise<Product> {
-  try {
-    const res = await fetch(`${API_URL}/products/with_location/${id}`, {
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error("Erreur API:", error);
-    throw error; // laisser throw pour que Next affiche error.tsx si ça bug
-  }
-}
-
 
 // refresh token mode manuel page accueil / profil
 export async function refreshAccessToken() {
@@ -137,10 +116,8 @@ export async function apiFetch(
   return res;
 }
 
-// 
-export async function createPorduct () {
-
-}
+//
+export async function createPorduct() {}
 
 // get all orders from user (using the wrapper)
 export async function getMyOrders() {
