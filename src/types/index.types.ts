@@ -32,19 +32,12 @@ export interface IProductLocation {
   location: ILocation;
 }
 
-// export interface Location {
-//   id: number;
-//   name: string;
-//   latitude: number;
-//   longitude: number;
-//   created_at?: string;
-//   updated_at?: string;
-//   productLocations?:string[]; 
-// }
-
 export interface ILocation {
   id: number;
   name: string;
   latitude?: number;
   longitude?: number;
+  created_at?: string;
+  updated_at?: string;
+  productLocations?: string[];
 }

@@ -19,16 +19,6 @@ interface AuthState {
   logout: () => void;
 }
 
-// TS location
-export interface Location {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  created_at?: string;
-  updated_at?: string;
-  productLocations?:string[]; 
-}
 
 const useAuthStore = create<AuthState>()(
   persist(
