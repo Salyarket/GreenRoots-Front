@@ -23,15 +23,16 @@ export default function Map({ places }: MapProps) {
 
       const L = await import("leaflet");
 
-      // Correction des icônes
-      delete (L.Icon.Default.prototype as any)._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-        iconUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+      // Créer votre icône personnalisée
+      const customIcon = new L.Icon({
+        iconUrl: "/map-icon.webp",
+        iconSize: [25, 50],
+        iconAnchor: [12, 65],
+        popupAnchor: [-3, -76],
         shadowUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+        shadowSize: [50, 64],
+        shadowAnchor: [4, 62],
       });
 
       // Centre par défaut (France)
@@ -47,9 +48,9 @@ export default function Map({ places }: MapProps) {
         maxZoom: 18,
       }).addTo(map);
 
-      // Ajouter les marqueurs
+      // Ajouter les marqueurs avec l'icône personnalisée
       places.forEach((place) => {
-        L.marker([place.lat, place.lng])
+        L.marker([place.lat, place.lng], { icon: customIcon })
           .addTo(map)
           .bindPopup(`<b>${place.name}</b>`);
       });
@@ -57,7 +58,9 @@ export default function Map({ places }: MapProps) {
       // Ajuster la vue si plusieurs marqueurs
       if (places.length > 1) {
         const group = L.featureGroup(
-          places.map((place) => L.marker([place.lat, place.lng]))
+          places.map((place) =>
+            L.marker([place.lat, place.lng], { icon: customIcon })
+          )
         );
         map.fitBounds(group.getBounds().pad(0.1));
       }
