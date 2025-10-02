@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { PaginatedResponse, ILocation } from "@/types/index.types";
 import { apiFetch } from "./api";
 
@@ -30,4 +29,26 @@ export async function getAllLocations() {
     }
 
     return res.json(); // devrait renvoyer les commandes de l'user
+}
+
+
+export async function createLocation(data: { name: string; latitude: number; longitude: number }) {
+    try {
+        const res = await apiFetch("/locations", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: "include",
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+        }
+
+        return res.json();
+    } catch (error) {
+        console.error("Erreur loggin", error);
+        throw error;
+    }
 }
