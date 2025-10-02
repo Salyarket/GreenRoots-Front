@@ -10,7 +10,7 @@ interface CataloguePageProps {
 const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
   const { page } = await searchParams;
   const currentPage = Number(page) || 1;
-  const limit = 6;
+  const limit = 8;
 
   const productsWithPagination = await getProductsPagination(
     limit,
