@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { IProduct } from "@/types/index.types";
-
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface IGalleryProps {
@@ -17,8 +17,18 @@ const ProductGallery = ({ product }: IGalleryProps) => {
     ? product.image_urls
     : [product.image];
 
+  const total = images.length;
+
   const handleSelect = (index: number) => {
     setCurrentIndex(index);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + total) % total);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % total);
   };
 
   return (
@@ -47,12 +57,22 @@ const ProductGallery = ({ product }: IGalleryProps) => {
             key={index}
             type="button"
             onClick={() => handleSelect(index)}
-            className={`w-6 h-6 rounded-full transition 
+            className={`w-4 h-4 rounded-full transition cursor-pointer 
               ${currentIndex === index ? "bg-green-600" : "bg-gray-300"}`}
             aria-label={`Aller à l'image ${index + 1}`}
           />
         ))}
       </div>
+
+      {/* fleches sur image */}
+      <FaChevronLeft
+        onClick={handlePrev}
+        className="absolute  top-1/2 -translate-y-1/2 left-5 text-brand-darkgreen w-10 h-10 md:w-20 md:h-20 hover:scale-125 hover:cursor-pointer"
+      />
+      <FaChevronRight
+        onClick={handleNext}
+        className="absolute  top-1/2 -translate-y-1/2 right-5 text-brand-darkgreen w-10 h-10 md:w-20 md:h-20 hover:scale-125 hover:cursor-pointer"
+      />
     </article>
   );
 };
