@@ -1,12 +1,24 @@
 import Image from "next/image";
 import CardItem from "@/components/Sections/CardItem";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
-import { getProductsPagination } from "@/services/api";
+import { getProductsPagination } from "@/services/product.api";
+import Link from "next/link";
+import { CiSearch } from "react-icons/ci";
 
-const CataloguePage = async () => {
-  const productsWithPagination = await getProductsPagination(20);
+interface CataloguePageProps {
+  searchParams: { page: string };
+}
+const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
+  const { page } = await searchParams;
+  const currentPage = Number(page) || 1;
+  const limit = 6;
+
+  const productsWithPagination = await getProductsPagination(
+    limit,
+    currentPage
+  );
   const products = productsWithPagination.data;
-  // console.log(products);
+  const { totalPages } = productsWithPagination.pagination_State;
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -28,7 +40,7 @@ const CataloguePage = async () => {
       ) : (
         <>
           {/* section barre de recherche/filtres */}
-          <section className="flex flex-col md:flex-row justify-center mt-8 space-x-8">
+          {/* <section className="flex flex-col md:flex-row justify-center mt-8 space-x-8">
             <div className="flex  border border-gray-300 rounded-full overflow-hidden w-full md:w-1/2 cursor-pointer">
               <input
                 type="text"
@@ -36,22 +48,15 @@ const CataloguePage = async () => {
                 className="flex-1 px-4 py-2 outline-none"
               />
               <button className="bg-brand-green text-white px-4 hover:bg-brand-darkgreen cursor-pointer">
-                <Image
-                  src={"/search.svg"}
-                  width={15}
-                  height={15}
-                  alt="search"
-                />
+                <CiSearch className="font-extrabold " />
               </button>
             </div>
-            <button className="bg-brand-green mt-8 md:mt-0 w-full md:w-fit   px-6 py-2 rounded-lg text-white font-semibold hover:bg-brand-darkgreen cursor-pointer">
-              Filtre
-            </button>
-          </section>
+          </section> */}
+          {/*  */}
           {/* section ul avec cards */}
           <section className="py-8">
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-white items-stretch">
-              {products.slice(0, 20).map((product) => (
+              {products.map((product) => (
                 <CardItem
                   key={product.id}
                   avalaible={product.available}
@@ -67,12 +72,41 @@ const CataloguePage = async () => {
                 />
               ))}
             </ul>
-            <div className=" flex justify-center items-center space-x-8 mt-4 ">
-              <MdNavigateBefore className="w-20 h-20 text-brand-lightgreen custom-btn-hover" />
-              <p className="bg-brand-green text-white p-2 w-10 h-10 flex items-center justify-center rounded-full ">
-                1
-              </p>
-              <MdNavigateNext className="w-20 h-20 text-brand-lightgreen custom-btn-hover" />
+
+            {/* section pagination */}
+            <div className="flex justify-center items-center space-x-4 mt-6">
+              {/* Flèche gauche */}
+              {/* si page dans url est plus grande que 2 alors on affiche fleche de gauche ex "catalogue?page=2" */}
+              {currentPage > 1 && (
+                <Link href={`/catalogue?page=${currentPage - 1}`}>
+                  <MdNavigateBefore className="w-10 h-10 text-brand-lightgreen custom-btn-hover" />
+                </Link>
+              )}
+
+              {/* Pages numérotées (le back renvoie dans pagination_state le nombre de page max) */}
+              {/* Array.from() methode JS crée un tableau à partir d'une longueur */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <Link
+                    key={page}
+                    href={`/catalogue?page=${page}`}
+                    className={`px-4 py-2 rounded-full ${
+                      page === currentPage
+                        ? "bg-brand-green text-white"
+                        : "bg-gray-300 text-gray-700 hover:bg-brand-lightgreen hover:text-white"
+                    }`}
+                  >
+                    {page}
+                  </Link>
+                )
+              )}
+
+              {/* Flèche droite */}
+              {currentPage < totalPages && (
+                <Link href={`/catalogue?page=${currentPage + 1}`}>
+                  <MdNavigateNext className="w-10 h-10 text-brand-lightgreen custom-btn-hover" />
+                </Link>
+              )}
             </div>
           </section>{" "}
         </>
