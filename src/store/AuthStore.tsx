@@ -10,12 +10,24 @@ interface User {
   firstname: string;
   lastname: string;
   role: string;
+  token: string;
 }
 
 interface AuthState {
   user: User | null;
   setUser: (user: User) => void;
   logout: () => void;
+}
+
+// TS location
+export interface Location {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  created_at?: string;
+  updated_at?: string;
+  productLocations?:string[]; 
 }
 
 const useAuthStore = create<AuthState>()(

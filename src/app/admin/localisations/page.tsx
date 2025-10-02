@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
@@ -7,9 +10,64 @@ import { PiTreeFill } from "react-icons/pi";
 import Image from "next/image";
 import Link from "next/link";
 import { TbMapOff, TbChristmasTreeOff, TbMapPin2 } from "react-icons/tb";
+// import { getlocationsPagination } from "@/services/location.api"
+import { Location, PaginatedResponse } from "@/types/index.types";
+import useAuthStore from "@/store/AuthStore";
 
 
-const Page = async () => {
+const Page = () => {
+
+    const { user } = useAuthStore();
+
+    console.log(user)
+
+    const [locations, setLocations] = useState<Location[]>([]);
+    const [pagination, setPagination] = useState<
+        PaginatedResponse<Location>["pagination_State"]
+    >({
+        total: 0,
+        page: 1,
+        limit: 3,
+        totalPages: 0,
+    });
+    const [loading, setLoading] = useState(false);
+
+    // Définir fetchData hors des useEffect
+    const fetchData = async (page: number, limit = pagination.limit) => {
+        console.log(user)
+        if (!user?.token) return; // sécurité
+        console.log("je ne passe pas dans le return")
+        setLoading(true);
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/locations/pagination?page=${page}&limit=${limit}`,
+                {
+                    cache: "no-store",
+                    headers: {
+                        Authorization: `Bearer ${user.token}`, // 🔑 on passe le token ici
+                    },
+                }
+            );
+
+            if (!res.ok) throw new Error("Erreur API");
+
+            const data: PaginatedResponse<Location> = await res.json();
+            setLocations(data.data);
+            setPagination(data.pagination_State);
+        } catch (err) {
+            console.error(err);
+            setLocations([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Premier rendu (si user + token dispo)
+    useEffect(() => {
+        if (user?.token) {
+            fetchData(1, pagination.limit);
+        }
+    }, [user, pagination.limit]);
 
     return (
         <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -123,7 +181,7 @@ const Page = async () => {
                             <th scope="col" className="border-x text-brand-white border-brand-white bg-brand-darkgreen w-45">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody>
                         <tr className="h-14">
                             <th scope="row" className="">1</th>
                             <td className="border border-brand-darkgreen pl-4">Terrain Lille</td>
@@ -144,8 +202,107 @@ const Page = async () => {
                                 </div>
                             </td>
                         </tr>
+                    </tbody> */}
+                    <tbody>
+                        {loading ? (
+                            <tr>
+                                <td colSpan={6} className="text-center py-4">Chargement...</td>
+                            </tr>
+                        ) : locations.length > 0 ? (
+                            locations.map((loc) => (
+                                <tr key={loc.id} className="h-14">
+                                    <th scope="row">{loc.id}</th>
+                                    <td className="border border-brand-darkgreen pl-4">{loc.name}</td>
+                                    <td className="border border-brand-darkgreen text-center">{loc.latitude}</td>
+                                    <td className="border border-brand-darkgreen text-center">{loc.longitude}</td>
+                                    <td className="border border-brand-darkgreen text-center">3</td>
+                                    {/* <td className="border border-brand-darkgreen text-center">{loc.nbArbres ?? 0}</td> */}
+                                    <td className="border border-brand-darkgreen">
+                                        <div className="flex justify-center items-center gap-4">
+                                            <Link href={`/admin/localisation/${loc.id}`} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+                                                <FaRegEye />
+                                            </Link>
+                                            <Link href={`/admin/localisation/edition/${loc.id}`} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+                                                <FiEdit3 />
+                                            </Link>
+                                            <Link href={`/admin/localisation/suppresion/${loc.id}`} className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white">
+                                                <MdDeleteOutline />
+                                            </Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={6} className="text-center py-4">Aucune donnée</td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
+
+                {/* Pagination
+                <div className="flex justify-center items-center gap-4 mt-4">
+                    <button
+                        disabled={pagination.page <= 1}
+                        onClick={() => fetchData(pagination.page - 1)}
+                        className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                    >
+                        ◀ Précédent
+                    </button>
+                    <span>
+                        Page {pagination.page} / {pagination.totalPages}
+                    </span>
+                    <button
+                        disabled={pagination.page >= pagination.totalPages}
+                        onClick={() => fetchData(pagination.page + 1)}
+                        className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                    >
+                        Suivant ▶
+                    </button>
+                </div> */}
+
+                {/* Pagination */}
+                <div className="flex justify-between items-center mt-4">
+                    {/* Select limit */}
+                    <div className="flex items-center gap-2">
+                        <label htmlFor="limit" className="text-sm">Lignes par page:</label>
+                        <select
+                            id="limit"
+                            value={pagination.limit}
+                            onChange={(e) => {
+                                const newLimit = parseInt(e.target.value, 10);
+                                fetchData(1, newLimit); // reset à la page 1
+                            }}
+                            className="border rounded px-2 py-1"
+                        >
+                            <option value={3}>3</option>
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                        </select>
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="flex justify-center items-center gap-4">
+                        <button
+                            disabled={pagination.page <= 1}
+                            onClick={() => fetchData(pagination.page - 1)}
+                            className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                        >
+                            ◀ Précédent
+                        </button>
+                        <span>
+                            Page {pagination.page} / {pagination.totalPages}
+                        </span>
+                        <button
+                            disabled={pagination.page >= pagination.totalPages}
+                            onClick={() => fetchData(pagination.page + 1)}
+                            className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                        >
+                            Suivant ▶
+                        </button>
+                    </div>
+                </div>
             </section>
         </main>
     );
