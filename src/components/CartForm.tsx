@@ -3,12 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import useCartStore from "@/store/CartStore";
+import { IProduct } from "@/types/index.types";
+
 interface FormProps {
   price: string;
   stock: number;
+  product: IProduct | null;
 }
 
-const CartForm = ({ price, stock }: FormProps) => {
+const CartForm = ({ price, stock, product }: FormProps) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleDecrement = () => {
@@ -32,6 +36,9 @@ const CartForm = ({ price, stock }: FormProps) => {
 
     setQuantity(val);
   };
+
+  const add = useCartStore((state) => state.add);
+  if (!product) return <p>Produit indispo</p>;
 
   return (
     <form className="flex flex-col mt-6">
@@ -73,6 +80,15 @@ const CartForm = ({ price, stock }: FormProps) => {
 
       <div className="w-full flex flex-col">
         <button
+          onClick={() =>
+            add({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              quantity: quantity,
+              image_urls: product.image_urls,
+            })
+          }
           type="submit"
           className="mt-4 mx-auto w-full md:w-2/3 bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition hover:cursor-pointer"
         >

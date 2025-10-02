@@ -1,7 +1,6 @@
 export interface IProduct {
   available: boolean;
   carbon: string;
-  created_at?: string;
   description?: string;
   id: number;
   image_urls: string[];
@@ -12,6 +11,7 @@ export interface IProduct {
   slug: string;
   stock: number;
   updated_at?: string;
+  created_at?: string;
 }
 
 export interface PaginatedResponse<T> {
