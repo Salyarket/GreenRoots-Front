@@ -81,7 +81,13 @@ const Page = async ({ params }: PageProps) => {
           </section>
 
           {/* Commander */}
-          <CartForm price={product.price} stock={product.stock} />
+          {product.stock > 0 ? (
+            <CartForm price={product.price} stock={product.stock} />
+          ) : (
+            <div className="mt-6 text-center p-4 border border-red-300 rounded-md bg-red-50 text-red-700 font-semibold">
+              Rupture de stock – ce produit n’est pas disponible pour le moment.
+            </div>
+          )}
         </aside>
       </section>
 

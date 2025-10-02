@@ -41,9 +41,13 @@ const ProductGallery = ({ product }: IGalleryProps) => {
           className="object-cover   transition-all duration-300"
           priority
         />
-        {product.stock > 0 && (
+        {product.stock > 0 ? (
           <span className="absolute top-4 right-4 bg-green-600 text-white text-xs px-3 py-1 rounded-full shadow">
             En stock
+          </span>
+        ) : (
+          <span className="absolute top-4 right-4 bg-red-600 text-white text-xs px-3 py-1 rounded-full shadow">
+            En rupture
           </span>
         )}
       </div>
