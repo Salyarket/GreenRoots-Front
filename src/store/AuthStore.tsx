@@ -1,10 +1,11 @@
+import { Product } from "@/types/index.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // TS user
-export interface User {
+interface User {
   id: number;
   email: string;
   firstname: string;
@@ -19,6 +20,15 @@ export interface Order {
   date: string;
   status: string;
   total: number;
+  items: Item;
+}
+
+// order_item
+export interface Item {
+  id: number;
+  product: Product | null;
+  quantity: number;
+  unit_price: number;
 }
 
 interface AuthState {
