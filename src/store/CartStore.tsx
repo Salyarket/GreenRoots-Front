@@ -50,7 +50,7 @@ const useCartStore = create<Cart>()(
           items: state.items.map((i) =>
             i.id === id
               ? // avec ... on prend toutes les propriétés de i
-                { ...i, quantity: Math.max(0, quantity) }
+                { ...i, quantity: Math.max(1, quantity) }
               : i
           ),
         })),
