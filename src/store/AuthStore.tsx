@@ -1,3 +1,4 @@
+import { IProduct } from "@/types/index.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -10,6 +11,24 @@ interface User {
   firstname: string;
   lastname: string;
   role: string;
+  token: string;
+}
+
+// TS order
+export interface Order {
+  id: number;
+  date: string;
+  status: string;
+  total: number;
+  items: Item;
+}
+
+// order_item
+export interface Item {
+  id: number;
+  product: IProduct | null;
+  quantity: number;
+  unit_price: number;
 }
 
 interface AuthState {
