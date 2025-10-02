@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { IProduct } from "@/types/index.types"; // 👈 import type
+import { IProduct } from "@/types/index.types";
+
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface IGalleryProps {
@@ -10,44 +11,47 @@ interface IGalleryProps {
 }
 
 const ProductGallery = ({ product }: IGalleryProps) => {
-  const [mainImage, setMainImage] = useState(product.image_urls[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const images = product.image_urls?.length
+    ? product.image_urls
+    : [product.image];
+
+  const handleSelect = (index: number) => {
+    setCurrentIndex(index);
+  };
 
   return (
-    <article className="flex flex-col w-full md:col-span-1">
-      {/* Image principale */}
-      <div className="w-full max-w-[500px] aspect-square relative">
+    <article className="h-full relative">
+      {/* Bloc image principale */}
+      <div className="relative h-full w-full aspect-square overflow-hidden rounded-lg">
         <Image
-          src={`${API_URL}/uploads/arbres/${mainImage}`}
-          alt={product.name}
+          src={`${API_URL}/uploads/arbres/${images[currentIndex]}`}
+          alt={`${product.name} ${currentIndex + 1}`}
           fill
-          className="object-cover shadow-xl/20"
+          sizes="max-width: 100px"
+          className="object-cover   transition-all duration-300"
+          priority
         />
+        {product.stock > 0 && (
+          <span className="absolute top-4 right-4 bg-green-600 text-white text-xs px-3 py-1 rounded-full shadow">
+            En stock
+          </span>
+        )}
       </div>
 
-      {/* Miniatures */}
-      <div className="flex justify-between mt-4 gap-2 w-full max-w-[500px]">
-        {product.image_urls.map((imgUrl, index) => {
-          const isActive = mainImage === imgUrl;
-          return (
-            <div
-              key={index}
-              className={`relative basis-[30%] aspect-square cursor-pointer overflow-hidden 
-                            ${
-                              isActive
-                                ? "ring-5 ring-brand-white shadow-[6px_8px_6px_rgba(0,0,0,0.8)]"
-                                : "ring-1 ring-gray-200 shadow-xl/30"
-                            }`}
-              onClick={() => setMainImage(imgUrl)}
-            >
-              <Image
-                src={`${API_URL}/uploads/arbres/${imgUrl}`}
-                alt={`${product.name} ${index + 1}`}
-                fill
-                className="object-cover"
-              />
-            </div>
-          );
-        })}
+      {/* Mobile : petits indicateurs (boules) */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex  justify-center mt-4 gap-2">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={() => handleSelect(index)}
+            className={`w-6 h-6 rounded-full transition 
+              ${currentIndex === index ? "bg-green-600" : "bg-gray-300"}`}
+            aria-label={`Aller à l'image ${index + 1}`}
+          />
+        ))}
       </div>
     </article>
   );
