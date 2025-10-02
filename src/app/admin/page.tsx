@@ -28,22 +28,23 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell, Resp
 import { FiEdit3 } from "react-icons/fi";
 import { FaBox, FaBoxOpen, FaUserPlus } from "react-icons/fa";
 import { FaMagnifyingGlassChart } from 'react-icons/fa6';
+import { MdDeleteOutline } from "react-icons/md";
 
 // données du BarChart des ventes
 const salesData = [
-  { year: "2019", ventes: 400, retour: 120 }, //sur l'axe X, on aura les années
-  { year: "2020", ventes: 300, retour: 100 },
-  { year: "2021", ventes: 500, retour: 150 },
-  { year: "2022", ventes: 250, retour: 80 },
-  { year: "2023", ventes: 600, retour: 200 },
+  { year: "2019", ventes: 4210, retour: 827 }, //sur l'axe X, on aura les années
+  { year: "2020", ventes: 5145, retour: 100 },
+  { year: "2021", ventes: 5982, retour: 150 },
+  { year: "2022", ventes: 6253, retour: 80 },
+  { year: "2023", ventes: 6329, retour: 200 },
 ];
 
 // données du PieChart = top produits
 const topProducts = [
-  { name: "ÉRABLE SYCOMORE", value: 40 },
-  { name: "TILLEUL", value: 30 },
-  { name: "CHÊNE PÉDONCULÉ", value: 20 },
-  { name: "CHÂTAIGNIER", value: 10 },
+  { name: "ÉRABLE SYCOMORE", value: 727 },
+  { name: "TILLEUL", value: 526 },
+  { name: "CHÊNE PÉDONCULÉ", value: 352 },
+  { name: "CHÂTAIGNIER", value: 128 },
 ];
 const COLORS = ["var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
 
@@ -76,7 +77,7 @@ export default function Page() {
       </section>
 
       {/* Carte des stat, Card vient de shadcn pr la structure & le style. */}
-      <section className="flex flex-wrap gap-6 mb-10">
+      <section className="flex flex-row gap-6 mb-10">
       <div className="flex-1 basis-full md:basis-1/2 lg:basis-1/4">
         <Card className="h-full custom-card-hover border border-brand-darkgreen/15 shadow-sm rounded-2xl">
           {/* CardContent c'est l'intérieur de la carte */}
@@ -95,7 +96,7 @@ export default function Page() {
         <Card className="h-full custom-card-hover border border-brand-darkgreen/15 shadow-sm rounded-2xl">
           <CardContent className="flex flex-col items-center justify-center p-6">
             <p className="text-muted-foreground mb-2">VISITES DU SITE</p>
-            <h3 className="text-2xl font-bold">8 200</h3>
+            <h3 className="text-2xl font-bold">28 298</h3>
             <div className="bg-muted rounded-full w-14 h-14 flex items-center justify-center mt-4">
               <FaMagnifyingGlassChart className="text-xl text-foreground" />
             </div>
@@ -107,7 +108,7 @@ export default function Page() {
         <Card className="h-full custom-card-hover border border-brand-darkgreen/15 shadow-sm rounded-2xl">
           <CardContent className="flex flex-col items-center justify-center p-6">
             <p className="text-muted-foreground mb-2">NOUVEAUX MEMBRES</p>
-            <h3 className="text-2xl font-bold">140</h3>
+            <h3 className="text-2xl font-bold">149</h3>
             <div className="bg-muted rounded-full w-14 h-14 flex items-center justify-center mt-4">
               <FaUserPlus className="text-xl text-foreground" />
             </div>
@@ -129,7 +130,7 @@ export default function Page() {
       </section>
 
       {/* Graphiques */}
-      <section className="flex flex-wrap gap-6 mb-10">
+      <section className="flex flex-row gap-6 mb-10">
         <div className="basis-full md:basis-1/2">
           <Card className="h-full">
             <CardHeader>
@@ -221,14 +222,21 @@ export default function Page() {
                   <td className="px-4 py-3">{order.user}</td>
                   <td className="px-4 py-3 text-green-600 font-semibold">Payée</td>
                   <td className="px-4 py-3">{order.total}</td>
-                  <td className="px-4 py-3">
-                    <Link
-                      href={"/admin/commandes/" + order.id}
-                      className="inline-flex items-center gap-2 text-primary hover:underline"
-                    >
-                      <FiEdit3 />
-                      Modifier
-                    </Link>
+                  <td className="px-4 py-3 w-[150px]">
+                    <div className="flex justify-start gap-4">
+                      <Link
+                        href={`/admin/commandes/edition/${order.id}`}
+                        className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                      >
+                        <FiEdit3 />
+                      </Link>
+                      <Link
+                        href={`/admin/commandes/suppression/${order.id}`}
+                        className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white"
+                      >
+                        <MdDeleteOutline />
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
