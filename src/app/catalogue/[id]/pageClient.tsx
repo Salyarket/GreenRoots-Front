@@ -6,6 +6,7 @@ import ProductGallery from "@/components/Sections/ProductGallery";
 
 import { IProduct } from "@/types/index.types";
 import CartForm from "@/components/CartForm";
+import Map from "@/components/Map";
 
 const PageClient = ({ product }: { product: IProduct | null }) => {
   if (!product) return <p>Produit indisponibles</p>;
@@ -89,6 +90,24 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
             </div>
           )}
         </aside>
+      </section>
+
+      <section className="mt-8">
+        <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-4">
+          Lieu de plantation
+        </h2>
+        <div className="w-full h-[400px] rounded-lg overflow-hidden border">
+          <Map
+            places={
+              product.productLocations?.map((pl) => ({
+                id: pl.location.id,
+                name: pl.location.name,
+                lat: pl.location.latitude ?? 46.6031,
+                lng: pl.location.longitude ?? 1.8883,
+              })) || []
+            }
+          />
+        </div>
       </section>
 
       {/* section texte explicatif */}
