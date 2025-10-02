@@ -52,7 +52,9 @@ export async function registerUser(data: {
 }
 
 // get One product per id
-export async function getOneProductWithLocation(id: number): Promise<Product> {
+export async function getOneProductWithLocation(
+  id: number
+): Promise<Product | null> {
   try {
     const res = await fetch(`${API_URL}/products/with_location/${id}`, {
       cache: "no-store",
@@ -166,10 +168,8 @@ export async function apiFetch(
   return res;
 }
 
-// 
-export async function createPorduct () {
-
-}
+//
+export async function createPorduct() {}
 
 // get all orders from user (using the wrapper)
 export async function getMyOrders() {

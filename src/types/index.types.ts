@@ -4,11 +4,12 @@ export interface Product {
   name: string;
   slug: string;
   price: string;
-  description?: string;
+  description: string;
   image_urls: string[];
-  stock?: number;
-  scientific_name?: string;
-  carbon: string;
+  stock: number;
+  scientific_name: string;
+  carbon: number;
+  productLocations: string[];
   created_at?: string;
   updated_at?: string;
 }
