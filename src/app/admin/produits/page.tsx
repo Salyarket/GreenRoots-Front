@@ -1,35 +1,54 @@
-import { getProductsPagination } from "@/services/product.api";
+"use client";
+
+import { use, useEffect, useState } from "react";
 import { TableHeadCell } from "@/components/admin/TableHeadCell";
 import TableWrapper from "@/components/admin/TableWrapper";
+import { getProductsPaginationAdmin } from "@/services/admin.api";
 import Link from "next/link";
 import { FaRegEye } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface CataloguePageProps {
-  searchParams: { page: string };
+  searchParams: { page?: string };
 }
 
-const Page = async ({ searchParams }: CataloguePageProps) => {
-  const { page } = await searchParams;
+const Page = ({ searchParams }: CataloguePageProps) => {
+  const { page } = use(searchParams);
   const currentPage = Number(page) || 1;
+
   const limit = 8;
 
-  const productsResponse = await getProductsPagination(limit, currentPage);
-  const products = productsResponse.data;
-  const pagination = productsResponse.pagination_State;
+  const [products, setProducts] = useState<any[]>([]);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: currentPage,
+    limit,
+    totalPages: 0,
+  });
+  const [loading, setLoading] = useState(true);
 
-  console.log(products[0]);
+  useEffect(() => {
+    setLoading(true);
+    getProductsPaginationAdmin(limit, currentPage)
+      .then((res) => {
+        setProducts(res.data);
+        setPagination(res.pagination_State);
+        console.log("Réponse brute admin:", res);
+      })
+      .finally(() => setLoading(false));
+  }, [currentPage]);
+
+  if (loading) return <p className="text-center mt-8">Chargement...</p>;
 
   return (
-    <main className="min-h-screen mt-16 px-4 custom-size-minmax">
+    <main className="min-h-screen mt-16 px-4 custom-size-minmax ">
       <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">
         Vue d&apos;ensemble des produits
       </h1>
 
       <section className="pb-10">
         <TableWrapper>
-          {/* partie supérieur du tableau avec nom des tables */}
           <thead>
             <tr className="h-14">
               <TableHeadCell label="Id" />
@@ -40,7 +59,6 @@ const Page = async ({ searchParams }: CataloguePageProps) => {
             </tr>
           </thead>
 
-          {/* partie liste des datas */}
           <tbody>
             {products.length > 0 ? (
               products.map((product) => (
@@ -84,7 +102,7 @@ const Page = async ({ searchParams }: CataloguePageProps) => {
             ) : (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={5}
                   className="text-center p-6 text-gray-500 italic"
                 >
                   Aucun produit trouvé.
