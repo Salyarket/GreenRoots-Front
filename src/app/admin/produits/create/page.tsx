@@ -137,14 +137,25 @@ const CreateProductForm = () => {
 
         {/* Disponibilité */}
         <div className="flex items-center">
-          <input type="checkbox" {...register("available")} className="mr-2" />
+          <input
+            type="checkbox"
+            {...register("available")}
+            className="mr-2 w-10 h-10 cursor-pointer"
+          />
           <label>Disponible</label>
         </div>
 
         {/* Images */}
-        <div>
-          <label className="px-4">Images (max 3)</label>
+        <div className={`text-2xl  flex flex-col space-y-4  </form>}`}>
+          <label
+            className={`my-4  ${
+              images.length < 1 ? "text-red-500" : " text-green-500"
+            }`}
+          >
+            Images (Min 1 / Max 3) : {images.length}/3
+          </label>
           <input
+            className="cursor-pointer  text-3xl my-4"
             type="file"
             accept="image/*"
             multiple
