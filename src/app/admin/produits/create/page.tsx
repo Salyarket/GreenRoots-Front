@@ -29,6 +29,13 @@ const CreateProductForm = () => {
   const onSubmit = async (data: ProductFormData) => {
     setLoading(true);
     setApiError(null);
+
+    if (images.length === 0) {
+      setApiError("❌ Vous devez uploader au moins une image");
+      setLoading(false);
+      return;
+    }
+
     try {
       const product = await createProductAdmin(data, images);
       if (!product)

@@ -42,7 +42,7 @@ const ProductGallery = ({ product }: IGalleryProps) => {
           alt={`${product.name} ${currentIndex + 1}`}
           fill
           sizes="max-width: 100px"
-          className="object-cover   transition-all duration-300"
+          className="object-cover transition-all duration-300"
           priority
         />
         {product.stock > 0 ? (
