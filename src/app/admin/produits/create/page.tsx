@@ -16,6 +16,7 @@ const CreateProductForm = () => {
   const [createdProduct, setCreatedProduct] = useState<IProduct | null>(null);
   const [images, setImages] = useState<File[]>([]);
 
+  //   on définit via la librairie react hook form le schema zod à respecter
   const {
     register,
     handleSubmit,
@@ -73,7 +74,7 @@ const CreateProductForm = () => {
           <input
             type="number"
             step="0.01"
-            {...(register("price"), { valueAsNumber: true })}
+            {...register("price")}
             className={inputClass("price")}
           />
           {errors.price && (
@@ -86,7 +87,7 @@ const CreateProductForm = () => {
           <label>Stock</label>
           <input
             type="number"
-            {...register("stock", { valueAsNumber: true })}
+            {...register("stock")}
             className={inputClass("stock")}
           />
           {errors.stock && (
@@ -105,11 +106,11 @@ const CreateProductForm = () => {
 
         {/* Carbone */}
         <div>
-          <label>Carbone (kg)</label>
+          <label>Carbone aborsban par an (kg)</label>
           <input
             type="number"
             step="0.1"
-            {...(register("carbon"), { valueAsNumber: true })}
+            {...register("carbon")}
             className={inputClass("carbon")}
           />
         </div>

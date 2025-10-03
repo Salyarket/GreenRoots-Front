@@ -8,22 +8,49 @@ const toNumberWith2Decimals = (val: unknown) =>
 
 // regex
 const onlyLetters = /^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/;
-const onlyNumbersWithDecimal = /^[0-9]+(\.[0-9]{1,2})?$/;
+const onlyNumbersWithDecimal = /^\d{1,10}(\.\d{1,2})?$/;
 
 export const productSchemaForCreate = z.object({
   name: z.string().min(1, "Nom obligatoire").max(255).regex(onlyLetters),
   price: z
     .string()
-    .min(1, "Prix obligatoire")
-    .regex(onlyNumbersWithDecimal, "Format invalide (ex: 12.34)"),
+    .min(
+      1,
+      "Prix obligatoire, seulement des chiffres (max 10 avant la virgule et 2 après)"
+    )
+    .max(10)
+    .regex(
+      onlyNumbersWithDecimal,
+      "Format invalide (max 10 chiffres et 2 décimales, ex: 1234567890.99)"
+    ),
   description: z.string().min(1, "Description obligatoire").max(2500),
-  stock: z.string().regex(/^\d+$/, "Stock doit être un nombre entier"),
-  scientific_name: z.string().max(255).optional(),
+  stock: z
+    .string()
+    .min(1)
+    .max(10)
+    .regex(/^\d+$/, "Stock doit être un nombre entier")
+    .optional()
+    .or(z.literal("")),
+  scientific_name: z
+    .string()
+    .min(1)
+    .max(255)
+    .regex(onlyLetters, "Seulement des lettres")
+    .optional()
+    .or(z.literal("")),
   carbon: z
     .string()
-    .regex(/^\d+(\.\d+)?$/, "Carbone doit être un nombre")
+    .min(
+      1,
+      "Prix obligatoire, seulement des chiffres (max 10 avant la virgule et 2 après)"
+    )
+    .max(8, "8 chiffres maximum")
+    .regex(
+      onlyNumbersWithDecimal,
+      "Format invalide (max 10 chiffres et 2 décimales, ex: 1234567890.99)"
+    )
     .optional()
-    .nullable(),
+    .or(z.literal("")),
   available: z.boolean().default(true),
 });
 

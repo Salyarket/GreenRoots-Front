@@ -36,21 +36,29 @@ const CardItem = ({
       onClick={() => router.push(`/catalogue/${id}`)}
       className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative"
     >
-      <Image
-        src={`http://localhost:4000/${image_urls[0]}`}
-        alt={name}
-        height={600}
-        width={400}
-        className="w-full h-full object-cover rounded-t-lg"
-      />
+      {image_urls?.length > 0 && image_urls[0] ? (
+        <Image
+          src={`http://localhost:4000/${image_urls[0]}`}
+          alt={name}
+          height={600}
+          width={400}
+          className="w-full h-full object-cover rounded-t-lg"
+        />
+      ) : (
+        <div className="w-full h-[300px] bg-gray-200 flex items-center justify-center rounded-t-lg">
+          <span className="text-gray-500">Pas d&apos;image</span>
+        </div>
+      )}
       <div className="flex flex-col px-2">
         <h4 className="text-lg font-extrabold text-brand-darkgreen uppercase">
           {name}
         </h4>
-        <p className="text-brand-green font-semibold">CO² : {carbon} kg/an</p>
+        {carbon && (
+          <p className="text-brand-green font-semibold">CO² : {carbon} kg/an</p>
+        )}
         {variant === "detailed" && (
           <p className="text-black font-semibold mb-8  line-clamp-2">
-            {description} kg/an
+            {description}
           </p>
         )}
         <p className="text-black font-semibold">Prix : {price}€</p>
