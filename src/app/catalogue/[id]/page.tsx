@@ -11,6 +11,6 @@ export default async function Page({ params }: PageProps) {
   return product ? (
     <PageClient product={product} />
   ) : (
-    <p>Produit indisponibles</p>
+    <p>Produits indisponibles</p>
   );
 }
