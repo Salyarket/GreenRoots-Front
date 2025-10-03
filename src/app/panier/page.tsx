@@ -1,5 +1,6 @@
 "use client";
 
+import OrderValidation from "@/components/OrderValidation";
 import useCartStore from "@/store/CartStore";
 import Image from "next/image";
 import Link from "next/link";
@@ -102,9 +103,7 @@ export default function PanierPage() {
                 </div>
               </div>
 
-              <button className="w-full mt-6 bg-brand-green text-white py-2 rounded-lg font-bold hover:bg-brand-darkgreen">
-                Passer la commande
-              </button>
+              <OrderValidation />
             </aside>
           </section>
         )}

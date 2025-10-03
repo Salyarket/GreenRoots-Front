@@ -50,3 +50,20 @@ export async function getOneProductWithLocation(id: number): Promise<IProduct> {
     throw error; // laisser throw pour que Next affiche error.tsx si ça bug
   }
 }
+
+// get the stock of a product
+export async function getStockForProduct(productId: number) {
+  try {
+    const res = await fetch(`${API_URL}/products/${productId}`, {
+      headers: { "Content-Type": "application/json" },
+      // body: JSON.stringify({ item }),
+    });
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error;
+  }
+}

@@ -31,3 +31,20 @@ export async function getOneOrder(token: string, orderId: number) {
 
   return res.json();
 }
+
+// create a new order
+export async function createNewOrder(token: string, data: any) {
+  const res = await apiFetch("/orders", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
