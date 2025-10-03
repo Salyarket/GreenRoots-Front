@@ -1,0 +1,172 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  productSchemaForCreate,
+  ProductFormData,
+} from "@/lib/validators/productSchema";
+import { useState } from "react";
+import { createProductAdmin } from "@/services/admin.api";
+import { IProduct } from "@/types/index.types";
+
+const CreateProductForm = () => {
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [createdProduct, setCreatedProduct] = useState<IProduct | null>(null);
+  const [images, setImages] = useState<File[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ProductFormData>({
+    resolver: zodResolver(productSchemaForCreate),
+    mode: "onChange",
+  });
+
+  const onSubmit = async (data: ProductFormData) => {
+    setLoading(true);
+    setApiError(null);
+    try {
+      const product = await createProductAdmin(data, images);
+      if (!product)
+        throw new Error("❌ Erreur API lors de la création du produit");
+
+      console.log("✅ Produit créé :", product);
+      setCreatedProduct(product); // on affiche dans la page
+    } catch (err: any) {
+      setApiError(err.message || "Erreur inconnue");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const inputClass = (field: keyof ProductFormData) =>
+    `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
+    ${
+      errors[field]
+        ? "border-red-500 focus:ring-red-500"
+        : "border-gray-300 focus:ring-brand-green"
+    }`;
+
+  return (
+    <div className="max-w-2xl mx-auto my-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-6 rounded-lg shadow-md space-y-4"
+      >
+        <h2 className="text-2xl font-bold text-center">Créer un produit</h2>
+
+        {apiError && <p className="text-red-600">{apiError}</p>}
+
+        {/* Nom */}
+        <div>
+          <label>Nom</label>
+          <input {...register("name")} className={inputClass("name")} />
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+        </div>
+
+        {/* Prix */}
+        <div>
+          <label>Prix (€)</label>
+          <input
+            type="number"
+            step="0.01"
+            {...(register("price"), { valueAsNumber: true })}
+            className={inputClass("price")}
+          />
+          {errors.price && (
+            <p className="text-red-500">{errors.price.message}</p>
+          )}
+        </div>
+
+        {/* Stock */}
+        <div>
+          <label>Stock</label>
+          <input
+            type="number"
+            {...register("stock", { valueAsNumber: true })}
+            className={inputClass("stock")}
+          />
+          {errors.stock && (
+            <p className="text-red-500">{errors.stock.message}</p>
+          )}
+        </div>
+
+        {/* Nom scientifique */}
+        <div>
+          <label>Nom scientifique</label>
+          <input
+            {...register("scientific_name")}
+            className={inputClass("scientific_name")}
+          />
+        </div>
+
+        {/* Carbone */}
+        <div>
+          <label>Carbone (kg)</label>
+          <input
+            type="number"
+            step="0.1"
+            {...(register("carbon"), { valueAsNumber: true })}
+            className={inputClass("carbon")}
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <label>Description</label>
+          <textarea
+            {...register("description")}
+            className={inputClass("description")}
+            rows={4}
+          />
+          {errors.description && (
+            <p className="text-red-500">{errors.description.message}</p>
+          )}
+        </div>
+
+        {/* Disponibilité */}
+        <div className="flex items-center">
+          <input type="checkbox" {...register("available")} className="mr-2" />
+          <label>Disponible</label>
+        </div>
+
+        {/* Images */}
+        <div>
+          <label className="px-4">Images (max 3)</label>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) =>
+              setImages(e.target.files ? Array.from(e.target.files) : [])
+            }
+          />
+        </div>
+
+        {/* Bouton submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-brand-green hover:bg-brand-darkgreen text-white py-2 rounded"
+        >
+          {loading ? "Création en cours..." : "Créer le produit"}
+        </button>
+      </form>
+
+      {/* ✅ Affiche le produit créé sans rechargement */}
+      {createdProduct && (
+        <div className="mt-6 bg-gray-100 p-4 rounded-md">
+          <h3 className="font-bold mb-2">Produit créé :</h3>
+          <pre className="text-sm">
+            {JSON.stringify(createdProduct, null, 2)}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CreateProductForm;

@@ -44,3 +44,5 @@ export const loginSchema = z.object({
 // Types TS générés automatiquement par Zod qu'on peut réutiliser
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
+
+

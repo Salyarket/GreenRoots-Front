@@ -1,5 +1,6 @@
 import { IProduct, PaginatedResponse } from "@/types/index.types";
 import { apiFetch } from "./api";
+import { ProductFormData } from "@/lib/validators/productSchema";
 
 // admin (tous les produits, dispo ou pas)
 export async function getProductsPaginationAdmin(
@@ -39,4 +40,50 @@ export async function archiveProduct(id: number) {
   }
 
   return res.json();
+}
+
+// create product admin
+export async function createProductAdmin(
+  data: ProductFormData,
+  images: File[] = []
+): Promise<IProduct | null> {
+  try {
+    const formData = new FormData();
+
+    // Ajout des champs texte
+    formData.append("name", data.name);
+    formData.append("price", String(data.price));
+    formData.append("description", data.description);
+    formData.append("stock", String(data.stock));
+    if (data.scientific_name) {
+      formData.append("scientific_name", data.scientific_name);
+    }
+    if (data.carbon !== null && data.carbon !== undefined) {
+      formData.append("carbon", String(data.carbon));
+    }
+    formData.append("available", String(data.available));
+
+    // Ajout des images (max 3, selon ton back)
+    images.slice(0, 3).forEach((file) => {
+      formData.append("images", file);
+    });
+
+    const res = await apiFetch(`/products`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const responseData = await res.json();
+
+    if (!res.ok) {
+      throw new Error(
+        responseData.error || `Erreur API: ${res.status} ${res.statusText}`
+      );
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Erreur API (createProductAdmin):", error);
+    throw error;
+  }
 }

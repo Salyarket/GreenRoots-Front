@@ -40,6 +40,8 @@ const Page = ({ searchParams }: CataloguePageProps) => {
       .finally(() => setLoading(false));
   }, [currentPage]);
 
+  console.log(products[0]);
+
   if (loading)
     return <p className="text-center mt-8 min-h-[60vh]">Chargement...</p>;
 
@@ -48,6 +50,15 @@ const Page = ({ searchParams }: CataloguePageProps) => {
       <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">
         Vue d&apos;ensemble des produits
       </h1>
+
+      <div className=" my-6">
+        <Link
+          href={"/admin/produits/create"}
+          className="bg-brand-green rounded-md hover:bg-brand-lightgreen px-4 py-2"
+        >
+          Créer un produit
+        </Link>
+      </div>
 
       <section className="pb-10">
         <TableWrapper>

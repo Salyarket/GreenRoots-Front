@@ -34,7 +34,7 @@ const ProductGallery = ({ product }: IGalleryProps) => {
       {/* Bloc image principale */}
       <div className="relative h-full w-full aspect-square overflow-hidden rounded-lg">
         <Image
-          src={`${API_URL}/uploads/arbres/${images[currentIndex]}`}
+          src={`${API_URL}/${images[currentIndex]}`}
           alt={`${product.name} ${currentIndex + 1}`}
           fill
           sizes="max-width: 100px"
