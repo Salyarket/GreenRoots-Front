@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login, registerUser } from "@/services/api";
+import { login, registerUser } from "@/services/auth.api";
 import {
   registerSchema,
   loginSchema,
@@ -63,7 +63,10 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         });
         console.log("✅ Utilisateur connecté :", loggedUser);
         // on envoie au store zustand la res de la BDD avec l'USER
-        useAuthStore.getState().setUser(loggedUser.user);
+        useAuthStore.getState().setUser({
+          ...loggedUser.user, // id, email, firstname, lastname, role
+          token: loggedUser.accessToken, // token
+        });
         router.push("/profil");
       } else {
         // S'ENREGISTRER

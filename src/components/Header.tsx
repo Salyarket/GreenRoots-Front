@@ -4,9 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import useAuthStore from "@/store/AuthStore";
+import useCartStore from "@/store/CartStore";
+import { CgProfile } from "react-icons/cg";
+import { BsCart } from "react-icons/bs";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
+  const items = useCartStore((state) => state.items);
+
+  const total = items.reduce(
+    (acc, item) => acc + item.quantity,
+    0 // le 0 à la fin est la valeur initiale de l'accumulateur (acc)
+  );
 
   const [menuOpen, setMenuOpen] = useState(false);
   const links_url_loggedOut = [
@@ -131,23 +140,18 @@ const Header = () => {
         {user && (
           <div className="space-x-8 flex">
             <Link href={"/profil"}>
-              <Image
-                src="/icon_profil.svg"
-                alt="GreenRoots"
-                width={20}
-                height={20}
-                className="custom-btn-hover"
-              />
+              <CgProfile className="custom-btn-hover w-6 h-6" />
             </Link>
-            <Link href={"/panier"}>
-              <Image
-                src="/icon_cart.svg"
-                alt="GreenRoots"
-                width={20}
-                height={20}
-                className="custom-btn-hover"
-              />
-            </Link>
+            <div className="relative">
+              <Link href={"/panier"}>
+                <BsCart className="custom-btn-hover w-6 h-6" />
+                {total > 0 && (
+                  <span className="absolute -top-4 -right-3.5 rounded-full w-6 h-6 bg-brand-brown text-brand-darkgreen text-sm font-extrabold flex items-center justify-center">
+                    {total}
+                  </span>
+                )}
+              </Link>
+            </div>
           </div>
         )}
       </nav>

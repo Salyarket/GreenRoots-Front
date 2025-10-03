@@ -1,5 +1,5 @@
 import CardItem from "./CardItem";
-import { getProductsPagination } from "@/services/api";
+import { getProductsPagination } from "@/services/product.api";
 
 const BestSellers = async () => {
   const productsWithPagination = await getProductsPagination(3);
