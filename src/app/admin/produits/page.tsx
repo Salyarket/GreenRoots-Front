@@ -7,11 +7,11 @@ import { getProductsPaginationAdmin } from "@/services/admin.api";
 import Link from "next/link";
 import { FaRegEye } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
-import { MdDeleteOutline } from "react-icons/md";
 import DeleteButton from "@/components/admin/DeleteButton";
+import { IProduct } from "@/types/index.types";
 
 interface CataloguePageProps {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
 const Page = ({ searchParams }: CataloguePageProps) => {
@@ -20,7 +20,7 @@ const Page = ({ searchParams }: CataloguePageProps) => {
 
   const limit = 8;
 
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [pagination, setPagination] = useState({
     total: 0,
     page: currentPage,
