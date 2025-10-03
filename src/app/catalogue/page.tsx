@@ -38,21 +38,6 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
         </p>
       ) : (
         <>
-          {/* section barre de recherche/filtres */}
-          {/* <section className="flex flex-col md:flex-row justify-center mt-8 space-x-8">
-            <div className="flex  border border-gray-300 rounded-full overflow-hidden w-full md:w-1/2 cursor-pointer">
-              <input
-                type="text"
-                placeholder="Rechercher une plante"
-                className="flex-1 px-4 py-2 outline-none"
-              />
-              <button className="bg-brand-green text-white px-4 hover:bg-brand-darkgreen cursor-pointer">
-                <CiSearch className="font-extrabold " />
-              </button>
-            </div>
-          </section> */}
-          {/*  */}
-          {/* section ul avec cards */}
           <section className="py-8">
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-white items-stretch">
               {products.map((product) => (
