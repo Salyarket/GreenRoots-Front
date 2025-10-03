@@ -2,18 +2,19 @@ import { PaginatedResponse, IProduct } from "@/types/index.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// get products with choice (number)
+// get all products available for catalogue with pagination
 export async function getProductsPagination(
   limit: number,
   page: number = 1
 ): Promise<PaginatedResponse<IProduct>> {
   try {
     const res = await fetch(
-      `${API_URL}/products/pagination?limit=${limit}&page=${page}`,
+      `${API_URL}/products/pagination/available?limit=${limit}&page=${page}`,
       {
         cache: "no-store",
       }
     );
+    console.log("APPEL API");
     if (!res.ok) {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
