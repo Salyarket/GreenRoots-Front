@@ -14,20 +14,14 @@ export const productSchemaForCreate = z.object({
   name: z.string().min(1, "Nom obligatoire").max(255).regex(onlyLetters),
   price: z
     .string()
-    .min(
-      1,
-      "Prix obligatoire, seulement des chiffres (max 10 avant la virgule et 2 après)"
-    )
-    .max(10)
-    .regex(
-      onlyNumbersWithDecimal,
-      "Format invalide (max 10 chiffres et 2 décimales, ex: 1234567890.99)"
-    ),
+    .min(1, "Prix obligatoire, seulement des chiffres")
+    .max(8)
+    .regex(onlyNumbersWithDecimal, "Format invalide)"),
   description: z.string().min(1, "Description obligatoire").max(2500),
   stock: z
     .string()
     .min(1)
-    .max(10)
+    .max(8)
     .regex(/^\d+$/, "Stock doit être un nombre entier")
     .optional()
     .or(z.literal("")),
@@ -40,15 +34,9 @@ export const productSchemaForCreate = z.object({
     .or(z.literal("")),
   carbon: z
     .string()
-    .min(
-      1,
-      "Prix obligatoire, seulement des chiffres (max 10 avant la virgule et 2 après)"
-    )
+    .min(1, "Prix obligatoire, seulement des chiffres")
     .max(8, "8 chiffres maximum")
-    .regex(
-      onlyNumbersWithDecimal,
-      "Format invalide (max 10 chiffres et 2 décimales, ex: 1234567890.99)"
-    )
+    .regex(onlyNumbersWithDecimal, "Format invalide")
     .optional()
     .or(z.literal("")),
   available: z.boolean().default(true),

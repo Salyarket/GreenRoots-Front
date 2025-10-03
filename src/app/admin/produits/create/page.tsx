@@ -147,6 +147,8 @@ const CreateProductForm = () => {
 
         {/* Images */}
         <div className={`text-2xl  flex flex-col space-y-4  </form>}`}>
+          <p className="text-md">Formats acceptés : jpeg, png, jpg, gif, webp</p>
+
           <label
             className={`my-4  ${
               images.length < 1 ? "text-red-500" : " text-green-500"
