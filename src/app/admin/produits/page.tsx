@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaRegEye } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import DeleteButton from "@/components/admin/DeleteButton";
 
 interface CataloguePageProps {
   searchParams: { page?: string };
@@ -39,7 +40,8 @@ const Page = ({ searchParams }: CataloguePageProps) => {
       .finally(() => setLoading(false));
   }, [currentPage]);
 
-  if (loading) return <p className="text-center mt-8">Chargement...</p>;
+  if (loading)
+    return <p className="text-center mt-8 min-h-[60vh]">Chargement...</p>;
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax ">
@@ -55,6 +57,7 @@ const Page = ({ searchParams }: CataloguePageProps) => {
               <TableHeadCell label="Nom" withFilter />
               <TableHeadCell label="Prix" withFilter />
               <TableHeadCell label="Stock" withFilter />
+              <TableHeadCell label="Available" withFilter />
               <TableHeadCell label="Action" />
             </tr>
           </thead>
@@ -75,6 +78,13 @@ const Page = ({ searchParams }: CataloguePageProps) => {
                   <td className="border border-brand-darkgreen text-center">
                     {product.stock}
                   </td>
+                  <td
+                    className={`border border-brand-darkgreen text-center ${
+                      product.available ? "" : "bg-red-300"
+                    }`}
+                  >
+                    {product.available ? "Available" : "Unavailable"}
+                  </td>
                   <td className="border border-brand-darkgreen">
                     <div className="flex justify-center items-center gap-4">
                       <Link
@@ -89,12 +99,8 @@ const Page = ({ searchParams }: CataloguePageProps) => {
                       >
                         <FiEdit3 />
                       </Link>
-                      <Link
-                        href={`/admin/produits/suppression/${product.id}`}
-                        className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white"
-                      >
-                        <MdDeleteOutline />
-                      </Link>
+                      {/* bouton de suppresion qui va ouvrir la modale */}
+                      <DeleteButton product={product} />
                     </div>
                   </td>
                 </tr>

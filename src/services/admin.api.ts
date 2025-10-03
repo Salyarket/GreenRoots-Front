@@ -27,3 +27,16 @@ export async function getProductsPaginationAdmin(
     };
   }
 }
+
+// soft delete du product (archive, avaliable = false ) donc on le sort du catalogue client
+export async function archiveProduct(id: number) {
+  const res = await apiFetch(`/products/${id}/archive`, {
+    method: "PATCH",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
