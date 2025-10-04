@@ -146,6 +146,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         <input
           type="email"
           {...register("email")}
+          autoComplete="username"
           placeholder="exemple@email.com"
           className={inputClass("email")}
         />
@@ -161,6 +162,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         <label className="block text-sm font-medium">Mot de passe</label>
         <input
           type="password"
+          autoComplete={alreadyRegistered ? "current-password" : "new-password"}
           {...register("password")}
           placeholder="Votre mot de passe"
           className={inputClass("password")}
@@ -182,6 +184,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
             <input
               type="password"
               {...register("confirmPassword")}
+              autoComplete="new-password"
               placeholder="Confirmez votre mot de passe"
               className={inputClass("confirmPassword")}
             />
