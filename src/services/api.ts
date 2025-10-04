@@ -58,7 +58,7 @@ export async function apiFetch(
     } else {
       console.error("❌ Refresh échoué, redirection login");
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        window.location.href = "/connexion";
       }
       throw new Error("Session expirée, veuillez vous reconnecter.");
     }

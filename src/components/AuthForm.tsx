@@ -80,7 +80,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         });
         console.log("✅ Utilisateur inscrit :", newUser);
 
-        router.push("/login");
+        router.push("/connexion");
       }
     } catch (err: unknown) {
       const message =

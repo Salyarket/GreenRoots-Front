@@ -37,12 +37,12 @@ const Header = () => {
     {
       id: 4,
       link: "se connecter",
-      href: "/login",
+      href: "/connexion",
     },
     {
       id: 5,
       link: "s'inscrire",
-      href: "/register",
+      href: "/inscription",
     },
   ];
 

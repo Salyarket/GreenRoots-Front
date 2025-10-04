@@ -45,7 +45,7 @@ export default function PanierPage() {
                   >
                     <div className="flex items-center">
                       <Image
-                        src={`http://localhost:4000/uploads/arbres/${item.image_urls[0]}`}
+                        src={`http://localhost:4000/${item.image_urls[0]}`}
                         alt={item.name}
                         width={80}
                         height={80}
