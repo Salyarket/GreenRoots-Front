@@ -4,7 +4,6 @@ import useAuthStore from "@/store/AuthStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateUser } from "@/services/auth.api";
-import Link from "next/link";
 import { useState } from "react";
 import {
   updateUserSchema,
@@ -48,17 +47,16 @@ const EditPage = () => {
 
       const updated = await updateUser(payload);
 
-      // ✅ mise à jour du store
+      // mise à jour du store pour affichage conditionnel
       setUser({ ...user, ...updated });
 
-      // ✅ reset du formulaire avec les nouvelles données
+      // reset du formulaire avec les nouvelles données
       reset({
         firstname: updated.firstname,
         lastname: updated.lastname,
       });
 
       setSuccessMessage("✅ Données mises à jour !");
-      console.log("✅ Profil mis à jour :", updated);
     } catch (err: any) {
       setApiError(err.message || "Erreur inconnue");
     } finally {
