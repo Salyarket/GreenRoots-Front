@@ -61,8 +61,8 @@ const ProductEditPage = () => {
 
     try {
       const updated = await updateProductAdmin(productId, data, images);
-      console.log("✅ Produit modifié :", updated);
       setUpdatedProduct(updated); // affiche en bas
+      window.alert("Produit modifié avec succès");
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Erreur inconnue");
     } finally {
