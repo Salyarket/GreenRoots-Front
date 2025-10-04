@@ -20,7 +20,7 @@ export interface Order {
   date: string;
   status: string;
   total: number;
-  items: Item;
+  items: Item[];
 }
 
 // order_item
