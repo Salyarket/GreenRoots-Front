@@ -61,9 +61,11 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           email: data.email,
           password: data.password,
         });
-        console.log("✅ Utilisateur connecté :", loggedUser);
         // on envoie au store zustand la res de la BDD avec l'USER
-        useAuthStore.getState().setUser(loggedUser.user);
+        useAuthStore.getState().setUser({
+          ...loggedUser.user, // id, email, firstname, lastname, role
+          token: loggedUser.accessToken, // token
+        });
         router.push("/profil");
       } else {
         // S'ENREGISTRER
@@ -75,9 +77,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           confirmPassword: (data as RegisterFormData).confirmPassword,
           user_type_id: (data as RegisterFormData).user_type_id,
         });
-        console.log("✅ Utilisateur inscrit :", newUser);
-
-        router.push("/login");
+        router.push("/connexion");
       }
     } catch (err: unknown) {
       const message =
@@ -89,13 +89,13 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   };
 
   // Class CSS messages d'erreurs (rouge si erreur, vert si champ valide)
-  const inputClass = (fieldName: keyof (RegisterFormData & LoginFormData)) =>
+  const inputClass = (fieldName: keyof AuthFormData) =>
     `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
-    ${
-      (errors as any)[fieldName]
-        ? "border-red-500 focus:ring-red-500"
-        : "border-gray-300 focus:ring-brand-green"
-    }`;
+  ${
+    errors[fieldName]
+      ? "border-red-500 focus:ring-red-500"
+      : "border-gray-300 focus:ring-brand-green"
+  }`;
 
   return (
     <form
@@ -142,6 +142,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         <input
           type="email"
           {...register("email")}
+          autoComplete="username"
           placeholder="exemple@email.com"
           className={inputClass("email")}
         />
@@ -157,6 +158,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
         <label className="block text-sm font-medium">Mot de passe</label>
         <input
           type="password"
+          autoComplete={alreadyRegistered ? "current-password" : "new-password"}
           {...register("password")}
           placeholder="Votre mot de passe"
           className={inputClass("password")}
@@ -178,6 +180,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
             <input
               type="password"
               {...register("confirmPassword")}
+              autoComplete="new-password"
               placeholder="Confirmez votre mot de passe"
               className={inputClass("confirmPassword")}
             />

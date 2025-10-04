@@ -31,7 +31,7 @@ const LoginPage = () => {
 
   return (
     <main className="min-h-screen mt-12 px-4 custom-size-minmax py-12 mb-16">
-      <RefreshAccesToken   />
+      <RefreshAccesToken />
 
       <section className="max-w-md mx-auto">
         <div className="text-center mb-8">

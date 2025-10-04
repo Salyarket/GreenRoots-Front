@@ -1,3 +1,5 @@
+import { apiFetch } from "./api";
+
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // login
@@ -37,6 +39,31 @@ export async function registerUser(data: {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
       cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Erreur register", error);
+    throw error;
+  }
+}
+
+// fonction pour update l'user sur email / mdp
+export async function updateUser(data: {
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+}) {
+  try {
+    const res = await apiFetch("/users/me", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
     if (!res.ok) {

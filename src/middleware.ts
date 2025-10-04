@@ -12,8 +12,8 @@ export async function middleware(req: NextRequest) {
 
   // Pas d'accessToken → redirection
   if (!accessToken) {
-    console.log("❌ Aucun accessToken, redirection vers /login");
-    return NextResponse.redirect(new URL("/login", req.url));
+    console.log("❌ Aucun accessToken, redirection vers /connexion");
+    return NextResponse.redirect(new URL("/connexion", req.url));
   }
 
   try {

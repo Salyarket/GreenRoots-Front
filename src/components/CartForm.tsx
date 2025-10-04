@@ -51,7 +51,7 @@ const CartForm = ({ price, stock, product }: FormProps) => {
         <button
           type="button"
           onClick={handleDecrement}
-          className="bg-brand-lightgreen rounded-full w-8 h-8 flex items-center justify-center text-white font-extrabold hover:bg-green-700"
+          className="bg-brand-lightgreen rounded-full w-8 h-8 flex items-center justify-center text-white font-extrabold hover:bg-green-700 cursor-pointer"
         >
           -
         </button>
@@ -72,7 +72,7 @@ const CartForm = ({ price, stock, product }: FormProps) => {
         <button
           type="button"
           onClick={handleIncrement}
-          className="bg-brand-lightgreen rounded-full w-10 h-10 flex items-center justify-center text-white text-lg font-bold hover:bg-green-700"
+          className="bg-brand-lightgreen rounded-full w-8 h-8 flex items-center justify-center text-white text-lg font-bold hover:bg-green-700 cursor-pointer"
         >
           +
         </button>
