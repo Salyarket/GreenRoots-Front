@@ -87,3 +87,38 @@ export async function createProductAdmin(
     throw error;
   }
 }
+
+// récupérer un produit
+export async function getProductByIdAdmin(id: number) {
+  const res = await apiFetch(`/products/${id}`, { method: "GET" });
+  if (!res.ok) throw new Error(`Erreur API: ${res.statusText}`);
+  return res.json();
+}
+
+// update un produit
+export async function updateProductAdmin(
+  id: number,
+  data: Partial<ProductFormData>,
+  images?: File[]
+) {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, value as string);
+    }
+  });
+
+  if (images) {
+    images.forEach((img) => {
+      formData.append("images", img);
+    });
+  }
+
+  const res = await apiFetch(`/products/${id}`, {
+    method: "PATCH",
+    body: formData,
+  });
+
+  if (!res.ok) throw new Error(`Erreur API: ${res.statusText}`);
+  return res.json();
+}

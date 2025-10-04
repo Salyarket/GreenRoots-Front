@@ -12,13 +12,16 @@ export const productSchemaForCreate = z.object({
     .max(8)
     .regex(onlyNumbersWithDecimal, "Format invalide)"),
   description: z.string().min(1, "Description obligatoire").max(2500),
-  stock: z
-    .string()
-    .min(1)
-    .max(8)
-    .regex(/^\d+$/, "Stock doit être un nombre entier")
-    .optional()
-    .or(z.literal("")),
+  stock: z.preprocess(
+    (val) => (val === "" || val === null ? "" : String(val)),
+    z
+      .string()
+      .min(1, "Stock obligatoire")
+      .max(8)
+      .regex(/^\d+$/, "Stock doit être un nombre entier")
+      .optional()
+      .or(z.literal(""))
+  ),
   scientific_name: z
     .string()
     .min(1)
@@ -26,13 +29,15 @@ export const productSchemaForCreate = z.object({
     .regex(onlyLetters, "Seulement des lettres")
     .optional()
     .or(z.literal("")),
-  carbon: z
-    .string()
-    .min(1, "Prix obligatoire, seulement des chiffres")
-    .max(8, "8 chiffres maximum")
-    .regex(onlyNumbersWithDecimal, "Format invalide")
-    .optional()
-    .or(z.literal("")),
+  carbon: z.preprocess(
+    (val) => (val === "" || val === null ? "" : String(val)),
+    z
+      .string()
+      .max(8, "8 chiffres maximum")
+      .regex(onlyNumbersWithDecimal, "Format invalide")
+      .optional()
+      .or(z.literal(""))
+  ),
   available: z.boolean().default(true),
 });
 

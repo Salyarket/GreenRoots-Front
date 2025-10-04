@@ -103,7 +103,7 @@ const Page = ({ searchParams }: CataloguePageProps) => {
                         <FaRegEye />
                       </Link>
                       <Link
-                        href={`/admin/produits/edition/${product.id}`}
+                        href={`/admin/produits/modification/${product.id}`}
                         className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
                       >
                         <FiEdit3 />
