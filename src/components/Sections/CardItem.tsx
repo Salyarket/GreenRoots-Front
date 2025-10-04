@@ -34,7 +34,9 @@ const CardItem = ({
   return (
     <li
       onClick={() => router.push(`/catalogue/${id}`)}
-      className="bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg w-full h-full custom-card-hover max-w-[400px] mx-auto relative"
+      className={`bg-brand-white flex flex-col space-y-2 pb-4 rounded-lg custom-card-hover max-w-[400px] mx-auto relative ${
+        variant === "detailed" ? "min-h-[700px]" : "min-h-[500px]"
+      }  `}
     >
       {image_urls?.length > 0 && image_urls[0] ? (
         <Image

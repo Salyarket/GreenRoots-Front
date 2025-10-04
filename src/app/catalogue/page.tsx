@@ -2,7 +2,6 @@ import CardItem from "@/components/Sections/CardItem";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { getProductsPagination } from "@/services/product.api";
 import Link from "next/link";
-import { CiSearch } from "react-icons/ci";
 
 interface CataloguePageProps {
   searchParams: { page: string };
