@@ -141,6 +141,9 @@ const ProductEditPage = () => {
             {...register("scientific_name")}
             className={inputClass("scientific_name")}
           />
+          {errors.scientific_name && (
+            <p className="text-red-500">{errors.scientific_name.message}</p>
+          )}
         </div>
 
         {/* Carbone */}
@@ -152,6 +155,9 @@ const ProductEditPage = () => {
             {...register("carbon")}
             className={inputClass("carbon")}
           />
+          {errors.carbon && (
+            <p className="text-red-500">{errors.carbon.message}</p>
+          )}
         </div>
 
         {/* Description */}

@@ -34,7 +34,7 @@ export const productSchemaForCreate = z.object({
     z
       .string()
       .max(8, "8 chiffres maximum")
-      .regex(onlyNumbersWithDecimal, "Format invalide")
+      .regex(onlyNumbersWithDecimal, "Seulement un nombre positif")
       .optional()
       .or(z.literal(""))
   ),

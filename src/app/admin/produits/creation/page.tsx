@@ -48,6 +48,7 @@ const CreateProductForm = () => {
         throw new Error("❌ Erreur API lors de la création du produit");
 
       setCreatedProduct(product); // on affiche dans la page
+      window.alert("Produit crée avec succès");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setApiError(err.message);
