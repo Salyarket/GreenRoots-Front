@@ -58,7 +58,6 @@ export async function updateUser(data: {
   email?: string;
   password?: string;
   confirmPassword?: string;
-  user_type_id?: number;
 }) {
   try {
     const res = await apiFetch("/users/me", {

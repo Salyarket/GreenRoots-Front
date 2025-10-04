@@ -40,8 +40,6 @@ const Page = ({ searchParams }: CataloguePageProps) => {
       .finally(() => setLoading(false));
   }, [currentPage]);
 
-  console.log(products[0]);
-
   if (loading)
     return <p className="text-center mt-8 min-h-[60vh]">Chargement...</p>;
 

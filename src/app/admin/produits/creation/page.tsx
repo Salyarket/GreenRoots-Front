@@ -47,10 +47,13 @@ const CreateProductForm = () => {
       if (!product)
         throw new Error("❌ Erreur API lors de la création du produit");
 
-      console.log("✅ Produit créé :", product);
       setCreatedProduct(product); // on affiche dans la page
-    } catch (err: any) {
-      setApiError(err.message || "Erreur inconnue");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setApiError(err.message);
+      } else {
+        setApiError("Erreur inconnue");
+      }
     } finally {
       setLoading(false);
     }

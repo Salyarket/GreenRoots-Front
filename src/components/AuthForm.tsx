@@ -49,7 +49,6 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   const register = form.register;
   const handleSubmit = form.handleSubmit;
   const errors = form.formState.errors;
-  console.log(typeof errors);
 
   const onSubmit = async (data: RegisterFormData | LoginFormData) => {
     setIsLoading(true);
@@ -62,7 +61,6 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           email: data.email,
           password: data.password,
         });
-        console.log("✅ Utilisateur connecté :", loggedUser);
         // on envoie au store zustand la res de la BDD avec l'USER
         useAuthStore.getState().setUser({
           ...loggedUser.user, // id, email, firstname, lastname, role
@@ -79,8 +77,6 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           confirmPassword: (data as RegisterFormData).confirmPassword,
           user_type_id: (data as RegisterFormData).user_type_id,
         });
-        console.log("✅ Utilisateur inscrit :", newUser);
-
         router.push("/connexion");
       }
     } catch (err: unknown) {
