@@ -22,7 +22,7 @@ const InscriptionPage = () => {
     // Empêche le flash du formulaire si user est déjà loggé
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <p>Chargement...</p>
+        <p>Chargement FLASH FORMULAIRE...</p>
       </main>
     );
   }

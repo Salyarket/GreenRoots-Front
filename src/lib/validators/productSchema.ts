@@ -1,11 +1,5 @@
 import z from "zod";
 
-// type ZOD pour création produit (admin)
-const toNumberWith2Decimals = (val: unknown) =>
-  val !== null && val !== undefined && val !== ""
-    ? parseFloat(Number(val).toFixed(2))
-    : 0.0;
-
 // regex
 const onlyLetters = /^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/;
 const onlyNumbersWithDecimal = /^\d{1,10}(\.\d{1,2})?$/;

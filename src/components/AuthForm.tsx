@@ -49,6 +49,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   const register = form.register;
   const handleSubmit = form.handleSubmit;
   const errors = form.formState.errors;
+  console.log(typeof errors);
 
   const onSubmit = async (data: RegisterFormData | LoginFormData) => {
     setIsLoading(true);
@@ -92,13 +93,13 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   };
 
   // Class CSS messages d'erreurs (rouge si erreur, vert si champ valide)
-  const inputClass = (fieldName: keyof (RegisterFormData & LoginFormData)) =>
+  const inputClass = (fieldName: keyof AuthFormData) =>
     `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
-    ${
-      (errors as any)[fieldName]
-        ? "border-red-500 focus:ring-red-500"
-        : "border-gray-300 focus:ring-brand-green"
-    }`;
+  ${
+    errors[fieldName]
+      ? "border-red-500 focus:ring-red-500"
+      : "border-gray-300 focus:ring-brand-green"
+  }`;
 
   return (
     <form
