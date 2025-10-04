@@ -2,13 +2,14 @@ import CardItem from "@/components/Sections/CardItem";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { getProductsPagination } from "@/services/product.api";
 import Link from "next/link";
-import { CiSearch } from "react-icons/ci";
+import Search from "@/components/ui/search";
 
 interface CataloguePageProps {
-  searchParams: { page: string };
+  searchParams: { page: string; search: string };
 }
+
 const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
-  const { page } = await searchParams;
+  const { page, search } = await searchParams;
   const currentPage = Number(page) || 1;
   const limit = 8;
 
@@ -18,6 +19,12 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
   );
   const products = productsWithPagination.data;
   const { totalPages } = productsWithPagination.pagination_State;
+
+  const filteredProducts = search
+    ? products.filter((product) =>
+        product.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      )
+    : products;
 
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -31,7 +38,10 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
         </p>
       </section>
 
-      {products.length === 0 ? (
+      {/* barre de recherche */}
+      <Search placeholder="Rechercher un arbre..." />
+
+      {filteredProducts.length === 0 ? (
         <p className="text-center mt-24 font-bold">
           Les produits ne sont pas disponibles pour le moment. Réesayez
           ultérieurement.
@@ -40,7 +50,7 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
         <>
           <section className="py-8">
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-white items-stretch">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <CardItem
                   key={product.id}
                   avalaible={product.available}
