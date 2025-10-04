@@ -36,6 +36,12 @@ const CreateProductForm = () => {
       return;
     }
 
+    if (images.length > 3) {
+      setApiError("❌ Vous ne devez pas upload plus de 3 images");
+      setLoading(false);
+      return;
+    }
+
     try {
       const product = await createProductAdmin(data, images);
       if (!product)
@@ -147,11 +153,15 @@ const CreateProductForm = () => {
 
         {/* Images */}
         <div className={`text-2xl  flex flex-col space-y-4  </form>}`}>
-          <p className="text-md">Formats acceptés : jpeg, png, jpg, gif, webp</p>
+          <p className="text-md">
+            Formats acceptés : jpeg, png, jpg, gif, webp
+          </p>
 
           <label
             className={`my-4  ${
-              images.length < 1 ? "text-red-500" : " text-green-500"
+              images.length < 1 || images.length > 3
+                ? "text-red-500"
+                : " text-green-500"
             }`}
           >
             Images (Min 1 / Max 3) : {images.length}/3
