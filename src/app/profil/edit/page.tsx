@@ -126,7 +126,7 @@ const EditPage = () => {
               </label>
               <input
                 type="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 {...register("password")}
                 placeholder="Laissez vide pour ne pas modifier"
                 className="w-full px-3 py-2 border border-brand-lightgreen/20 rounded-lg text-sm"
@@ -140,7 +140,7 @@ const EditPage = () => {
               <input
                 type="password"
                 {...register("confirmPassword")}
-                autoComplete="current-password"
+                autoComplete="new-password"
                 placeholder="Confirmez le mot de passe"
                 className="w-full px-3 py-2 border border-brand-lightgreen/20 rounded-lg text-sm"
               />
