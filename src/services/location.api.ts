@@ -52,3 +52,53 @@ export async function createLocation(data: { name: string; latitude: number; lon
         throw error;
     }
 }
+
+export async function createProductLocationLink(id: string, data: { product_id: number; }) {
+    try {
+        const res = await apiFetch(`/locations/${id}/products`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: "include",
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+        }
+
+        return res.json();
+    } catch (error) {
+        console.error("Erreur loggin", error);
+        throw error;
+    }
+}
+
+export async function deleteLocation(id: string) {
+    const res = await apiFetch(`/locations/${id}`, { method: "DELETE" });
+
+    if (!res.ok) {
+        throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+}
+
+export async function deleteProductLocationLink(locationId: string, productId: number) {
+    try {
+        const res = await apiFetch(`/locations/${locationId}/products/${productId}`, {
+            method: "DELETE",
+            credentials: "include",
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+        }
+
+        return res.json();
+    } catch (error) {
+        console.error("Erreur lors de la suppression de la liaison produit-localisation ❌", error);
+        throw error;
+    }
+}

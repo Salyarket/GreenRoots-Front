@@ -2,6 +2,21 @@ import { PaginatedResponse, IProduct } from "@/types/index.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+export async function getAllProducts() {
+  try {
+    const res = await fetch(`${API_URL}/products`, { method: "GET", cache: "no-store", });
+
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error; // laisser throw pour que Next affiche error.tsx si ça bug
+  }
+}
+
 // get products with choice (number)
 export async function getProductsPagination(
   limit: number,
