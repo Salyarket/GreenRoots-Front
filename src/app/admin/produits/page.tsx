@@ -53,7 +53,7 @@ const Page = ({ searchParams }: CataloguePageProps) => {
 
       <div className=" my-6">
         <Link
-          href={"/admin/produits/create"}
+          href={"/admin/produits/creation"}
           className="bg-brand-green rounded-md hover:bg-brand-lightgreen px-4 py-2"
         >
           Créer un produit
