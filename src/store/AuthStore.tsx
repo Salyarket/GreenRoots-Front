@@ -37,6 +37,7 @@ interface AuthState {
   logout: () => void;
 }
 
+
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
