@@ -1,6 +1,6 @@
 "use client";
 
-import { getOneOrder } from "@/services/order.api";
+import { getOneOrder, getOrderItems } from "@/services/order.api";
 import useAuthStore, { Item, Order } from "@/store/AuthStore";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -16,8 +16,13 @@ const ConfirmationOrderPage = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       if (user && orderId) {
-        const data = await getOneOrder(user.token, Number(orderId));
-        setOrder(data);
+        // récupérer la commande
+        const order = await getOneOrder(user.token, Number(orderId));
+
+        // récuperer le contenu de la commande
+        const orderItems = await getOrderItems(user.token, Number(orderId));
+
+        setOrder({ ...order, items: orderItems.data });
       }
     };
     fetchOrder();

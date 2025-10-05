@@ -48,3 +48,18 @@ export async function createNewOrder(token: string, data: any) {
 
   return res.json();
 }
+
+// get the items for an order
+export async function getOrderItems(token: string, orderId: number) {
+  const res = await apiFetch(`/orders/${orderId}/items`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
