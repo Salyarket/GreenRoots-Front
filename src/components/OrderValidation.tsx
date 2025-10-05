@@ -1,15 +1,3 @@
-// gestion du bouton de validation de la commande
-// au click :
-//  1. vérifier les stock
-//     -> dispo on passe au 2 / pas dispo msg "stock insuffisant"
-//  2. paiement
-//     -> affichage d'une modal avec bouton "Confirmer le paiement"
-//     -> ok on passe au 3 / pas ok msg "échec du paiement"
-//  3. créer la commande
-//     -> ok on passe au 4 / pas ok msg "impossible de créer la commande"
-//  4. msg confirmation commande
-//     -> renvoie sur page confirmation de commande + résumé de la commande
-
 "use client";
 
 import { createNewOrder } from "@/services/order.api";
@@ -23,9 +11,8 @@ export default function OrderValidation() {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const { items } = useCartStore();
+  const { items, getTotal, clearCart } = useCartStore();
   const { user } = useAuthStore();
-  const { getTotal } = useCartStore();
   const router = useRouter();
 
   //  function faux paiement
@@ -44,13 +31,14 @@ export default function OrderValidation() {
       console.log("⚠️ Pas d'user → pas de fetch");
       return;
     }
-    const orderRes = await createNewOrder(user.token, data);
-    console.log("orderRes", orderRes);
+
     try {
       const orderRes = await createNewOrder(user.token, data);
       console.log("Commande validée ✅", orderRes);
 
       setMessage("Commande validée ✅");
+
+      clearCart();
 
       router.push(`/profil/orders/confirmation?id=${orderRes.id}`);
     } catch (error) {
