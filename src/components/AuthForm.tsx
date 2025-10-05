@@ -31,6 +31,7 @@ interface AuthFormData {
 const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // pour la redirection apres connexion
   const router = useRouter();
@@ -77,7 +78,12 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
           confirmPassword: (data as RegisterFormData).confirmPassword,
           user_type_id: (data as RegisterFormData).user_type_id,
         });
-        router.push("/connexion");
+
+        setShowSuccess(true);
+
+        setTimeout(() => {
+          router.push("/connexion");
+        }, 4000); //4scd
       }
     } catch (err: unknown) {
       const message =
@@ -236,6 +242,17 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
             alt="Loader GreenRoots"
             className="w-40 animate-spin"
           />
+        </div>
+      )}
+
+      {/* Pop-up succès inscription */}
+      {showSuccess && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-brand-lightgreen text-brand-white px-6 py-4 rounded-lg shadow-lg max-w-xs w-full mx-4 text-center animate-fadeIn">
+            <p className="font-semibold text-sm sm:text-base">
+              Inscription réussie ! Redirection vers la page de connexion...
+            </p>
+          </div>
         </div>
       )}
     </form>
