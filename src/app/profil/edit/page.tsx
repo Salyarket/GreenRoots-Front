@@ -9,6 +9,8 @@ import {
   updateUserSchema,
   UpdateUserFormData,
 } from "@/lib/validators/authSchema";
+import { FaChevronLeft } from "react-icons/fa";
+import Link from "next/link";
 
 const EditPage = () => {
   const { user, setUser } = useAuthStore();
@@ -65,7 +67,23 @@ const EditPage = () => {
   };
 
   return (
-    <main className="min-h-screen mt-16 mb-16 px-4 py-6 md:py-8 ">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
+      {/* Fil d’ariane */}
+      <nav
+        aria-label="breadcrumb"
+        className="mb-6 flex items-center text-sm text-gray-600"
+      >
+        <Link
+          href="/profil"
+          className="flex items-center gap-1 hover:underline"
+        >
+          <FaChevronLeft /> Mon profil
+        </Link>
+        <span className="mx-2">/</span>
+        <span aria-current="page" className="font-medium text-green-700">
+          Mes informations
+        </span>
+      </nav>
       <section className="max-w-2xl mx-auto bg-brand-white rounded-lg p-4 relative">
         {loading && (
           <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10 rounded-lg">
