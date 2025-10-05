@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { createLocation, createProductLocationLink, deleteLocation, deleteProductLocationLink } from "@/services/location.api";
 import { getAllProducts } from "@/services/product.api"
+import Link from "next/link";
+import { FaChevronLeft } from "react-icons/fa";
 
 
 const Page = () => {
@@ -160,13 +162,29 @@ const Page = () => {
 
     return (
         <main className="min-h-screen mt-16 px-4 custom-size-minmax">
+            <nav
+                aria-label="breadcrumb"
+                className="mb-6 flex items-center text-sm text-gray-600"
+            >
+                <Link href="/admin" className="flex items-center gap-1 hover:underline">
+                    <FaChevronLeft /> Admin
+                </Link>
+                <span className="mx-2">/</span>
+                <Link href="/admin/localisations" className="hover:underline">
+                    Localisations
+                </Link>
+                <span className="mx-2">/</span>
+                <span aria-current="page" className="font-medium text-green-700">
+                    Créer un localisation
+                </span>
+            </nav>
             <section>
                 <div className="space-y-4 md:space-y-6 bg-brand-white rounded-xl p-6 border border-brand-lightgreen/20 mt-10">
                     <h2 className="text-lg font-semibold text-brand-darkgreen">Ajouter et Associer une ou plusieurs localisations</h2>
                     <div className="grid grid-cols-8 gap-4">
                         <h3 className="col-span-3 block text-brand-darkgreen font-medium mb-1 md:mb-2 text-xs md:text-sm">Nouvelle localisation</h3>
-                        <p className="text-center text-brand-darkgreen font-medium text-sm">Coordonnée X</p>
-                        <p className="text-center text-brand-darkgreen font-medium text-sm">Coordonnée Y</p>
+                        <p className="text-center text-brand-darkgreen font-medium text-sm">Latitude</p>
+                        <p className="text-center text-brand-darkgreen font-medium text-sm">Longitude</p>
                         <p className="col-span-2 text-center text-brand-darkgreen font-medium text-sm">Arbre(s) associé(s)<sup>(optionnel)</sup></p>
                     </div>
                     <form onSubmit={handleSubmit} className="grid grid-cols-8 gap-4 mb-14">
@@ -180,14 +198,14 @@ const Page = () => {
                         <input
                             id="x"
                             type="number"
-                            placeholder="Coordonnée X, exemple : 41.40338"
+                            placeholder="Exemple : 41.40338"
                             value={latitude}
                             onChange={(e) => setLatitude(e.target.value)}
                             className="w-full px-3 py-2 md:px-4 md:py-3 border border-brand-lightgreen/20 rounded-lg bg-white text-sm focus:outline-none focus:ring-1 focus:ring-brand-green" />
                         <input
                             id="y"
                             type="number"
-                            placeholder="Coordonnée Y, exemple : 2.17403"
+                            placeholder="Exemple : 2.17403"
                             value={longitude}
                             onChange={(e) => setLongitude(e.target.value)}
                             className="w-full px-3 py-2 md:px-4 md:py-3 border border-brand-lightgreen/20 rounded-lg bg-white text-sm focus:outline-none focus:ring-1 focus:ring-brand-green" />
@@ -264,8 +282,8 @@ const Page = () => {
                                 <h3 className="col-span-3 block text-brand-darkgreen font-medium mb-1 md:mb-2 text-xs md:text-sm">
                                     Localisations ajoutées
                                 </h3>
-                                <p className="text-center text-brand-darkgreen font-medium text-sm">Coordonnée X</p>
-                                <p className="text-center text-brand-darkgreen font-medium text-sm">Coordonnée Y</p>
+                                <p className="text-center text-brand-darkgreen font-medium text-sm">Latitude</p>
+                                <p className="text-center text-brand-darkgreen font-medium text-sm">Longitude</p>
                             </div>
 
                             {locations.map((loc, index) => (

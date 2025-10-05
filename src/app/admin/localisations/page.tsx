@@ -1,22 +1,75 @@
 "use client";
 
-import { FaRegEye } from "react-icons/fa";
+import { useState } from "react";
+import { FaRegEye, FaChevronLeft } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline, MdOutlineCreate } from "react-icons/md";
 import { LuListFilter } from "react-icons/lu";
 import { PiTreeFill, PiMagnifyingGlassBold } from "react-icons/pi";
-import Link from "next/link";
 import { TbMapOff, TbChristmasTreeOff, TbMapPin2 } from "react-icons/tb";
+import Link from "next/link";
 import { useLocations } from "@/hook/useLocations";
-
+import { deleteLocation, deleteProductLocationLink, getAllLocationsWithRelations } from "@/services/location.api";
+import { ILocation } from "@/types/index.types"
 
 const Page = () => {
+    const { locations, pagination, loading, fetchData } = useLocations(10);
 
-const { locations, pagination, loading, fetchData } = useLocations(10);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedLocation, setSelectedLocation] = useState<ILocation | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleDeleteClick = (loc: ILocation) => {
+        setSelectedLocation(loc);
+        setShowModal(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedLocation) return;
+
+        try {
+            // 1️⃣ Récupérer les relations pour la localisation
+            const locWithRelations = await getAllLocationsWithRelations();
+            const locationData = locWithRelations.find((l: any) => Number(l.id) === selectedLocation.id);
+
+            if (locationData?.productLocations) {
+                for (const pl of locationData.productLocations) {
+                    await deleteProductLocationLink(selectedLocation.id.toString(), pl.product_id);
+                }
+            }
+
+            // 2️⃣ Supprimer la localisation
+            await deleteLocation(selectedLocation.id.toString());
+
+            // 3️⃣ Mettre à jour le tableau
+            fetchData(pagination.page, pagination.limit);
+
+            // 4️⃣ Message temporaire
+            setSuccessMessage(`La localisation "${selectedLocation.name}" a bien été supprimée.`);
+            setTimeout(() => setSuccessMessage(null), 3000);
+        } catch (error) {
+            console.error("Erreur lors de la suppression", error);
+            alert("Erreur lors de la suppression de la localisation ❌");
+        } finally {
+            setShowModal(false);
+            setSelectedLocation(null);
+        }
+    };
 
     return (
         <main className="min-h-screen mt-16 px-4 custom-size-minmax">
-
+            <nav
+                aria-label="breadcrumb"
+                className="mb-6 flex items-center text-sm text-gray-600"
+            >
+                <Link href="/admin" className="flex items-center gap-1 hover:underline">
+                    <FaChevronLeft /> Admin
+                </Link>
+                <span className="mx-2">/</span>
+                <span aria-current="page" className="font-medium text-green-700">
+                    Localisations
+                </span>
+            </nav>
             <section>
 
                 <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">Vue d'ensemble des Localisations</h1>
@@ -95,6 +148,12 @@ const { locations, pagination, loading, fetchData } = useLocations(10);
                     </Link>
                 </div>
 
+                {successMessage && (
+                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 mb-4 rounded">
+                        {successMessage}
+                    </div>
+                )}
+
                 <table className="border-collapse border border-brand-darkgreen w-full">
                     <thead>
                         <tr className="h-14">
@@ -141,15 +200,18 @@ const { locations, pagination, loading, fetchData } = useLocations(10);
                                     <td className="border border-brand-darkgreen text-center">NC</td>
                                     <td className="border border-brand-darkgreen">
                                         <div className="flex justify-center items-center gap-4">
-                                            <Link href={`/admin/localisation/${loc.id}`} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+                                            <Link href={`/admin/localisations/${loc.id}`} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
                                                 <FaRegEye />
                                             </Link>
-                                            <Link href={`/admin/localisation/edition/${loc.id}`} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
+                                            <Link href={`/admin/localisations/modifier/${loc.id}`} className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white">
                                                 <FiEdit3 />
                                             </Link>
-                                            <Link href={`/admin/localisation/suppresion/${loc.id}`} className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white">
+                                            <button
+                                                onClick={() => handleDeleteClick(loc)}
+                                                className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white"
+                                            >
                                                 <MdDeleteOutline />
-                                            </Link>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -205,6 +267,32 @@ const { locations, pagination, loading, fetchData } = useLocations(10);
                     </div>
                 </div>
             </section>
+
+            {/* MODALE */}
+            {showModal && selectedLocation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-brand-darkgreen/50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                        <h2 className="text-xl font-bold mb-4">Confirmer la suppression</h2>
+                        <p className="mb-4">
+                            Êtes-vous sûr de vouloir supprimer la localisation "<strong>{selectedLocation.name}</strong>" ?
+                        </p>
+                        <div className="flex justify-center gap-4">
+                            <button
+                                onClick={confirmDelete}
+                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                            >
+                                Supprimer
+                            </button>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                            >
+                                Annuler
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 };

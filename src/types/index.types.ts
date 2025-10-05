@@ -24,14 +24,6 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export interface IProductLocation {
-  product_id: number;
-  location_id: number;
-  created_at: string;
-  updated_at: string;
-  location: ILocation;
-}
-
 export interface ILocation {
   id: number;
   name: string;
@@ -39,5 +31,13 @@ export interface ILocation {
   longitude?: number;
   created_at?: string;
   updated_at?: string;
-  productLocations?: string[];
+  productLocations?: IProductLocation[];
+}
+
+export interface IProductLocation {
+  product_id: number;
+  location_id: number;
+  created_at: string;
+  updated_at: string;
+  product: IProduct;
 }
