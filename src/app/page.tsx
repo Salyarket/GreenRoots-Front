@@ -11,7 +11,7 @@ const Page = () => {
       {/* main image + h1 */}
       {/* <RefreshAccesToken /> */}
       <Hero />
-      <TestSecureRoute />
+      {/* <TestSecureRoute /> */}
       <WhyUs />
       <BestSellers />
       <CounterSection />
