@@ -35,7 +35,13 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
         {/* Image produit */}
         <article className="rounded-xl shadow  md:w-1/2">
           <div className="relative w-full h-[500px] md:h-[700px]">
-            <ProductGallery product={product} />
+            {product.image_urls && product.image_urls.length > 0 ? (
+              <ProductGallery product={product} />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg">
+                <p className="text-gray-500 italic">Aucune image disponible</p>
+              </div>
+            )}
           </div>
         </article>
 
@@ -45,9 +51,11 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
             <h1 className="text-3xl font-bold text-green-700">
               {product.name}
             </h1>
-            <h3 className=" font-bold text-black mt-4">
-              Nom scientifique : {product.scientific_name}
-            </h3>
+            {product.scientific_name && (
+              <h3 className=" font-bold text-black mt-4">
+                Nom scientifique : {product.scientific_name}
+              </h3>
+            )}
             <p className="text-xl font-semibold mt-2">
               {product.price} € / unité
             </p>
@@ -58,22 +66,30 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
             <h2 className="flex items-center gap-2 font-semibold text-gray-800">
               <FaInfoCircle /> Détails du produit
             </h2>
-            <ul className="mt-2 space-y-1 text-gray-700">
+            <ul className="mt-2 space-y-2 text-gray-700 ">
               <li>
                 Stock disponible :{" "}
                 <span className="font-semibold text-green-600">
                   {product.stock} unités
                 </span>
               </li>
-              <li>Carbone absorbé : {product.carbon} kg CO₂/an</li>
-              <li>
-                Localisation :{" "}
-                {product.productLocations?.map((pl, i) => (
-                  <span key={i} className="mr-2">
-                    {pl.location?.name}
-                  </span>
-                ))}
-              </li>
+              {product.carbon ? (
+                <li>Carbone absorbé : {product.carbon} kg CO₂/an</li>
+              ) : (
+                <li>Carbone absorbé : En cours de calcul</li>
+              )}
+              {product.productLocations.length >= 1 ? (
+                <li>
+                  Localisation :{" "}
+                  {product.productLocations?.map((pl, i) => (
+                    <span key={i} className="mr-2">
+                      {pl.location?.name}
+                    </span>
+                  ))}
+                </li>
+              ) : (
+                <li>Localisation : En cours de selection</li>
+              )}
             </ul>
           </section>
 
@@ -93,9 +109,15 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
       </section>
 
       <section className="mt-8">
-        <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-4">
-          Lieu de plantation
-        </h2>
+        {product.productLocations.length >= 1 ? (
+          <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-4">
+            Lieu de plantation
+          </h2>
+        ) : (
+          <h2 className="flex items-center gap-2 font-semibold text-gray-800 mb-4">
+            Lieu de plantation : En cours de selection
+          </h2>
+        )}
         <div className="w-full h-[400px] rounded-lg overflow-hidden border">
           <Map
             places={
@@ -112,24 +134,47 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
 
       {/* section texte explicatif */}
       <section className="flex flex-col md:flex-row my-8 ">
-        <article className="flex flex-col justify-center bg-brand-white shadow-md p-5 rounded-md py-10 mb-5 md:mb-0 md:mr-8">
-          <div className="flex mb-4">
-            <FaInfoCircle className="text-brand-green mr-2" />
-            <p>
-              <b>CO₂</b> absorbé : en plantant un {product.name}, vous
-              absorberez <b>{product.carbon} KG de CO₂</b>
+        {product.carbon ? (
+          // Cas où on a une valeur en BDD
+          <article className="flex flex-col justify-center bg-brand-white shadow-md p-5 rounded-md py-10 mb-5 md:mb-0 md:mr-8">
+            <div className="flex mb-4">
+              <FaInfoCircle className="text-brand-green mr-2" />
+              <p>
+                <b>CO₂</b> absorbé : en plantant un {product.name}, vous
+                absorberez <b>{product.carbon} kg de CO₂</b>
+              </p>
+            </div>
+            <p className="mb-4">
+              Période d&apos;absorption du CO₂ : 0 ans / 10 ans* <br />
+              Absorption annuelle moyenne :{" "}
+              <b>{Number(product.carbon) / 10} kg</b>
             </p>
-          </div>
-          <p className="mb-4">
-            Période d&apos;absorption du CO₂ : 0 ans / 10 ans* <br />
-            Absorption annuelle moyenne :{" "}
-            <b>{Number(product.carbon) / 10} Kg</b>
-          </p>
-          <p className="text-xs italic">
-            * L&apos;arbre continuera à absorber du CO₂ même après la dixième
-            année. Il s&apos;agit donc d&apos;une estimation prudente.
-          </p>
-        </article>
+            <p className="text-xs italic">
+              * L&apos;arbre continuera à absorber du CO₂ même après la dixième
+              année. Il s&apos;agit donc d&apos;une estimation prudente.
+            </p>
+          </article>
+        ) : (
+          // Pas de valeur en BDD → texte générique
+          <article className="flex flex-col justify-center bg-brand-white shadow-md p-5 rounded-md py-10 mb-5 md:mb-0 md:mr-8">
+            <div className="flex mb-4">
+              <FaInfoCircle className="text-brand-green mr-2" />
+              <p>
+                <b>CO₂</b> absorbé : en plantant un {product.name}, vous
+                contribuerez à la capture de CO₂ et à l&apos;amélioration de la
+                biodiversité.
+              </p>
+            </div>
+            <p className="mb-4">
+              Chaque arbre joue un rôle essentiel dans la régulation du climat
+              et le maintien de la qualité de l&apos;air.
+            </p>
+            <p className="text-xs italic">
+              * L&apos;absorption varie selon l&apos;espèce et les conditions
+              environnementales.
+            </p>
+          </article>
+        )}
         <article className="flex flex-col justify-center bg-brand-white shadow-md p-5 rounded-md py-10">
           <h4 className="text-lg font-extrabold text-brand-darkgreen mb-4">
             Ce qui est inclus ?

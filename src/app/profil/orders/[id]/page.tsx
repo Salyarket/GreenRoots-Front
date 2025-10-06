@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaChevronLeft } from "react-icons/fa";
 
 const OneOrderPage = () => {
   const { user } = useAuthStore();
@@ -40,15 +41,29 @@ const OneOrderPage = () => {
   console.log("📦 State order:", order);
 
   return (
-    <main className="min-h-screen mt-16 mb-16 px-4 py-6 md:py-8">
-      <div className="max-w-2xl lg:max-w-4xl mx-auto">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
+      {/* Fil d’ariane */}
+      <nav
+        aria-label="breadcrumb"
+        className="mb-6 flex items-center text-sm text-gray-600"
+      >
         <Link
-          href="/profil/orders"
-          className="inline-flex items-center text-brand-lightgreen hover:text-brand-darkgreen mb-4 md:mb-6 text-sm md:text-base"
+          href="/profil"
+          className="flex items-center gap-1 hover:underline"
         >
-          ← Mes commandes
+          <FaChevronLeft /> Mon profil
         </Link>
+        <span className="mx-2">/</span>
+        <Link href="/profil/orders" className="hover:underline">
+          Mes commandes
+        </Link>
+        <span className="mx-2">/</span>
+        <span aria-current="page" className="font-medium text-green-700">
+          Commande #{order?.id || "..."}
+        </span>
+      </nav>
 
+      <div className="max-w-2xl lg:max-w-4xl mx-auto">
         {!order ? (
           <p className="text-center text-brand-green py-8 md:py-12 text-base md:text-lg">
             Chargement de la commande...
@@ -90,7 +105,7 @@ const OneOrderPage = () => {
                       <div className="w-12 h-12 md:w-16 md:h-16 bg-brand-lightgreen/10 rounded flex items-center justify-center flex-shrink-0">
                         {item.product?.image_urls?.[0] && (
                           <Image
-                            src={`http://localhost:4000/uploads/arbres/${item.product.image_urls[0]}`}
+                            src={`http://localhost:4000/${item.product.image_urls[0]}`}
                             alt={item.product?.name || "Produit"}
                             width={48}
                             height={48}

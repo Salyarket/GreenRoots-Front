@@ -41,6 +41,37 @@ export const loginSchema = z.object({
   password: z.string().min(8, "Mot de passe trop court (8 caractères min.)"),
 });
 
+// update user /profil
+export const updateUserSchema = z
+  .object({
+    firstname: z
+      .string()
+      .min(2, "Minimum 2 caractères")
+      .max(255, "Maximum 255 caractères")
+      .regex(onlyLetters, "Seulement des lettres")
+      .optional()
+      .or(z.literal("")), // autorise vide (pas de modif)
+    lastname: z
+      .string()
+      .min(2, "Minimum 2 caractères")
+      .max(255, "Maximum 255 caractères")
+      .regex(onlyLetters, "Seulement des lettres")
+      .optional()
+      .or(z.literal("")),
+    password: z
+      .string()
+      .min(8, "8 caractères minimum")
+      .max(255, "Maximum 255 caractères")
+      .optional()
+      .or(z.literal("")),
+    confirmPassword: z.string().optional().or(z.literal("")),
+  })
+  .refine((data) => !data.password || data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Les mots de passe ne correspondent pas",
+  });
+
 // Types TS générés automatiquement par Zod qu'on peut réutiliser
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
+export type UpdateUserFormData = z.infer<typeof updateUserSchema>;

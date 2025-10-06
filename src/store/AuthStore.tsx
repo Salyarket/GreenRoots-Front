@@ -1,6 +1,7 @@
 import { IProduct } from "@/types/index.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import useCartStore from "./CartStore";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -20,7 +21,7 @@ export interface Order {
   date: string;
   status: string;
   total: number;
-  items: Item;
+  items: Item[];
 }
 
 // order_item
@@ -37,6 +38,7 @@ interface AuthState {
   logout: () => void;
 }
 
+
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -52,6 +54,9 @@ const useAuthStore = create<AuthState>()(
         } catch (e) {
           console.error("Erreur lors du logout", e);
         }
+
+        useCartStore.getState().clearCart();
+
         set({ user: null });
       },
     }),

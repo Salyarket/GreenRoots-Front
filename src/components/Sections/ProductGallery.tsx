@@ -29,16 +29,20 @@ const ProductGallery = ({ product }: IGalleryProps) => {
     setCurrentIndex((prev) => (prev + 1) % total);
   };
 
+  const normalizedImages = images.map((img) => img.replace(/\\/g, "/"));
+
+
   return (
     <article className="h-full relative">
       {/* Bloc image principale */}
       <div className="relative h-full w-full aspect-square overflow-hidden rounded-lg">
         <Image
-          src={`${API_URL}/uploads/arbres/${images[currentIndex]}`}
+          // API_URL = http://localhost:4000
+          src={`${API_URL}/${normalizedImages[currentIndex]}`}
           alt={`${product.name} ${currentIndex + 1}`}
           fill
           sizes="max-width: 100px"
-          className="object-cover   transition-all duration-300"
+          className="object-cover transition-all duration-300"
           priority
         />
         {product.stock > 0 ? (

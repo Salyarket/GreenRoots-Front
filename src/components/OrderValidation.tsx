@@ -11,9 +11,8 @@ export default function OrderValidation() {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const { items } = useCartStore();
+  const { items, getTotal, clearCart } = useCartStore();
   const { user } = useAuthStore();
-  const { getTotal } = useCartStore();
   const router = useRouter();
 
   //  function faux paiement
@@ -37,6 +36,11 @@ export default function OrderValidation() {
     try {
       const orderRes = await createNewOrder(user.token, data);
       console.log("Commande validée ✅", orderRes);
+
+      setMessage("Commande validée ✅");
+
+      clearCart();
+
       router.push(`/profil/orders/confirmation?id=${orderRes.id}`);
     } catch (error) {
       console.error("Commande non validée ❌", error);
