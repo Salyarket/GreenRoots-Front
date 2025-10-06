@@ -19,6 +19,7 @@ interface Cart {
   remove: (id: number) => void;
   update: (id: number, quantity: number) => void;
   getTotal: () => number;
+  clearCart: () => void;
 }
 
 const useCartStore = create<Cart>()(
@@ -61,6 +62,8 @@ const useCartStore = create<Cart>()(
           (total, item) => total + item.price * item.quantity,
           0
         ),
+
+      clearCart: () => set({ items: [] }),
     }),
     { name: "cart-storage" }
   )
