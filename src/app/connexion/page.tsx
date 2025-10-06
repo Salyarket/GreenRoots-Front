@@ -50,7 +50,10 @@ const LoginPage = () => {
         <div className="text-center mt-6">
           <p className="text-brand-green">
             Pas encore de compte ?{" "}
-            <a href="/register" className="text-brand-darkgreen font-semibold">
+            <a
+              href="/inscription"
+              className="text-brand-darkgreen font-semibold"
+            >
               S&apos;inscrire
             </a>
           </p>

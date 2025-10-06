@@ -5,6 +5,7 @@ import useAuthStore, { Order } from "@/store/AuthStore";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FaChevronLeft } from "react-icons/fa";
 
 const OrdersPage = () => {
   const { user } = useAuthStore();
@@ -27,15 +28,26 @@ const OrdersPage = () => {
   }, [user]);
 
   return (
-    <main className="min-h-screen mt-16 mb-16 px-4 custom-size-minmax py-6 md:py-8">
-      {/* Header */}
-      <div className="text-center mb-6 md:mb-8">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
+      {/* Fil d’ariane */}
+      <nav
+        aria-label="breadcrumb"
+        className="mb-6 flex items-center text-sm text-gray-600"
+      >
         <Link
           href="/profil"
-          className="inline-flex items-center text-brand-lightgreen hover:text-brand-darkgreen transition-colors mb-3 md:mb-4 text-xs md:text-sm font-medium"
+          className="flex items-center gap-1 hover:underline"
         >
-          ← Retour à mon compte
+          <FaChevronLeft /> Mon profil
         </Link>
+        <span className="mx-2">/</span>
+        <span aria-current="page" className="font-medium text-green-700">
+          Mes commandes
+        </span>
+      </nav>
+
+      {/* Header */}
+      <div className="text-center mb-6 md:mb-8">
         <h1 className="text-lg md:text-2xl text-brand-darkgreen font-bold">
           Mes commandes
         </h1>
