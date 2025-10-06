@@ -23,10 +23,10 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
       {/* section titre */}
       <section>
         <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center">
-          Les arbres soigneusement sélectionnés par GreenRoots,
+          Les arbres soigneusement sélectionnés par GreenRoots
         </h1>
         <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold text-center">
-          il y en a pour tous les goûts dans la nature
+          Il y en a pour tous les goûts dans la nature
         </p>
       </section>
 
