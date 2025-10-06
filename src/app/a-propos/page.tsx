@@ -6,7 +6,15 @@ const AProposPage = () => {
     { initials: "TM", firstName: "Tarig", lastName: "Mekhazni" },
   ];
 
-  const frontTech = ["React", "Next.js", "Tailwind CSS"];
+  const frontTech = [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "TypeScript",
+    "Zod",
+    "Zustand",
+    "Leaflet",
+  ];
   const backTech = [
     "Node.js",
     "Express",
@@ -16,7 +24,8 @@ const AProposPage = () => {
     "Bcrypt",
     "JWT",
     "Multer",
-    "EmailJS",
+    "Swagger",
+    // "EmailJS",
   ];
 
   const userFeatures = [
@@ -165,7 +174,7 @@ const AProposPage = () => {
               {backTech.map((tech, index) => (
                 <span
                   key={index}
-                  className="bg-brand-darkgreen text-brand-white px-3 py-1 rounded-full text-sm"
+                  className="bg-brand-darkgreen text-brand-white px-4 py-2 rounded-full text-sm"
                 >
                   {tech}
                 </span>
