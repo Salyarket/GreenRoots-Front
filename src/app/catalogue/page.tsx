@@ -22,11 +22,11 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
       {/* section titre */}
       <section>
-        <h1 className="text-xl md:text-2xl text-brand-darkgreen uppercase font-bold text-center">
-          les arbres soigneusement sélectionnés par greenroots
+        <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center">
+          Les arbres soigneusement sélectionnés par GreenRoots,
         </h1>
-        <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold uppercase text-center">
-          il a en a pour tous les goûts dans la nature
+        <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold text-center">
+          il y en a pour tous les goûts dans la nature
         </p>
       </section>
 
