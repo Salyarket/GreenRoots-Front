@@ -1,3 +1,5 @@
+import { ContactForm } from "@/components/EmailJs";
+
 const ContactPage = () => {
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax">
@@ -34,88 +36,7 @@ const ContactPage = () => {
       </section>
 
       {/* Section formulaire  */}
-      <section className="mt-12 max-w-2xl mx-auto">
-        <h2 className="text-xl md:text-2xl font-bold text-brand-darkgreen mb-2 text-center">
-          Ou envoyez-nous un message
-        </h2>
-        <p className="text-brand-green text-center mb-6 md:mb-8 text-sm md:text-base">
-          Remplissez le formulaire ci-dessous
-        </p>
-
-        <form className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex-1">
-              <label
-                htmlFor="lastname"
-                className="block text-brand-darkgreen font-medium mb-1 text-sm"
-              >
-                Nom
-              </label>
-              <input
-                id="lastname"
-                type="text"
-                placeholder="Votre nom"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
-                required
-              />
-            </div>
-            <div className="flex-1">
-              <label
-                htmlFor="firstname"
-                className="block text-brand-darkgreen font-medium mb-1 text-sm focus:outline-none focus:ring-1 focus:ring-brand-green"
-              >
-                Prénom
-              </label>
-              <input
-                id="firstname"
-                type="text"
-                placeholder="Votre prénom"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <label
-              htmlFor="email"
-              className="block text-brand-darkgreen font-medium mb-1 text-sm"
-            >
-              Adresse e-mail
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Votre adresse email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:outline-none focus:ring-1 focus:ring-brand-green"
-              required
-            />
-          </div>
-
-          <div className="flex-1">
-            <label
-              htmlFor="message"
-              className="block text-brand-darkgreen font-medium mb-1 text-sm"
-            >
-              Message
-            </label>
-            <textarea
-              id="message"
-              placeholder="Votre message..."
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none resize-vertical focus:outline-none focus:ring-1 focus:ring-brand-green"
-              required
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-brand-green text-white px-6 py-2 rounded-lg font-semibold hover:bg-brand-darkgreen cursor-pointer"
-          >
-            Envoyer mon message
-          </button>
-        </form>
-      </section>
+      <ContactForm />
 
       {/* Footer */}
       <div className="text-center m-8">
