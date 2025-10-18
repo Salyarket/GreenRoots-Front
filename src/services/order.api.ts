@@ -82,7 +82,7 @@ export async function getAllOrders(
   return res.json();
 }
 
-// delete an order by id
+// delete an order by id (admin)
 export async function deletOrderById(token: string, orderId: number) {
   const res = await apiFetch(`/orders/${orderId}`, {
     method: "DELETE",
@@ -98,7 +98,7 @@ export async function deletOrderById(token: string, orderId: number) {
   return res.json();
 }
 
-// update the status of an order
+// update the status of an order (admin)
 export async function updateOrderStatus(
   token: string,
   orderId: number,

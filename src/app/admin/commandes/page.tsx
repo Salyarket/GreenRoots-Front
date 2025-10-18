@@ -37,10 +37,10 @@ const Page = () => {
     fetchData();
   }, [token]);
 
-  const removeOrder = () => {
-    try {
-    } catch (error) {}
-  };
+  // const removeOrder = () => {
+  //   try {
+  //   } catch (error) {}
+  // };
 
   return (
     <main className="min-h-screen mt-16 mb-16 px-16 custom-size-minmax ">
@@ -86,43 +86,45 @@ const Page = () => {
                 </td>
               </tr>
             ) : orders.length > 0 ? (
-              orders.map((order) => (
-                <tr key={order.id} className="h-14">
-                  <td className="border border-brand-darkgreen text-center">
-                    {order.id}
-                  </td>
-                  <td className="border border-brand-darkgreen text-center">
-                    {new Date(order.created_at).toLocaleDateString("fr-FR")}
-                  </td>
-                  <td className="border border-brand-darkgreen text-center">
-                    {order.user.firstname} {order.user.lastname}
-                  </td>
-                  <td className="border border-brand-darkgreen text-center">
-                    {order.status}
-                  </td>
-                  <td className="border border-brand-darkgreen text-center">
-                    {order.total} €
-                  </td>
-                  <td className="border border-brand-darkgreen">
-                    <div className="flex justify-center items-center gap-4">
-                      <Link
-                        href={`/admin/commandes/${order.id}`}
-                        className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
-                      >
-                        <FaRegEye />
-                      </Link>
-                      <Link
-                        href={`/admin/commandes/modification/${order.id}`}
-                        className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
-                      >
-                        <FiEdit3 />
-                      </Link>
-                      {/* bouton de suppresion qui va ouvrir la modale */}
-                      <DeleteOrderButton order={order} />
-                    </div>
-                  </td>
-                </tr>
-              ))
+              orders
+                .sort((a, b) => a.id - b.id)
+                .map((order) => (
+                  <tr key={order.id} className="h-14">
+                    <td className="border border-brand-darkgreen text-center">
+                      {order.id}
+                    </td>
+                    <td className="border border-brand-darkgreen text-center">
+                      {new Date(order.created_at).toLocaleDateString("fr-FR")}
+                    </td>
+                    <td className="border border-brand-darkgreen text-center">
+                      {order.user.firstname} {order.user.lastname}
+                    </td>
+                    <td className="border border-brand-darkgreen text-center">
+                      {order.status}
+                    </td>
+                    <td className="border border-brand-darkgreen text-center">
+                      {order.total} €
+                    </td>
+                    <td className="border border-brand-darkgreen">
+                      <div className="flex justify-center items-center gap-4">
+                        <Link
+                          href={`/admin/commandes/${order.id}`}
+                          className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                        >
+                          <FaRegEye />
+                        </Link>
+                        <Link
+                          href={`/admin/commandes/modification/${order.id}`}
+                          className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                        >
+                          <FiEdit3 />
+                        </Link>
+                        {/* bouton de suppresion qui va ouvrir la modale */}
+                        <DeleteOrderButton order={order} />
+                      </div>
+                    </td>
+                  </tr>
+                ))
             ) : (
               <tr>
                 <td
