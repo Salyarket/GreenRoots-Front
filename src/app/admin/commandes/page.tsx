@@ -3,10 +3,11 @@
 import DeleteOrderButton from "@/components/admin/DeleteOrderButton";
 import { TableHeadCell } from "@/components/admin/TableHeadCell";
 import TableWrapper from "@/components/admin/TableWrapper";
-import { getAllOrders } from "@/services/order.api";
+import { getOrdersPaginationAdmin } from "@/services/order.api";
 import useAuthStore from "@/store/AuthStore";
 import { IOrder } from "@/types/index.types";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaRegEye } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
@@ -18,14 +19,26 @@ const Page = () => {
   const { user } = useAuthStore();
   const token = user?.token;
 
+  const search = useSearchParams();
+  const currentPage = Number(search.get("page") ?? 1);
+  const limit = 8;
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: currentPage,
+    limit,
+    totalPages: 0,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return;
       setLoading(true);
 
       try {
-        const data = await getAllOrders(token);
-        setOrders(Array.isArray(data) ? data : data.orders || []);
+        const res = await getOrdersPaginationAdmin(limit, currentPage);
+        const sortedData = res.data.sort((a, b) => a.id - b.id);
+        setOrders(sortedData);
+        setPagination(res.pagination_State);
       } catch (error) {
         console.error(error);
         setOrders([]);
@@ -34,7 +47,7 @@ const Page = () => {
       }
     };
     fetchData();
-  }, [token]);
+  }, [token, currentPage]);
 
   return (
     <main className="min-h-screen mt-16 mb-16 px-16 custom-size-minmax ">
@@ -80,45 +93,43 @@ const Page = () => {
                 </td>
               </tr>
             ) : orders.length > 0 ? (
-              orders
-                .sort((a, b) => a.id - b.id)
-                .map((order) => (
-                  <tr key={order.id} className="h-14">
-                    <td className="border border-brand-darkgreen text-center">
-                      {order.id}
-                    </td>
-                    <td className="border border-brand-darkgreen text-center">
-                      {new Date(order.created_at).toLocaleDateString("fr-FR")}
-                    </td>
-                    <td className="border border-brand-darkgreen text-center">
-                      {order.user.firstname} {order.user.lastname}
-                    </td>
-                    <td className="border border-brand-darkgreen text-center">
-                      {order.status}
-                    </td>
-                    <td className="border border-brand-darkgreen text-center">
-                      {order.total} €
-                    </td>
-                    <td className="border border-brand-darkgreen">
-                      <div className="flex justify-center items-center gap-4">
-                        <Link
-                          href={`/admin/commandes/${order.id}`}
-                          className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
-                        >
-                          <FaRegEye />
-                        </Link>
-                        <Link
-                          href={`/admin/commandes/modification/${order.id}`}
-                          className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
-                        >
-                          <FiEdit3 />
-                        </Link>
-                        {/* bouton de suppresion qui va ouvrir la modale */}
-                        <DeleteOrderButton order={order} />
-                      </div>
-                    </td>
-                  </tr>
-                ))
+              orders.map((order) => (
+                <tr key={order.id} className="h-14">
+                  <td className="border border-brand-darkgreen text-center">
+                    {order.id}
+                  </td>
+                  <td className="border border-brand-darkgreen text-center">
+                    {new Date(order.created_at).toLocaleDateString("fr-FR")}
+                  </td>
+                  <td className="border border-brand-darkgreen text-center">
+                    {order.user.firstname} {order.user.lastname}
+                  </td>
+                  <td className="border border-brand-darkgreen text-center">
+                    {order.status}
+                  </td>
+                  <td className="border border-brand-darkgreen text-center">
+                    {order.total} €
+                  </td>
+                  <td className="border border-brand-darkgreen">
+                    <div className="flex justify-center items-center gap-4">
+                      <Link
+                        href={`/admin/commandes/${order.id}`}
+                        className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                      >
+                        <FaRegEye />
+                      </Link>
+                      <Link
+                        href={`/admin/commandes/modification/${order.id}`}
+                        className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                      >
+                        <FiEdit3 />
+                      </Link>
+                      {/* bouton de suppresion qui va ouvrir la modale */}
+                      <DeleteOrderButton order={order} />
+                    </div>
+                  </td>
+                </tr>
+              ))
             ) : (
               <tr>
                 <td
@@ -131,6 +142,26 @@ const Page = () => {
             )}
           </tbody>
         </TableWrapper>
+
+        {/* Pagination */}
+        <div className="flex justify-center gap-4 mt-6">
+          {pagination.page > 1 && (
+            <Link
+              href={`/admin/commandes?page=${pagination.page - 1}`}
+              className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+            >
+              ← Précédent
+            </Link>
+          )}
+          {pagination.page < pagination.totalPages && (
+            <Link
+              href={`/admin/commandes?page=${pagination.page + 1}`}
+              className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+            >
+              Suivant →
+            </Link>
+          )}
+        </div>
       </section>
     </main>
   );

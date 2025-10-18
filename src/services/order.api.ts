@@ -1,6 +1,6 @@
 import { Order } from "@/store/AuthStore";
 import { apiFetch } from "./api";
-import { IOrder } from "@/types/index.types";
+import { IOrder, PaginatedResponse } from "@/types/index.types";
 
 // get all orders from user (using the wrapper)
 export async function getMyOrders(token: string): Promise<{ orders: Order[] }> {
@@ -65,23 +65,6 @@ export async function getOrderItems(token: string, orderId: number) {
   return res.json();
 }
 
-// get all the orders (admin)
-export async function getAllOrders(
-  token: string
-): Promise<{ orders: IOrder[] }> {
-  const res = await apiFetch("/orders", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
-  }
-
-  return res.json();
-}
-
 // delete an order by id (admin)
 export async function deletOrderById(token: string, orderId: number) {
   const res = await apiFetch(`/orders/${orderId}`, {
@@ -118,4 +101,31 @@ export async function updateOrderStatus(
   }
 
   return res.json();
+}
+
+// orders with pagination (admin)
+export async function getOrdersPaginationAdmin(
+  limit: number,
+  page: number = 1
+): Promise<PaginatedResponse<IOrder>> {
+  try {
+    const res = await apiFetch(
+      `/orders/pagination/all?limit=${limit}&page=${page}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Erreur API:", error);
+    return {
+      data: [],
+      pagination_State: { total: 0, page: 1, limit, totalPages: 0 },
+    };
+  }
 }
