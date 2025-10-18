@@ -42,11 +42,21 @@ export async function createNewOrder(token: string, data: any) {
     },
     body: JSON.stringify(data),
   });
-  if (!res.ok) {
-    throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+
+  let resData: any = null;
+  try {
+    resData = await res.json();
+  } catch {
+    // pas de JSON renvoyé par le backend
   }
 
-  return res.json();
+  if (!res.ok) {
+    const message =
+      resData?.error || resData?.message || `Erreur API: ${res.statusText}`;
+    throw new Error(message);
+  }
+
+  return resData;
 }
 
 // get the items for an order
