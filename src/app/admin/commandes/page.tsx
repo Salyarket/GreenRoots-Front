@@ -13,7 +13,6 @@ import { FiEdit3 } from "react-icons/fi";
 
 const Page = () => {
   const [orders, setOrders] = useState<IOrder[]>([]);
-
   const [loading, setLoading] = useState(true);
 
   const { user } = useAuthStore();
@@ -36,11 +35,6 @@ const Page = () => {
     };
     fetchData();
   }, [token]);
-
-  // const removeOrder = () => {
-  //   try {
-  //   } catch (error) {}
-  // };
 
   return (
     <main className="min-h-screen mt-16 mb-16 px-16 custom-size-minmax ">
