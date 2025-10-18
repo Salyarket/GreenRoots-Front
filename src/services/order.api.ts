@@ -39,6 +39,7 @@ export async function createNewOrder(token: string, data: any) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      // vérifier si besoin du bearer
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),

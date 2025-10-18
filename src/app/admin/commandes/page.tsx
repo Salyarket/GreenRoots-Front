@@ -150,15 +150,25 @@ const Page = () => {
               href={`/admin/commandes?page=${pagination.page - 1}`}
               className="px-4 py-2 border rounded-lg hover:bg-gray-100"
             >
-              ← Précédent
+              ←
             </Link>
+          )}
+          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
+            (pageNumero) => (
+              <Link
+                href={`/admin/commandes?page=${pageNumero}`}
+                className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+              >
+                {pageNumero}
+              </Link>
+            )
           )}
           {pagination.page < pagination.totalPages && (
             <Link
               href={`/admin/commandes?page=${pagination.page + 1}`}
               className="px-4 py-2 border rounded-lg hover:bg-gray-100"
             >
-              Suivant →
+              →
             </Link>
           )}
         </div>
