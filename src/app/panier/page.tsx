@@ -62,7 +62,8 @@ export default function PanierPage() {
                     <div className="flex items-center">
                       <button
                         onClick={() => update(item.id, item.quantity - 1)}
-                        className="px-2 py-1 bg-brand-green text-white rounded-full hover:bg-brand-lightgreen"
+                        disabled={item.quantity <= 1}
+                        className="px-2 py-1 bg-brand-green text-white rounded-full hover:bg-brand-lightgreen disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         -
                       </button>
@@ -71,7 +72,8 @@ export default function PanierPage() {
                       </span>
                       <button
                         onClick={() => update(item.id, item.quantity + 1)}
-                        className="px-2 py-1 bg-brand-green text-white rounded-full hover:bg-brand-lightgreen"
+                        disabled={item.quantity >= item.stock}
+                        className="px-2 py-1 bg-brand-green text-white rounded-full hover:bg-brand-lightgreen disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         +
                       </button>

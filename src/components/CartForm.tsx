@@ -86,6 +86,7 @@ const CartForm = ({ price, stock, product }: FormProps) => {
               name: product.name,
               price: product.price,
               quantity: quantity,
+              stock: product.stock,
               image_urls: product.image_urls,
             })
           }
