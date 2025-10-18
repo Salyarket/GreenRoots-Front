@@ -8,6 +8,7 @@ interface Item {
   price: any;
   name: string;
   quantity: number;
+  stock: number;
   image_urls: string[];
 }
 
@@ -34,7 +35,10 @@ const useCartStore = create<Cart>()(
             items: get().items.map((i) =>
               i.id === item.id
                 ? // avec ... on prend toutes les propriétés de i
-                  { ...i, quantity: i.quantity + item.quantity }
+                  {
+                    ...i,
+                    quantity: Math.min(i.quantity + item.quantity, i.stock),
+                  }
                 : i
             ),
           });
@@ -51,7 +55,7 @@ const useCartStore = create<Cart>()(
           items: state.items.map((i) =>
             i.id === id
               ? // avec ... on prend toutes les propriétés de i
-                { ...i, quantity: Math.max(1, quantity) }
+                { ...i, quantity: Math.max(1, Math.min(quantity, i.stock)) }
               : i
           ),
         })),
