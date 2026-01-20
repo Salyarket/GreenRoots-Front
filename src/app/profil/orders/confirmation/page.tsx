@@ -40,7 +40,7 @@ const ConfirmationOrderPage = () => {
       <div className="max-w-2xl mx-auto">
         <Link
           href="/profil/orders"
-          className="inline-flex items-center text-brand-lightgreen hover:text-brand-darkgreen mb-6 text-sm"
+          className="inline-flex items-center text-brand-lightgreen hover:text-brand-darkgreen mb-6 text-sm mt-8"
         >
           ← Mes commandes
         </Link>

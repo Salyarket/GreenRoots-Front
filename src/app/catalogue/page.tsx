@@ -33,8 +33,8 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
         <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center">
           Les arbres soigneusement sélectionnés par GreenRoots
         </h1>
-        <p className="mt-4 text-md md:text-xl text-brand-lightgreen font-bold text-center">
-          Il y en a pour tous les goûts dans la nature
+        <p className="mt-12 text-md md:text-3xl text-brand-lightgreen font-bold text-center">
+          Il y en a pour tous les goûts dans la nature !
         </p>
       </section>
 
@@ -43,7 +43,7 @@ const CataloguePage = async ({ searchParams }: CataloguePageProps) => {
 
       {filteredProducts.length === 0 ? (
         <p className="text-center mt-24 font-bold">
-          Les produits ne sont pas disponibles pour le moment. Réesayez
+          Les produits ne sont pas disponibles pour le moment. Réessayez
           ultérieurement.
         </p>
       ) : (

@@ -3,7 +3,7 @@
 import DeleteOrderButton from "@/components/admin/DeleteOrderButton";
 import { TableHeadCell } from "@/components/admin/TableHeadCell";
 import TableWrapper from "@/components/admin/TableWrapper";
-import { getOrdersPaginationAdmin } from "@/services/order.api";
+import { getAllOrdersAdmin } from "@/services/order.api";
 import useAuthStore from "@/store/AuthStore";
 import { IOrder } from "@/types/index.types";
 import Link from "next/link";
@@ -21,7 +21,9 @@ const Page = () => {
 
   const search = useSearchParams();
   const currentPage = Number(search.get("page") ?? 1);
+
   const limit = 8;
+
   const [pagination, setPagination] = useState({
     total: 0,
     page: currentPage,
@@ -35,22 +37,44 @@ const Page = () => {
       setLoading(true);
 
       try {
-        const res = await getOrdersPaginationAdmin(limit, currentPage);
-        const sortedData = res.data.sort((a, b) => a.id - b.id);
-        setOrders(sortedData);
-        setPagination(res.pagination_State);
+        // on récupère TOUTES les commandes via l'API admin
+        const allOrders: IOrder[] = await getAllOrdersAdmin(token);
+
+        // tri par id croissant
+        const sorted = allOrders.sort((a, b) => a.id - b.id);
+
+        // pagination côté front
+        const total = sorted.length;
+        const totalPages = Math.ceil(total / limit);
+        const start = (currentPage - 1) * limit;
+        const pageData = sorted.slice(start, start + limit);
+
+        setOrders(pageData);
+        setPagination({
+          total,
+          page: currentPage,
+          limit,
+          totalPages,
+        });
       } catch (error) {
-        console.error(error);
+        console.error("Erreur récupération commandes admin:", error);
         setOrders([]);
+        setPagination({
+          total: 0,
+          page: currentPage,
+          limit,
+          totalPages: 0,
+        });
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [token, currentPage]);
 
   return (
-    <main className="min-h-screen mt-16 mb-16 px-16 custom-size-minmax ">
+    <main className="min-h-screen mt-30 mb-16 px-16 custom-size-minmax ">
       {/* Nav */}
       <nav
         aria-label="breadcrumb"
@@ -65,8 +89,8 @@ const Page = () => {
         </span>
       </nav>
 
-      <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">
-        Vue d'ensemble des commandes
+      <h1 className="font-extrabold text-brand-green text-4xl text-center mb-12">
+        Vue d&apos;ensemble des commandes
       </h1>
 
       {/* Tableau commandes */}
@@ -82,13 +106,11 @@ const Page = () => {
               <TableHeadCell label="Action" />
             </tr>
           </thead>
+
           <tbody>
             {loading ? (
               <tr>
-                <td
-                  colSpan={6}
-                  className="text-center p-6 text-gray-500 italic"
-                >
+                <td colSpan={6} className="text-center p-6 text-gray-500 italic">
                   Chargement des commandes...
                 </td>
               </tr>
@@ -98,18 +120,23 @@ const Page = () => {
                   <td className="border border-brand-darkgreen text-center">
                     {order.id}
                   </td>
+
                   <td className="border border-brand-darkgreen text-center">
                     {new Date(order.created_at).toLocaleDateString("fr-FR")}
                   </td>
+
                   <td className="border border-brand-darkgreen text-center">
-                    {order.user.firstname} {order.user.lastname}
+                    {order.user?.firstname} {order.user?.lastname}
                   </td>
+
                   <td className="border border-brand-darkgreen text-center">
                     {order.status}
                   </td>
+
                   <td className="border border-brand-darkgreen text-center">
                     {order.total} €
                   </td>
+
                   <td className="border border-brand-darkgreen">
                     <div className="flex justify-center items-center gap-4">
                       <Link
@@ -118,13 +145,14 @@ const Page = () => {
                       >
                         <FaRegEye />
                       </Link>
+
                       <Link
                         href={`/admin/commandes/modification/${order.id}`}
                         className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
                       >
                         <FiEdit3 />
                       </Link>
-                      {/* bouton de suppresion qui va ouvrir la modale */}
+
                       <DeleteOrderButton order={order} />
                     </div>
                   </td>
@@ -132,10 +160,7 @@ const Page = () => {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan={6}
-                  className="text-center p-6 text-gray-500 italic"
-                >
+                <td colSpan={6} className="text-center p-6 text-gray-500 italic">
                   Aucune commande trouvée.
                 </td>
               </tr>
@@ -153,9 +178,11 @@ const Page = () => {
               ←
             </Link>
           )}
+
           {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
             (pageNumero) => (
               <Link
+                key={pageNumero}
                 href={`/admin/commandes?page=${pageNumero}`}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-100"
               >
@@ -163,6 +190,7 @@ const Page = () => {
               </Link>
             )
           )}
+
           {pagination.page < pagination.totalPages && (
             <Link
               href={`/admin/commandes?page=${pagination.page + 1}`}

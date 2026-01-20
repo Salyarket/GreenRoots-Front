@@ -9,11 +9,11 @@ const BestSellers = async () => {
   return (
     <div className="bg-brand-green py-8">
       <div className="flex w-full text-white text-2xl">
-        <div className="flex-1 w-full border-t-2 translate-y-1/2  border-slate-400 opacity-50"></div>
+        <div className="flex-1 w-full border-t-2 translate-y-1/2 border-slate-400 opacity-50"></div>
         <h3 className="text-center uppercase px-4 font-bold pb-8 select-none ">
           nos best sellers
         </h3>
-        <div className="flex-1 w-full border-t-2 translate-y-1/2  border-slate-400 opacity-50"></div>
+        <div className="flex-1 w-full border-t-2 translate-y-1/2 border-slate-400 opacity-50"></div>
       </div>
 
       {/* partie des cards  */}
@@ -23,7 +23,7 @@ const BestSellers = async () => {
             Les best sellers ne sont pas disponibles pour le moment.
           </p>
         ) : (
-          <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+          <ul className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
             {productsWithPagination.data.slice(0, 3).map((el) => (
               <CardItem
                 key={el.id}

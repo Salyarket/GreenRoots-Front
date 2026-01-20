@@ -31,7 +31,7 @@ const InscriptionPage = () => {
     <main className="min-h-screen mt-12 px-4 custom-size-minmax py-12 mb-16">
       <section className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4">
+          <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4 mt-12">
             Inscription
           </h1>
           <p className="text-brand-green">

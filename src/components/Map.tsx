@@ -2,29 +2,28 @@
 
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
+import type * as Leaflet from "leaflet";
 
 interface MapProps {
-  places: {
-    id: number;
-    name: string;
-    lat: number;
-    lng: number;
-  }[];
+  places: { id: number; name: string; lat: number; lng: number }[];
 }
 
 export default function Map({ places }: MapProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<Leaflet.Map | null>(null);
+  const markersLayerRef = useRef<Leaflet.LayerGroup | null>(null);
+
   const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
-    // Charger Leaflet uniquement côté client
-    const initMap = async () => {
-      if (!mapRef.current) return;
+    let timeoutId: number | undefined;
+
+    const run = async () => {
+      if (!containerRef.current) return;
 
       const L = await import("leaflet");
 
-      // Créer votre icône personnalisée
-      const customIcon = new L.Icon({
+      const customIcon: Leaflet.Icon = new L.Icon({
         iconUrl: "/map-icon.webp",
         iconSize: [25, 50],
         iconAnchor: [12, 65],
@@ -35,52 +34,68 @@ export default function Map({ places }: MapProps) {
         shadowAnchor: [4, 62],
       });
 
-      // Centre par défaut (France)
-      const centerLat = places.length > 0 ? places[0].lat : 46.6031;
-      const centerLng = places.length > 0 ? places[0].lng : 1.8883;
+      // On init map une seule fois
+      if (!mapInstanceRef.current) {
+        const [lat, lng] = places.length
+          ? [places[0].lat, places[0].lng]
+          : [46.6031, 1.8883];
 
-      const map = L.map(mapRef.current).setView([centerLat, centerLng], 6);
+        mapInstanceRef.current = L.map(containerRef.current).setView([lat, lng], 6);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>',
-        minZoom: 2,
-        maxZoom: 18,
-      }).addTo(map);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>',
+          minZoom: 2,
+          maxZoom: 18,
+        }).addTo(mapInstanceRef.current);
 
-      // Ajouter les marqueurs avec l'icône personnalisée
-      places.forEach((place) => {
-        L.marker([place.lat, place.lng], { icon: customIcon })
-          .addTo(map)
-          .bindPopup(`<b>${place.name}</b>`);
-      });
+        markersLayerRef.current = L.layerGroup().addTo(mapInstanceRef.current);
+      }
+      // On met à jour les markers à chaque changement de places
+      const map = mapInstanceRef.current!;
+      const markersLayer = markersLayerRef.current!;
 
-      // Ajuster la vue si plusieurs marqueurs
+      // On cleare les anciens markers
+      markersLayer.clearLayers();
+
+      // Markers ajoutés
+      const markers: Leaflet.Marker[] = places.map((place) =>
+        L.marker([place.lat, place.lng], { icon: customIcon }).bindPopup(
+          `<b>${place.name}</b>`
+        )
+      );
+      markers.forEach((m) => m.addTo(markersLayer));
+
+      // On ajuste la vue
       if (places.length > 1) {
-        const group = L.featureGroup(
-          places.map((place) =>
-            L.marker([place.lat, place.lng], { icon: customIcon })
-          )
-        );
+        const group: Leaflet.FeatureGroup = L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.1));
+      } else if (places.length === 1) {
+        map.setView([places[0].lat, places[0].lng], 12);
+      } else {
+        map.setView([46.6031, 1.8883], 6);
       }
 
       setMapLoaded(true);
-
-      // Redimensionner après un court délai
-      setTimeout(() => {
+      // Redimensionnement correct de la carte
+      timeoutId = window.setTimeout(() => {
         map.invalidateSize();
       }, 100);
     };
+    run();
 
-    initMap();
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
   }, [places]);
 
   return (
-    <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
-      <div ref={mapRef} className="w-full h-full" />
+    <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden">
+      <div ref={containerRef} className="w-full h-full" />
       {!mapLoaded && (
-        <div className="absolute text-gray-500">Chargement de la carte...</div>
+        <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+          Chargement de la carte...
+        </div>
       )}
     </div>
   );

@@ -67,7 +67,7 @@ const EditPage = () => {
   };
 
   return (
-    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax mt-22">
       {/* Fil d’ariane */}
       <nav
         aria-label="breadcrumb"

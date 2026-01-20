@@ -48,11 +48,11 @@ const OrdersPage = () => {
 
       {/* Header */}
       <div className="text-center mb-6 md:mb-8">
-        <h1 className="text-lg md:text-2xl text-brand-darkgreen font-bold">
+        <h1 className="text-lg md:text-2xl text-brand-darkgreen font-bold mt-20">
           Mes commandes
         </h1>
         <p className="text-brand-green mt-1 md:mt-2 text-xs md:text-sm">
-          Consulter mon historique d'achat
+          Consulter mon historique d&apos;achat
         </p>
       </div>
 

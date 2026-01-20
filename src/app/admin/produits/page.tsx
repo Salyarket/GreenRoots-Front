@@ -9,6 +9,7 @@ import { FaRegEye } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { IProduct } from "@/types/index.types";
+import { FaChevronLeft } from "react-icons/fa";
 
 interface CataloguePageProps {
   searchParams: Promise<{ page?: string }>;
@@ -44,8 +45,21 @@ const Page = ({ searchParams }: CataloguePageProps) => {
     return <p className="text-center mt-8 min-h-[60vh]">Chargement...</p>;
 
   return (
-    <main className="min-h-screen mt-16 px-4 custom-size-minmax ">
-      <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">
+    <main className="min-h-screen px-4 custom-size-minmax mt-30">
+      <nav
+        aria-label="breadcrumb"
+        className="mb-6 flex items-center text-sm text-gray-600"
+      >
+        <Link href="/admin" className="flex items-center gap-1 hover:underline">
+          <FaChevronLeft /> Admin
+        </Link>
+        <span className="mx-2">/</span>
+        <span aria-current="page" className="font-medium text-green-700">
+          Produits
+        </span>
+      </nav>
+
+      <h1 className="font-extrabold text-brand-green text-4xl text-center mb-10 mt-20">
         Vue d&apos;ensemble des produits
       </h1>
 

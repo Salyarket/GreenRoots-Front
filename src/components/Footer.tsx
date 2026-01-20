@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6"; //twitter
+import { FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
+import { openCookieBanner } from "@/lib/cookies/cookie";
 
 const Footer = () => {
   return (
@@ -68,11 +71,22 @@ const Footer = () => {
 
       {/* Pages légales en bas */}
       <div className="mt-4 text-center text-sm ">
+        <div className="flex justify-center items-center gap-2">
         <Link href={"/mentions-legales"}>
-          Mentions légales - Termes et conditions
+          Mentions légales
         </Link>
+        <span>|</span>
+        <Link href={"/cgv"}>CGV
+        </Link>
+        <span>|</span>
+        <button onClick={openCookieBanner} className="underline-none text-sm cursor-pointer">
+  Gérer mes cookies
+</button>
+</div>
         <p className="py-1.5">Copyright © 2025 GreenRoots</p>
       </div>
+      
+
     </footer>
   );
 };

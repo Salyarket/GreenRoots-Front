@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "GreenRoots Boutique | Offrez un arbre, soutenez la reforestation",
   description:
-    "GreenRoots est une boutique en ligne écoresponsable qui permet de financer la plantation d’arbres. Participez simplement à la reforestation et contribuez à l'environnement.",
+    "GreenRoots est une boutique en ligne écoresponsable qui permet de financer la plantation d’arbres. Participez à la reforestation et contribuez à l'environnement.",
   icons: {
     icon: "/logo_green.svg",
   },

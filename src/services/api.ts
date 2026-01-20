@@ -15,7 +15,7 @@ export async function refreshAccessToken() {
 
     return res.json(); // { accessToken, refreshToken }
   } catch (error) {
-    console.error("Erreur refresh access token", error);
+    console.error("Erreur d'actualisation du token", error);
     throw error;
   }
 }
@@ -36,9 +36,9 @@ export async function apiFetch(
     cache: "no-store",
   });
 
-  // si accessToken expiré → 401
+  // si accessToken expiré => 401
   if (res.status === 401) {
-    console.warn("⏳ Token expiré, tentative de refresh…");
+    console.warn("⏳ Token expiré, tentative de d'actualisation.");
 
     // on tente un refresh
     const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
@@ -48,7 +48,7 @@ export async function apiFetch(
     });
 
     if (refreshRes.ok) {
-      console.log("✅ Nouveau token reçu, retry de la requête");
+      console.log("✅ Nouveau token reçu, nouvelle tentative de la requête.");
       // on rejoue la requête d’origine
       res = await fetch(url, {
         ...options,

@@ -1,5 +1,5 @@
 export const CounterSection = () => {
-  // Simule une valeur récupérée de l'api (FEATURE A AJOUTER ?)
+  // Simule une valeur récupérée de l'api
   const arbresVendus = 114496;
 
   //   padStart permet d'ajouter le 0 au début si ce n'est pas un chiffre au dessus de 0
@@ -21,7 +21,6 @@ export const CounterSection = () => {
     </section>
   );
 };
-
 interface NumberItemProps {
   digit: string;
 }

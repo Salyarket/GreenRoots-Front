@@ -43,7 +43,7 @@ const Page = () => {
         );
     }
 
-    // --- 🔧 Fonctions utilitaires ---
+    // --- Fonctions utilitaires ---
     const capitalizeFirstLetter = (str: string | null | undefined) => {
         if (!str) return "";
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -66,7 +66,7 @@ const Page = () => {
             .replace(",", "");
     };
 
-    // --- 🔧 Données préparées ---
+    // --- Données préparées ---
     const firstname = capitalizeFirstLetter(user.firstname);
     const lastname = capitalizeFirstLetter(user.lastname);
     const entityName = user.entity_name ? user.entity_name : "Particulier";
@@ -74,7 +74,7 @@ const Page = () => {
     const createdAt = formatDate(user.created_at);
     const updatedAt = formatDate(user.updated_at);
 
-    // --- 🧱 Rendu ---
+    // --- Rendu ---
     return (
         <main className="min-h-screen mt-16 px-4 custom-size-minmax">
             <nav

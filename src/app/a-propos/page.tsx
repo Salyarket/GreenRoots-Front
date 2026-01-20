@@ -1,9 +1,9 @@
 const AProposPage = () => {
   const team = [
-    { initials: "SH", firstName: "Saliha", lastName: "Harkat" },
-    { initials: "OA", firstName: "Oumaïma", lastName: "Afakkir" },
-    { initials: "AP", firstName: "Adrien", lastName: "Paris" },
-    { initials: "TM", firstName: "Tarig", lastName: "Mekhazni" },
+    { initials: "SH", firstName: "Saliha", lastName: "Harkat",  link: "https://github.com/Salyarket" },
+    { initials: "OA", firstName: "Oumaïma", lastName: "Afakkir", link: "https://github.com/Oumaima-afk" },
+    { initials: "AP", firstName: "Adrien", lastName: "Pâris", link: "https://github.com/AdrienParisDev" },
+    { initials: "TM", firstName: "Tarig", lastName: "Mekazni", link: "https://github.com/" },
   ];
 
   const frontTech = [
@@ -25,7 +25,7 @@ const AProposPage = () => {
     "JWT",
     "Multer",
     "Swagger",
-    // "EmailJS",
+    "EmailJS",
   ];
 
   const userFeatures = [
@@ -47,17 +47,15 @@ const AProposPage = () => {
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax py-8">
       {/* Section */}
-      <section className="text-center mb-16 max-w-4xl mx-auto">
+      <section className="text-center mb-16 max-w-4xl mx-auto mt-12">
         <div className="bg-avocado-100 rounded-3xl p-8 border border-brand-lightgreen/30 mb-8">
-          <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4">
+          <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4 ">
             À propos de GreenRoots
           </h1>
-          <p className="text-lg md:text-l text-brand-lightgreen font-medium">
-            GreenRoots est un projet scolaire réalisé dans le cadre de notre
-            formation de Concepteur Développeur d'Applications chez O'clock.
-            <span className="block mt-2 text-brand-green">
-              Une aventure collaborative où la tech rencontre l'écologie.
-            </span>
+          <p className="text-lg md:text-l text-brand-green font-medium">
+            GreenRoots est un projet pédagogique réalisé dans le cadre <br/>de notre
+            formation de Concepteur Développeur d&apos;Applications chez O&apos;clock.
+            <br/>Une aventure collaborative où la tech rencontre l&apos;écologie.
           </p>
         </div>
       </section>
@@ -68,22 +66,35 @@ const AProposPage = () => {
           Notre équipe
         </h2>
         <p className="text-brand-green text-lg text-center mb-4">
-          Quatre passionné(e)s unis par l'envie d'apprendre et de créer ensemble
+          Quatre passionné.e.s unis par l&apos;envie d&apos;apprendre et de créer ensemble.
         </p>
 
         <div className="flex flex-wrap justify-center gap-4">
           {team.map((member, index) => (
             <div
               key={index}
-              className="bg-brand-white rounded-2xl p-4 text-center border border-brand-lightgreen/30 shadow-sm min-w-[140px] custom-card-hover"
+              className="bg-brand-white rounded-2xl p-4 text-center border border-brand-brown shadow-sm min-w-[140px] custom-card-hover"
             >
-              <div className="w-16 h-16 bg-brand-green rounded-full mx-auto mb-3 flex items-center justify-center text-brand-white font-bold text-xl">
-                {member.initials}
+              <div className="w-16 h-16 bg-brand-brown rounded-full mx-auto mb-3 flex items-center justify-center text-brand-white font-bold text-xl">
+                {member.link ? (
+                  <a
+                    href={member.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {member.initials}
+                  </a>
+                ) : (
+                  member.initials
+                )}
               </div>
               <p className="font-semibold text-brand-darkgreen">
-                {member.firstName}
+                
+                    {member.firstName}
+                 
               </p>
-              <p className="text-sm text-brand-lightgreen">{member.lastName}</p>
+              <p className="text-sm text-brand-brown">{member.lastName}</p>
             </div>
           ))}
         </div>
@@ -94,7 +105,7 @@ const AProposPage = () => {
         <div className="bg-gradient-to-r from-brand-green to-brand-darkgreen rounded-3xl p-8 text-brand-white">
           <h2 className="text-xl md:text-2xl font-bold mb-4">Notre mission</h2>
           <p className="text-lg leading-relaxed">
-            GreenRoots est bien plus qu'un projet scolaire : c'est une
+            GreenRoots est bien plus qu&apos;un projet scolaire : c&apos;est une
             plateforme
             <strong> éco-responsable</strong> qui simule une vraie expérience
             e-commerce dédiée à la reforestation.
@@ -191,10 +202,10 @@ const AProposPage = () => {
             Ce que nous avons appris
           </h2>
           <p className="text-lg text-brand-green">
-            Au-delà du code, ce projet nous a enseigné l'
+            Au-delà du code, ce projet nous a enseigné l&apos;
             <strong>agilité</strong>, la <strong>collaboration</strong> et la{" "}
             <strong>gestion de projet</strong>. Une immersion totale dans le
-            monde du développement web moderne.
+            monde professionnel du développement web.
           </p>
         </div>
       </section>

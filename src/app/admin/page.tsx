@@ -54,7 +54,7 @@ const orders = [
 
 export default function Page() {
   return (
-    <main className="min-h-screen mt-16 px-6 custom-size-minmax">
+    <main className="min-h-screen mt-40 px-6 custom-size-minmax">
       {/* Section bienvenue */}
       <section className="mb-10 text-center">
         <h2 className="text-3xl md:text-4xl font-extrabold text-brand-green">

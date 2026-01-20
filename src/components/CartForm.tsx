@@ -38,7 +38,7 @@ const CartForm = ({ price, stock, product }: FormProps) => {
   };
 
   const add = useCartStore((state) => state.add);
-  if (!product) return <p>Produit indispo</p>;
+  if (!product) return <p>Produit indisponible</p>;
 
   return (
     <form className="flex flex-col mt-6">

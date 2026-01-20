@@ -43,8 +43,10 @@ const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user }),
-
+      setUser: (user) => {
+        const tokenValue = normalizeToken(user?.token);
+        set({ user: { ...user, token: tokenValue } });
+      },
       logout: async () => {
         try {
           await fetch(`${API_URL}/auth/logout`, {
@@ -52,9 +54,8 @@ const useAuthStore = create<AuthState>()(
             credentials: "include",
           });
         } catch (e) {
-          console.error("Erreur lors du logout", e);
+          console.error("Erreur lors de la déconnexion", e);
         }
-
         useCartStore.getState().clearCart();
 
         set({ user: null });
@@ -65,5 +66,15 @@ const useAuthStore = create<AuthState>()(
     }
   )
 );
-
 export default useAuthStore;
+
+function normalizeToken(token: unknown): string {
+  if (typeof token === "string") {
+    return token;
+  }
+  if (token && typeof token === "object" && "token" in token) {
+    const maybeToken = (token as { token?: unknown }).token;
+    return typeof maybeToken === "string" ? maybeToken : "";
+  }
+  return "";
+}

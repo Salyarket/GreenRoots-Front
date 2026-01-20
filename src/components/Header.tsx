@@ -2,20 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuthStore from "@/store/AuthStore";
 import useCartStore from "@/store/CartStore";
 import { CgProfile } from "react-icons/cg";
 import { BsCart } from "react-icons/bs";
+import { usePathname } from "next/navigation";
+import { set } from "zod";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
   const items = useCartStore((state) => state.items);
 
+  const [ isScrolled, setIsScrolled ] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const total = items.reduce(
     (acc, item) => acc + item.quantity,
     0 // le 0 à la fin est la valeur initiale de l'accumulateur (acc)
   );
+
+
 
   const [menuOpen, setMenuOpen] = useState(false);
   const links_url_loggedOut = [
@@ -36,12 +53,12 @@ const Header = () => {
     },
     {
       id: 4,
-      link: "se connecter",
+      link: "connexion",
       href: "/connexion",
     },
     {
       id: 5,
-      link: "s'inscrire",
+      link: "inscription",
       href: "/inscription",
     },
   ];
@@ -64,14 +81,28 @@ const Header = () => {
     },
     {
       id: 4,
-      link: "se déconnecter",
+      link: "déconnexion",
       href: "/",
     },
   ];
 
+
+  const pathname = usePathname();
+
+// Choisir la couleur selon la page
+let headerBg = "bg-transparent";
+
+if (isScrolled) {
+  headerBg = "bg-brand-darkgreen";
+} else if (pathname !== "/"){
+  headerBg = "bg-brand-darkgreen";
+}
+
+
   return (
     <header
-      className={`w-full bg-brand-darkgreen text-white p-4 flex justify-between items-center z-50 text-2xl custom-size-minmax relative`}
+      className={`fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 text-2xl custom-size-minmax transition-colors duration-500 ${headerBg} text-white`}
+
     >
       <button
         onClick={() => setMenuOpen(!menuOpen)}
@@ -103,7 +134,7 @@ const Header = () => {
           {user ? (
             <>
               {links_url_loggedIn.map((el) =>
-                el.link === "se déconnecter" ? (
+                el.link === "déconnexion" ? (
                   <Link
                     key={el.id}
                     href={"/"}
@@ -162,7 +193,7 @@ const Header = () => {
           {user ? (
             <>
               {links_url_loggedIn.map((el) =>
-                el.link === "se déconnecter" ? (
+                el.link === "déconnexion" ? (
                   <button
                     key={el.id}
                     onClick={logout}
@@ -197,7 +228,9 @@ const Header = () => {
         </div>
       )}
     </header>
+    
   );
 };
+
 
 export default Header;

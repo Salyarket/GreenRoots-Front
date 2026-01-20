@@ -1,7 +1,6 @@
 "use client";
 
 import useAuthStore from "@/store/AuthStore";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -33,13 +32,13 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // pour la redirection apres connexion
+  // pour la redirection après connexion
   const router = useRouter();
 
   // Choix du schéma selon login ou register
   const schema = alreadyRegistered ? loginSchema : registerSchema;
 
-  // useForm est le hook principal de react-hook-form (donne acces a register / handlesubmit / errors)
+  // useForm est le hook principal de react-hook-form (donne accès à register / handlesubmit / errors)
   // on crée le "form manager"
   const form = useForm<AuthFormData>({
     resolver: zodResolver(schema),
@@ -57,19 +56,26 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
 
     try {
       if (alreadyRegistered) {
-        // SE CONNECTER
+        // Se connecter
         const loggedUser = await login({
           email: data.email,
           password: data.password,
         });
-        // on envoie au store zustand la res de la BDD avec l'USER
+
+        // extraire le token (string ou objet { token: string })
+        const tokenValue =
+          typeof loggedUser.accessToken === "string"
+            ? loggedUser.accessToken // si string OK
+            : loggedUser.accessToken?.token; // si objet, on prend la valeur token
+
+        // on envoie au store zustand la res de la BDD avec l'user
         useAuthStore.getState().setUser({
           ...loggedUser.user, // id, email, firstname, lastname, role
-          token: loggedUser.accessToken, // token
+          token: tokenValue, // token
         });
         router.push("/profil");
       } else {
-        // S'ENREGISTRER
+        // S'enregister
         const newUser = await registerUser({
           firstname: (data as RegisterFormData).firstname,
           lastname: (data as RegisterFormData).lastname,
@@ -83,7 +89,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
 
         setTimeout(() => {
           router.push("/connexion");
-        }, 4000); //4scd
+        }, 4000);
       }
     } catch (err: unknown) {
       const message =
@@ -94,7 +100,7 @@ const AuthForm = ({ alreadyRegistered }: AuthFormProps) => {
     }
   };
 
-  // Class CSS messages d'erreurs (rouge si erreur, vert si champ valide)
+  // Classe CSS message d'erreur (rouge si erreur, vert si champ valide)
   const inputClass = (fieldName: keyof AuthFormData) =>
     `w-full px-3 py-2 border rounded focus:outline-none focus:ring-1 
   ${

@@ -1,8 +1,8 @@
 "use client";
 
 import emailjs from "@emailjs/browser";
-import { useRef, useState } from "react";
 import Image from "next/image";
+import { useRef, useState } from "react";
 
 function useEmailJs() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -40,6 +40,9 @@ function useEmailJs() {
 
 export const ContactForm = () => {
   const { isLoading, status, contact, formRef } = useEmailJs();
+
+
+
 
   return (
     <section className="mt-12 max-w-2xl mx-auto">

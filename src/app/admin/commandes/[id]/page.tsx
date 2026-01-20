@@ -22,7 +22,7 @@ const Page = () => {
   }, [user, id]);
 
   return (
-    <main className="min-h-screen mt-16 mb-16 px-16 py-6">
+    <main className="min-h-screen mt-24 mb-16 px-16 py-6">
       {/* Fil d'ariane */}
       <nav className="mb-6 flex items-center text-sm text-brand-green">
         <Link

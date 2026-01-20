@@ -28,7 +28,7 @@ const Page = () => {
         if (!selectedLocation) return;
 
         try {
-            // 1️⃣ Récupérer les relations pour la localisation
+            // 1) Récupérer les relations pour la localisation
             const locWithRelations = await getAllLocationsWithRelations();
             const locationData = locWithRelations.find((l: any) => Number(l.id) === selectedLocation.id);
 
@@ -38,13 +38,13 @@ const Page = () => {
                 }
             }
 
-            // 2️⃣ Supprimer la localisation
+            // 2) Supprimer la localisation
             await deleteLocation(selectedLocation.id.toString());
 
-            // 3️⃣ Mettre à jour le tableau
+            // 3) Mettre à jour le tableau
             fetchData(pagination.page, pagination.limit);
 
-            // 4️⃣ Message temporaire
+            // 4) Message temporaire
             setSuccessMessage(`La localisation "${selectedLocation.name}" a bien été supprimée.`);
             setTimeout(() => setSuccessMessage(null), 3000);
         } catch (error) {
@@ -57,7 +57,7 @@ const Page = () => {
     };
 
     return (
-        <main className="min-h-screen mt-16 px-4 custom-size-minmax">
+        <main className="min-h-screen mt-16 px-4 custom-size-minmax mt-30">
             <nav
                 aria-label="breadcrumb"
                 className="mb-6 flex items-center text-sm text-gray-600"
@@ -72,24 +72,25 @@ const Page = () => {
             </nav>
             <section>
 
-                <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">Vue d'ensemble des Localisations</h1>
+                <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6 mt-14">Vue d&apos;ensemble des localisations</h1>
 
                 <div className="flex justify-center items-between gap-8">
-                    <div className="mt-10 h-53 w-80 bg-brand-white rounded-xl p-6 border border-brand-lightgreen/30 shadow-sm text-center">
-                        <p className="font-extrabold text-brand-green text-4xl mb-3">
-                            42
-                        </p>
-                        <h3 className="text-base font-semibold text-brand-darkgreen mb-2">
-                            Total des lieux de plantation
-                        </h3>
-                        <div className="bg-brand-lightgreen/10 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
-                            <PiTreeFill className="text-xl md:text-2xl text-brand-darkgreen" />
-                        </div>
-                    </div>
+                    
 
                     <div>
-                        <h2 className="font-extrabold text-brand-green text-2xl text-center mb-2">Etat des lieux de plantations</h2>
+                        <h2 className="font-extrabold text-brand-green text-2xl text-center mb-10">Etat des lieux de plantations</h2>
                         <div className="flex gap-4">
+                            <div className="w-60  bg-brand-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-brand-lightgreen/30 shadow-sm text-center">
+                                <p className="font-extrabold text-brand-green text-4xl mb-3">
+                                    42
+                                </p>
+                                <h3 className="text-base font-semibold text-brand-darkgreen mb-2">
+                                    Total des lieux de plantations
+                                </h3>
+                                <div className="bg-brand-lightgreen/10 rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                    <PiTreeFill className="text-xl md:text-2xl text-brand-darkgreen" />
+                                </div>
+                            </div>
                             <div className="w-60  bg-brand-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-brand-lightgreen/30 shadow-sm text-center">
                                 <p className="font-extrabold text-brand-green text-4xl mb-3">
                                     38
@@ -274,7 +275,7 @@ const Page = () => {
                     <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
                         <h2 className="text-xl font-bold mb-4">Confirmer la suppression</h2>
                         <p className="mb-4">
-                            Êtes-vous sûr de vouloir supprimer la localisation "<strong>{selectedLocation.name}</strong>" ?
+                            Êtes-vous sûr de vouloir supprimer la localisation <strong>{selectedLocation.name}</strong> ?
                         </p>
                         <div className="flex justify-center gap-4">
                             <button

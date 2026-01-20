@@ -4,26 +4,48 @@ import { createNewOrder } from "@/services/order.api";
 import { getStockForProduct } from "@/services/product.api";
 import useAuthStore from "@/store/AuthStore";
 import useCartStore from "@/store/CartStore";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function OrderValidation() {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { items, getTotal, clearCart } = useCartStore();
+  const { items, getTotal } = useCartStore();
   const { user } = useAuthStore();
-  const router = useRouter();
 
-  //  function faux paiement
-  const processPayment = () => Promise.resolve({ ok: true });
+  // 1- au clic "Passer la commande" : on vérifie stock puis on ouvre la modale
+  const handleValidation = async () => {
+    try {
+      setMessage("");
+      if (!user) return;
 
-  //  créer la commande
-  const createOrder = async () => {
-    if (!user) return;
+      // vérifier les stocks
+      for (const item of items) {
+        const stockResponse = await getStockForProduct(item.id);
+        if (stockResponse.stock <= 0) {
+          setMessage(`Le produit ${item.name} est en rupture de stock`);
+          return;
+        }
+      }
+
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+      setMessage("Une erreur est survenue lors de la validation du panier.");
+    }
+  };
+
+  // 2- au clic "payer" dans la modale : on crée la commande Pending et on redirige vers Stripe
+  const handlePay = async () => {
+    if (loading) return; // évite les doubles clics
+    setLoading(true); // désactive le bouton pendant le traitement
+    try {
+      setMessage("");
+      if (!user) return;
 
     const data = {
-      status: "paid",
+      status: "pending",
       userId: user.id,
       total: getTotal(),
       items: items.map((item) => ({
@@ -32,42 +54,57 @@ export default function OrderValidation() {
         unitPrice: Number(item.price),
       })),
     };
+    const orderRes = await createNewOrder(user.token, data);
 
-    try {
-      const orderRes = await createNewOrder(user.token, data);
-      console.log("Commande validée ✅", orderRes);
+    const pendingEmail = {
+      orderId: orderRes.id,
+      email: user.email,
+      user_firstname: user.firstname?.trim() || "Client",
+      user_lastname: user.lastname?.trim() || "",
+      total: getTotal(),
+      orders: items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: Number(item.price),
+      })),
+    };
 
-      setMessage("Commande validée ✅");
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("pendingOrderEmail", JSON.stringify(pendingEmail));
+    }
 
-      clearCart();
+    // appeler Stripe
+    const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4001";
 
-      router.push(`/profil/orders/confirmation?id=${orderRes.id}`);
+    const stripeRes = await fetch(`${API_URL}/payments/checkout-session`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        orderId: orderRes.id,
+      }),
+    });
+
+    if (!stripeRes.ok) {
+      const errText = await stripeRes.text();
+      console.error(errText);
+      setMessage("Une erreur est survenue lors de la création de la session de paiement.");
+      return;
+    }
+
+    const { url } = await stripeRes.json();
+      // redirige vers Stripe
+      window.location.href = url;
     } catch (error) {
-      console.error("Commande non validée ❌", error);
-      setMessage("Commande non validée ❌");
+      console.error("Erreur de paiement :", error);
+      setMessage("Une erreur est survenue lors de la validation de la commande.");
     }
-  };
-
-  // confirmation de paiement
-  const handlePayConfirm = async () => {
-    const payConfirmation = await processPayment();
-    if (payConfirmation.ok) {
-      await createOrder();
-    } else {
-      setMessage("Echec de paiement");
+    finally {
+      setLoading(false); // réactive le bouton
     }
-  };
-
-  const handleValidation = async () => {
-    //  vérifier les stock
-    for (const item of items) {
-      const stockResponse = await getStockForProduct(item.id);
-      if (stockResponse.stock <= 0) {
-        setMessage(`Le produit ${item.name} est en rupture de stock`);
-        return;
-      }
-    }
-    setShowModal(true);
   };
 
   //  msg confirmation commande
@@ -79,6 +116,10 @@ export default function OrderValidation() {
       >
         Passer la commande
       </button>
+
+      {message && (
+        <p className="text-red-500 text-sm mt-2 text-center">{message}</p>
+      )}
 
       {/* Modal de paiement */}
       {showModal && (
@@ -96,10 +137,11 @@ export default function OrderValidation() {
                 Annuler
               </button>
               <button
-                onClick={handlePayConfirm}
+                onClick={handlePay}
+                disabled={loading}
                 className="px-4 py-2 rounded-lg bg-brand-green text-white hover:bg-brand-darkgreen disabled:opacity-50"
               >
-                Payer
+                {loading ? "Redirection..." : "Payer"}
               </button>
             </div>
           </div>

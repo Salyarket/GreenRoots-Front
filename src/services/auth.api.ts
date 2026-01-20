@@ -14,7 +14,9 @@ export async function login(data: { email: string; password: string }) {
     });
 
     if (!res.ok) {
-      throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
+      const errText = await res.text();
+      console.error("Login error response:", res.status, errText);
+      throw new Error(`Erreur API: ${res.status} ${res.statusText} - ${errText}`);
     }
 
     return res.json();

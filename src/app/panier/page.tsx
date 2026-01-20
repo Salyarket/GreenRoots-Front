@@ -14,13 +14,13 @@ export default function PanierPage() {
 
   return (
     <main className="min-h-screen mt-16 mb-16 px-4 py-6 md:py-8">
-      <div className="max-w-2xl lg:max-w-4xl mx-auto">
+      <div className="max-w-2xl lg:max-w-4xl mx-auto mt-6">
         {/* Lien retour */}
         <Link
           href="/catalogue"
           className="flex items-center mb-10 text-brand-lightgreen"
         >
-          <FaChevronLeft className="mr-4" />
+          <FaChevronLeft className="mr-4 " />
           Retour
         </Link>
 

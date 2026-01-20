@@ -34,11 +34,9 @@ export async function archiveProduct(id: number) {
   const res = await apiFetch(`/products/${id}/archive`, {
     method: "PATCH",
   });
-
   if (!res.ok) {
     throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
   }
-
   return res.json();
 }
 
@@ -63,7 +61,7 @@ export async function createProductAdmin(
     }
     formData.append("available", String(data.available));
 
-    // Ajout des images (max 3, selon ton back)
+    // Ajout des images (max 3, selon le Back)
     images.slice(0, 3).forEach((file) => {
       formData.append("images", file);
     });

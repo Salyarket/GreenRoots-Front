@@ -60,7 +60,7 @@ const Page = () => {
   };
 
   return (
-    <main className="min-h-screen mt-16 mb-16 px-16 py-6">
+    <main className="min-h-screen mt-24 mb-16 px-16 py-6">
       {/* Fil d'ariane */}
       <nav className="mb-6 flex items-center text-sm text-brand-green">
         <Link
@@ -147,7 +147,7 @@ const Page = () => {
                       Quantité : {item.quantity}
                     </p>
                     <p className="text-brand-green text-sm mt-1">
-                      {item.unit_price}€ l'unité
+                      {item.unit_price}€ l&apos;unité
                     </p>
                   </div>
 

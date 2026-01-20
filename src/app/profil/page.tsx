@@ -13,8 +13,8 @@ const ProfilPage = () => {
   return (
     <main className="min-h-screen mt-16 px-4 custom-size-minmax py-8">
       {/* <RefreshAccesToken /> */}
-      <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center mb-6 md:mb-8 capitalize">
-        Bonjour {user?.firstname},
+      <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold text-center mb-6 md:mb-16 capitalize mt-12">
+        Bienvenue {user?.firstname} !
       </h1>
 
       <section className="flex flex-col gap-4 md:flex-row md:gap-6 justify-center max-w-4xl mx-auto">

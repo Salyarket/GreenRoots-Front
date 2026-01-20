@@ -18,7 +18,7 @@ export async function getMyOrders(token: string): Promise<{ orders: Order[] }> {
   return res.json();
 }
 
-// get one order from user
+// get une commande d'un utilisateur
 export async function getOneOrder(token: string, orderId: number) {
   const res = await apiFetch(`/orders/${orderId}`, {
     headers: {
@@ -33,7 +33,7 @@ export async function getOneOrder(token: string, orderId: number) {
   return res.json();
 }
 
-// create a new order
+// créer une nouvelle commande
 export async function createNewOrder(token: string, data: any) {
   const res = await apiFetch("/orders", {
     method: "POST",
@@ -61,7 +61,7 @@ export async function createNewOrder(token: string, data: any) {
   return resData;
 }
 
-// get the items for an order
+// get les produits pour une commande
 export async function getOrderItems(token: string, orderId: number) {
   const res = await apiFetch(`/orders/${orderId}/items`, {
     headers: {
@@ -76,7 +76,7 @@ export async function getOrderItems(token: string, orderId: number) {
   return res.json();
 }
 
-// delete an order by id (admin)
+// supprimer une commande par son id (admin)
 export async function deletOrderById(token: string, orderId: number) {
   const res = await apiFetch(`/orders/${orderId}`, {
     method: "DELETE",
@@ -92,7 +92,7 @@ export async function deletOrderById(token: string, orderId: number) {
   return res.json();
 }
 
-// update the status of an order (admin)
+// màj le statut d'une commande (admin)
 export async function updateOrderStatus(
   token: string,
   orderId: number,
@@ -140,3 +140,22 @@ export async function getOrdersPaginationAdmin(
     };
   }
 }
+
+// récupérer toutes les commandes (admin)
+export async function getAllOrdersAdmin(token: string) {
+  const res = await fetch("/api/orders", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`GET /api/orders failed (${res.status}) ${txt}`);
+  }
+
+  return res.json();
+}
+

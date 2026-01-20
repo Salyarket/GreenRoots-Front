@@ -43,7 +43,7 @@ const Page = ({ searchParams }: CataloguePageProps) => {
         return <p className="text-center mt-8 min-h-[60vh]">Chargement...</p>;
 
     return (
-        <main className="min-h-screen mt-16 px-4 custom-size-minmax ">
+        <main className="min-h-screen mt-30 px-4 custom-size-minmax ">
             <nav
                 aria-label="breadcrumb"
                 className="mb-6 flex items-center text-sm text-gray-600"
@@ -56,7 +56,7 @@ const Page = ({ searchParams }: CataloguePageProps) => {
                     Utilisateurs
                 </span>
             </nav>
-            <h1 className="font-extrabold text-brand-green text-4xl text-center mb-6">
+            <h1 className="font-extrabold text-brand-green text-4xl text-center mb-12">
                 Vue d&apos;ensemble des Utilisateurs
             </h1>
 

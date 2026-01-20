@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { FaInfoCircle, FaChevronLeft } from "react-icons/fa";
 import ProductGallery from "@/components/Sections/ProductGallery";
-
 import { IProduct } from "@/types/index.types";
 import CartForm from "@/components/CartForm";
 import Map from "@/components/Map";
@@ -12,7 +11,7 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
   if (!product) return <p>Produit indisponibles</p>;
 
   return (
-    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax mt-20">
       {/* Fil d’ariane */}
       <nav
         aria-label="breadcrumb"

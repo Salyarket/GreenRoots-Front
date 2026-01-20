@@ -16,11 +16,11 @@ const OneOrderPage = () => {
 
   useEffect(() => {
     if (!user) {
-      console.log("⚠️ Pas d'user → pas de fetch");
+      console.log("⚠️ Pas d'user => pas de fetch");
       return;
     }
     if (!id) {
-      console.log("⚠️ Pas d'id → pas de fetch");
+      console.log("⚠️ Pas d'id => pas de fetch");
       return;
     }
 
@@ -41,7 +41,7 @@ const OneOrderPage = () => {
   console.log("📦 State order:", order);
 
   return (
-    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax">
+    <main className="md:w-[90vw] 2xl:w-[60vw] mx-auto py-8 px-4 custom-size-minmax mt-22 mb-24">
       {/* Fil d’ariane */}
       <nav
         aria-label="breadcrumb"

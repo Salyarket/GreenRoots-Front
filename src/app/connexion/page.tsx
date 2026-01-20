@@ -21,7 +21,7 @@ const LoginPage = () => {
   }, [user, router]);
 
   if (checking) {
-    // Empêche le flash du formulaire si user est déjà loggé
+    // Empêche le flash du formulaire si l'user est déjà loggué
     return (
       <main className="min-h-screen flex items-center justify-center">
         <p>Chargement...</p>
@@ -35,7 +35,7 @@ const LoginPage = () => {
 
       <section className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4">
+          <h1 className="text-xl md:text-2xl text-brand-darkgreen font-bold mb-4 mt-12">
             Connexion
           </h1>
           <p className="text-brand-green">
