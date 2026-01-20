@@ -1,94 +1,236 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link.js";
-import { useState } from "react";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import useAuthStore from "@/store/AuthStore";
+import useCartStore from "@/store/CartStore";
+import { CgProfile } from "react-icons/cg";
+import { BsCart } from "react-icons/bs";
+import { usePathname } from "next/navigation";
+import { set } from "zod";
 
-const Header = ({
-  backgroundTransparent,
-}: {
-  backgroundTransparent: boolean;
-}) => {
+const Header = () => {
+  const { user, logout } = useAuthStore();
+  const items = useCartStore((state) => state.items);
+
+  const [ isScrolled, setIsScrolled ] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const total = items.reduce(
+    (acc, item) => acc + item.quantity,
+    0 // le 0 à la fin est la valeur initiale de l'accumulateur (acc)
+  );
+
+
+
   const [menuOpen, setMenuOpen] = useState(false);
+  const links_url_loggedOut = [
+    {
+      id: 1,
+      link: "catalogue",
+      href: "/catalogue",
+    },
+    {
+      id: 2,
+      link: "contact",
+      href: "/contact",
+    },
+    {
+      id: 3,
+      link: "à propos",
+      href: "/a-propos",
+    },
+    {
+      id: 4,
+      link: "connexion",
+      href: "/connexion",
+    },
+    {
+      id: 5,
+      link: "inscription",
+      href: "/inscription",
+    },
+  ];
+
+  const links_url_loggedIn = [
+    {
+      id: 1,
+      link: "catalogue",
+      href: "/catalogue",
+    },
+    {
+      id: 2,
+      link: "contact",
+      href: "/contact",
+    },
+    {
+      id: 3,
+      link: "à propos",
+      href: "/a-propos",
+    },
+    {
+      id: 4,
+      link: "déconnexion",
+      href: "/",
+    },
+  ];
+
+
+  const pathname = usePathname();
+
+// Choisir la couleur selon la page
+let headerBg = "bg-transparent";
+
+if (isScrolled) {
+  headerBg = "bg-brand-darkgreen";
+} else if (pathname !== "/"){
+  headerBg = "bg-brand-darkgreen";
+}
+
 
   return (
     <header
-      className={`w-full bg-brand-green  text-white p-4 flex justify-between items-center relative ${
-        backgroundTransparent && "bg-transparent"
-      } `}
+      className={`fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 text-2xl custom-size-minmax transition-colors duration-500 ${headerBg} text-white`}
+
     >
-      <Link
-        href={"/"}
-        className="md:hidden"
+      <button
         onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden custom-btn-hover"
+        aria-label="Toggle menu"
       >
         <Image
-          src="/icon_menu.svg"
-          alt="GreenRoots"
+          src={menuOpen ? "/icon_menu_close.svg" : "/icon_menu_open.svg"}
+          alt="Menu"
           width={30}
           height={30}
-          priority
         />
-      </Link>
+      </button>
+
       <Link href={"/"}>
         <Image
           src="/logo_white.svg"
           alt="GreenRoots"
-          width={40}
-          height={40}
+          width={100}
+          height={100}
           priority
+          className="custom-btn-hover"
         />
       </Link>
+
       {/* nav invisible en mode md + */}
-      <nav className="space-x-4 flex  ">
-        <div className="hidden md:flex space-x-4">
-          <Link href="/catalogue" className={"hover:underline"}>
-            Catalogue
-          </Link>
-          <Link href="/contact" className="hover:underline">
-            Contact
-          </Link>
-          <Link href="/contact" className="hover:underline">
-            À propos
-          </Link>
+      <nav role="navigation" className="space-x-8 flex items-center   ">
+        <div className="hidden md:flex space-x-8 text-xl">
+          {user ? (
+            <>
+              {links_url_loggedIn.map((el) =>
+                el.link === "déconnexion" ? (
+                  <Link
+                    key={el.id}
+                    href={"/"}
+                    onClick={logout}
+                    className="capitalize custom-btn-hover"
+                  >
+                    {el.link}
+                  </Link>
+                ) : (
+                  <Link
+                    key={el.id}
+                    href={el.href}
+                    className="capitalize custom-btn-hover"
+                  >
+                    {el.link}
+                  </Link>
+                )
+              )}
+            </>
+          ) : (
+            <>
+              {links_url_loggedOut.map((el) => (
+                <Link
+                  key={el.id}
+                  href={el.href}
+                  className={"capitalize custom-btn-hover"}
+                >
+                  {el.link}
+                </Link>
+              ))}
+            </>
+          )}
         </div>
-        <div className="space-x-4 flex">
-          <Link href={"/profil"}>
-            <Image
-              src="/icon_profil.svg"
-              alt="GreenRoots"
-              width={20}
-              height={20}
-              priority
-            />
-          </Link>
-          <Link href={"/profil"}>
-            <Image
-              src="/icon_cart.svg"
-              alt="GreenRoots"
-              width={20}
-              height={20}
-              priority
-            />
-          </Link>
-        </div>
+        {user && (
+          <div className="space-x-8 flex">
+            <Link href={"/profil"}>
+              <CgProfile className="custom-btn-hover w-6 h-6" />
+            </Link>
+            <div className="relative">
+              <Link href={"/panier"}>
+                <BsCart className="custom-btn-hover w-6 h-6" />
+                {total > 0 && (
+                  <span className="absolute -top-4 -right-3.5 rounded-full w-6 h-6 bg-brand-brown text-brand-darkgreen text-sm font-extrabold flex items-center justify-center">
+                    {total}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
+      {/* menu qui s'ouvre en mobile */}
       {menuOpen && (
-        <div className="absolute top-full left-0 h-screen w-full bg-red-400 text-white flex flex-col items-center justify-center space-y-8   md:hidden">
-          <Link href="/catalogue" onClick={() => setMenuOpen(false)}>
-            Catalogue
-          </Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </Link>
-          <Link href="/apropos" onClick={() => setMenuOpen(false)}>
-            À propos
-          </Link>
+        <div className="absolute top-24 left-0 w-full  min-h-[50vh] bg-brand-white text-black flex flex-col  items-center justify-center space-y-8 text-2xl  md:hidden">
+          {user ? (
+            <>
+              {links_url_loggedIn.map((el) =>
+                el.link === "déconnexion" ? (
+                  <button
+                    key={el.id}
+                    onClick={logout}
+                    className="capitalize custom-btn-hover"
+                  >
+                    {el.link}
+                  </button>
+                ) : (
+                  <Link
+                    key={el.id}
+                    href={el.href}
+                    className="capitalize custom-btn-hover"
+                  >
+                    {el.link}
+                  </Link>
+                )
+              )}
+            </>
+          ) : (
+            <>
+              {links_url_loggedOut.map((el) => (
+                <Link
+                  key={el.id}
+                  href={el.href}
+                  className={"capitalize custom-btn-hover"}
+                >
+                  {el.link}
+                </Link>
+              ))}
+            </>
+          )}
         </div>
       )}
     </header>
+    
   );
 };
+
 
 export default Header;

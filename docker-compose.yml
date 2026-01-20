@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: .
+    container_name: frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3000:3000" # FRONT accessible sur localhost:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
