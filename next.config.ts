@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true, // ignore les erreurs TS
   },
+
 };
 
 export default nextConfig;
