@@ -1,9 +1,9 @@
+export const dynamic = "force-dynamic";
+
 import Hero from "@/components/Hero/Hero";
 import BestSellers from "@/components/Sections/BestSellers";
 import { CounterSection } from "@/components/Sections/CounterSection";
 import WhyUs from "@/components/Sections/WhyUs";
-import RefreshAccesToken from "@/components/RefreshAccesToken";
-import TestSecureRoute from "@/components/testSecureRoute";
 import CookieBanner from "@/components/CookieBanner";
 
 const Page = () => {
