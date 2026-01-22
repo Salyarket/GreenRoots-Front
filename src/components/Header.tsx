@@ -175,7 +175,7 @@ if (isScrolled) {
             </Link>
             <div className="relative">
               <Link href={"/panier"}>
-                <BsCart className="custom-btn-hover w-6 h-6" />
+                <BsCart className="custom-btn-hover w-6 h-6 mr-2" />
                 {total > 0 && (
                   <span className="absolute -top-4 -right-3.5 rounded-full w-6 h-6 bg-brand-brown text-brand-darkgreen text-sm font-extrabold flex items-center justify-center">
                     {total}
