@@ -40,6 +40,7 @@ export interface IProductLocation {
   created_at: string;
   updated_at: string;
   product: IProduct;
+  location?: ILocation;
 }
 
 // conflit alors vérifier si OK
