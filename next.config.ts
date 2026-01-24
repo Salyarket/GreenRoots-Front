@@ -2,7 +2,19 @@
 
 const nextConfig = {
   images: {
-    domains: ["localhost", "green-roots-front-six.vercel.app"], // domaines valides pour next/image
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "4000",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "green-roots-front-six.vercel.app",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

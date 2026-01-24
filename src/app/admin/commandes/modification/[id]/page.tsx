@@ -130,7 +130,11 @@ const Page = () => {
                   <div className="w-16 h-16 bg-white rounded-lg border border-brand-lightgreen/20 flex items-center justify-center">
                     {item.product?.image_urls?.[0] && (
                       <Image
-                        src={`http://localhost:4000/${item.product.image_urls[0]}`}
+                        src={
+                          item.product.image_urls[0].startsWith("/")
+                            ? item.product.image_urls[0]
+                            : `/${item.product.image_urls[0]}`
+                        }
                         alt={item.product?.name || "Produit"}
                         width={48}
                         height={48}

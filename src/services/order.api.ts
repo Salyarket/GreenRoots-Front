@@ -143,7 +143,7 @@ export async function getOrdersPaginationAdmin(
 
 // récupérer toutes les commandes (admin)
 export async function getAllOrdersAdmin(token: string) {
-  const res = await fetch("/api/orders", {
+  const res = await apiFetch("/orders", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -158,4 +158,3 @@ export async function getAllOrdersAdmin(token: string) {
 
   return res.json();
 }
-

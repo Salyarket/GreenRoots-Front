@@ -5,7 +5,7 @@ import { jwtVerify } from "jose";
 // clé secrète pour vérifier le token
 const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const accessToken = req.cookies.get("accessToken")?.value;
 
   console.log("➡️ Middleware check sur :", req.nextUrl.pathname);
