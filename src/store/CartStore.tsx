@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-// -> id / prix / nom / quantité
+// => id / prix / nom / quantité
 interface Item {
   id: number;
   price: any;
@@ -13,7 +13,7 @@ interface Item {
 }
 
 // panier
-// -> ajouter / supprimer / avoir le total / (mettre à jour)
+// => ajouter / supprimer / avoir le total / (mettre à jour)
 interface Cart {
   items: Item[];
   add: (item: Item) => void;
@@ -66,7 +66,6 @@ const useCartStore = create<Cart>()(
           (total, item) => total + item.price * item.quantity,
           0
         ),
-
       clearCart: () => set({ items: [] }),
     }),
     { name: "cart-storage" }

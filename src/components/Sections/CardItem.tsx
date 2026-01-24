@@ -39,8 +39,8 @@ const CardItem = ({
       }  `}
     >
       {image_urls?.length > 0 && image_urls[0] ? (
-        <Image
-          src={`http://localhost:4000/${image_urls[0]}`}
+        <img
+          src={image_urls[0]}
           alt={name}
           height={600}
           width={400}

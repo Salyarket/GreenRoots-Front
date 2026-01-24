@@ -2,6 +2,17 @@ import { PaginatedResponse, IProduct } from "@/types/index.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+function normalizeImages(product: IProduct): IProduct {
+  return {
+    ...product,
+    image_urls: product.image_urls
+      ? product.image_urls.map(url =>
+          url.startsWith("/") ? url : "/" + url
+        )
+      : [],
+  };
+}
+
 export async function getAllProducts() {
   try {
     const res = await fetch(`${API_URL}/products`, { method: "GET", cache: "no-store", });
@@ -10,7 +21,9 @@ export async function getAllProducts() {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
 
-    return res.json();
+    const data = await res.json();
+return data.map(normalizeImages);
+
   } catch (error) {
     console.error("Erreur API:", error);
     throw error; // laisser throw pour que Next affiche error.tsx si ça bug
@@ -33,10 +46,14 @@ export async function getProductsPagination(
     if (!res.ok) {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
-    return res.json();
+    const data = await res.json();
+
+    // fix URLs images
+    data.data = data.data.map(normalizeImages);
+    return data;
+    
   } catch (error) {
     console.error("Erreur API:", error);
-    // si on throw new error et que le back est down, le site crash alors le mieux est de retourner un objet vide et gérer l'erreur dans le composant
     return {
       data: [],
       pagination_State: {
@@ -60,10 +77,12 @@ export async function getOneProductWithLocation(id: number): Promise<IProduct> {
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
 
-    return res.json();
+    const data = await res.json();
+return normalizeImages(data);
+
   } catch (error) {
     console.error("Erreur API:", error);
-    throw error; // laisser throw pour que Next affiche error.tsx si ça bug
+    throw error;
   }
 }
 
