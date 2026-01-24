@@ -1,5 +1,9 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
 
-const nextConfig: NextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ['localhost', 'green-roots-front-six.vercel.app/'], // on ajoute le domaine Vercel
+  },
+};
 
-export default nextConfig;
+module.exports = nextConfig;

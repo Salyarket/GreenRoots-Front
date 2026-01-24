@@ -39,7 +39,7 @@ const CardItem = ({
       }  `}
     >
       {image_urls?.length > 0 && image_urls[0] ? (
-        <img
+        <Image
           src={image_urls[0]}
           alt={name}
           height={600}

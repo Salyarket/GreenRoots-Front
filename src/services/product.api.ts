@@ -5,13 +5,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 function normalizeImages(product: IProduct): IProduct {
   return {
     ...product,
-    image_urls: product.image_urls
-      ? product.image_urls.map(url =>
-          url.startsWith("/") ? url : "/" + url
-        )
-      : [],
+    image_urls: (product.image_urls || []).map(url => {
+      // Enlever localhost si présent
+      url = url.replace(/^http:\/\/localhost:4000/, '');
+      // Ajouter un slash si nécessaire
+      return url.startsWith('/') ? url : '/' + url;
+    }),
   };
 }
+
 
 export async function getAllProducts() {
   try {
@@ -22,7 +24,7 @@ export async function getAllProducts() {
     }
 
     const data = await res.json();
-return data.map(normalizeImages);
+    return data.map(normalizeImages);
 
   } catch (error) {
     console.error("Erreur API:", error);
@@ -78,7 +80,7 @@ export async function getOneProductWithLocation(id: number): Promise<IProduct> {
     }
 
     const data = await res.json();
-return normalizeImages(data);
+    return normalizeImages(data);
 
   } catch (error) {
     console.error("Erreur API:", error);
