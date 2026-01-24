@@ -5,11 +5,19 @@ const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 function normalizeImages(product: IProduct): IProduct {
   return {
     ...product,
-    image_urls: (product.image_urls || []).map(url => {
-      // Enlever localhost si présent
-      url = url.replace(/^http:\/\/localhost:4000/, '');
-      // Ajouter un slash si nécessaire
-      return url.startsWith('/') ? url : '/' + url;
+    image_urls: (product.image_urls || []).map((url) => {
+      let path = url;
+
+      // Convertir les URL to a relative path for public/ assets.
+      if (/^https?:\/\//i.test(path)) {
+        try {
+          path = new URL(path).pathname;
+        } catch {
+          // Si parsing échoue, garder l'original string.
+        }
+      }
+
+      return path.startsWith("/") ? path : `/${path}`;
     }),
   };
 }

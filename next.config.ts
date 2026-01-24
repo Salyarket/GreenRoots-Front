@@ -2,7 +2,7 @@
 
 const nextConfig = {
   images: {
-    domains: ['localhost', 'green-roots-front-six.vercel.app/'], // on ajoute le domaine Vercel
+    domains: ["localhost", "green-roots-front-six.vercel.app"], // domaines valides pour next/image
   },
 };
 

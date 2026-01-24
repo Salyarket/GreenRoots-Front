@@ -44,13 +44,25 @@ export default function PanierPage() {
                     className="flex items-center justify-between bg-white shadow-md rounded-lg p-4 mb-4"
                   >
                     <div className="flex items-center">
-                      <Image
-                        src={`http://localhost:4000/${item.image_urls[0]}`}
-                        alt={item.name}
-                        width={80}
-                        height={80}
-                        className="rounded-md mr-4"
-                      />
+                      {item.image_urls?.[0] ? (
+                        <Image
+                          src={
+                            item.image_urls[0].startsWith("/")
+                              ? item.image_urls[0]
+                              : `/${item.image_urls[0]}`
+                          }
+                          alt={item.name}
+                          width={80}
+                          height={80}
+                          className="rounded-md mr-4"
+                        />
+                      ) : (
+                        <div className="w-20 h-20 bg-gray-100 rounded-md mr-4 flex items-center justify-center">
+                          <span className="text-xs text-gray-500">
+                            Pas d&apos;image
+                          </span>
+                        </div>
+                      )}
                       <div>
                         <h2 className="text-lg font-bold text-brand-darkgreen">
                           {item.name}

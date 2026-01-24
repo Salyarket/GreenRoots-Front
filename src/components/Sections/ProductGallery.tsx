@@ -19,16 +19,13 @@ const ProductGallery = ({ product }: IGalleryProps) => {
   const handlePrev = () => setCurrentIndex((prev) => (prev - 1 + total) % total);
   const handleNext = () => setCurrentIndex((prev) => (prev + 1) % total);
 
-  // Next.js Image veut juste des chemins relatifs pour localhost
-  const normalizedImages = images.map((img) => img.replace(/^http:\/\/localhost:4000/, ''));
-
   return (
     <article className="h-full relative">
       {/* Image principale */}
       <div className="relative h-full w-full aspect-square overflow-hidden rounded-lg">
-        {normalizedImages[currentIndex] ? (
+        {images[currentIndex] ? (
           <Image
-            src={normalizedImages[currentIndex]}
+            src={images[currentIndex]}
             alt={`${product.name} ${currentIndex + 1}`}
             fill
             className="object-cover transition-all duration-300"
