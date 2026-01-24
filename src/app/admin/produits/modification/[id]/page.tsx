@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   productSchemaForCreate,
@@ -29,7 +29,7 @@ const ProductEditPage = () => {
     reset,
     formState: { errors },
   } = useForm<ProductFormData>({
-    resolver: zodResolver(productSchemaForCreate),
+    resolver: zodResolver(productSchemaForCreate) as Resolver<ProductFormData>,
     mode: "onChange",
   });
 
