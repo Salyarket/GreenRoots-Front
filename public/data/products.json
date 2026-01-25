@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "name": "Chene pedoncule",
+    "scientific_name": "Quercus robur",
+    "price": "39.90",
+    "stock": 12,
+    "available": true,
+    "carbon": "10",
+    "description": "Chene pedoncule robuste, ideal pour la reforestation.",
+    "slug": "chene-pedoncule",
+    "image_urls": ["/uploads/arbres/chene-pedoncule.webp"],
+    "productLocations": []
+  },
+  {
+    "id": 2,
+    "name": "Hetre",
+    "scientific_name": "Fagus sylvatica",
+    "price": "34.50",
+    "stock": 8,
+    "available": true,
+    "carbon": "8",
+    "description": "Hetre europeen, croissance reguliere et feuillage dense.",
+    "slug": "hetre",
+    "image_urls": ["/uploads/arbres/hetre.webp"],
+    "productLocations": []
+  },
+  {
+    "id": 3,
+    "name": "Tilleul",
+    "scientific_name": "Tilia cordata",
+    "price": "29.90",
+    "stock": 15,
+    "available": true,
+    "carbon": "7",
+    "description": "Tilleul mellifere, ideal pour la biodiversite.",
+    "slug": "tilleul",
+    "image_urls": ["/uploads/arbres/tilleul.webp"],
+    "productLocations": []
+  },
+  {
+    "id": 4,
+    "name": "Sapin",
+    "scientific_name": "Abies alba",
+    "price": "31.00",
+    "stock": 10,
+    "available": true,
+    "carbon": "9",
+    "description": "Sapin blanc, bonne resistance au froid.",
+    "slug": "sapin",
+    "image_urls": ["/uploads/arbres/sapin.webp"],
+    "productLocations": []
+  },
+  {
+    "id": 5,
+    "name": "Cedre atlas",
+    "scientific_name": "Cedrus atlantica",
+    "price": "42.00",
+    "stock": 6,
+    "available": true,
+    "carbon": "11",
+    "description": "Cedre atlas, silhouette majestueuse et durable.",
+    "slug": "cedre-atlas",
+    "image_urls": ["/uploads/arbres/cedre_atlas.webp"],
+    "productLocations": []
+  },
+  {
+    "id": 6,
+    "name": "Erable sycomore",
+    "scientific_name": "Acer pseudoplatanus",
+    "price": "28.50",
+    "stock": 20,
+    "available": true,
+    "carbon": "6",
+    "description": "Erable sycomore, feuillage large et croissance rapide.",
+    "slug": "erable-sycomore",
+    "image_urls": ["/uploads/arbres/erable_sycomore.webp"],
+    "productLocations": []
+  }
+]
