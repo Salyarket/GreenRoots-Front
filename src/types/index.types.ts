@@ -59,7 +59,7 @@ export interface IOrder {
     product: IProduct | null;
     quantity: number;
     unit_price: number;
-  };
+  }[];
 }
 
 // conflit alors vérifier si OK
