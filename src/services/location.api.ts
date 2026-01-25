@@ -46,7 +46,7 @@ export async function getAllLocations() {
 
 
 // Récupérer toutes les localisations avec les produits liés
-export async function getAllLocationsWithRelations() {
+export async function getAllLocationsWithRelations(): Promise<ILocation[]> {
     try {
         const res = await apiFetch("/locations/with-relations", {
             method: "GET",
@@ -57,8 +57,8 @@ export async function getAllLocationsWithRelations() {
             throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
         }
 
-        const data = await res.json();
-        return Array.isArray(data) ? data.map(normalizeLocation) : data;
+        const data: ILocation[] = await res.json();
+        return data.map(normalizeLocation);
     } catch (error) {
         console.error("Erreur lors de la récupération des localisations avec relations ❌", error);
         throw error;
@@ -77,8 +77,8 @@ export async function getOneLocationWithProducts(id: number): Promise<ILocation>
             throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
         }
 
-        const data = await res.json();
-        return Array.isArray(data) ? data.map(normalizeLocation) : data;
+        const responseData: ILocation = await res.json();
+        return normalizeLocation(responseData);
     } catch (error) {
         console.error("Erreur API:", error);
         throw error; // laisser throw pour que Next affiche error.tsx si ça bug
@@ -86,12 +86,12 @@ export async function getOneLocationWithProducts(id: number): Promise<ILocation>
 }
 
 
-export async function createLocation(data: { name: string; latitude: number; longitude: number }) {
+export async function createLocation(payload: { name: string; latitude: number; longitude: number }) {
     try {
         const res = await apiFetch("/locations", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
+            body: JSON.stringify(payload),
             credentials: "include",
             cache: "no-store",
         });
@@ -100,8 +100,8 @@ export async function createLocation(data: { name: string; latitude: number; lon
             throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
         }
 
-        const data: ILocation = await res.json();
-        return normalizeLocation(data);
+        const location: ILocation = await res.json();
+        return normalizeLocation(location);
     } catch (error) {
         console.error("Erreur loggin", error);
         throw error;

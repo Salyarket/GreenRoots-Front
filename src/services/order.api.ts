@@ -3,7 +3,9 @@ import { normalizeImagePath } from "@/lib/normalizeImagePath";
 import { apiFetch } from "./api";
 import { IOrder, PaginatedResponse } from "@/types/index.types";
 
-function normalizeOrderItems<T extends { product?: { image_urls?: string[] } }>(
+function normalizeOrderItems<
+  T extends { product?: { image_urls?: string[] } | null }
+>(
   items: T | T[] | undefined
 ): T | T[] | undefined {
   if (!items) return items;

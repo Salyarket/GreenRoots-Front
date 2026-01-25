@@ -340,8 +340,8 @@ const Page = () => {
                 if (loc) {
                     setLocation(loc);
                     setName(loc.name);
-                    setLatitude(loc.latitude.toString());
-                    setLongitude(loc.longitude.toString());
+                    setLatitude(String(loc.latitude ?? ""));
+                    setLongitude(String(loc.longitude ?? ""));
 
                     // Extraction des produits liés via productLocations
                     const linkedTrees =
