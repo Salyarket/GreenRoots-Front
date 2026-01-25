@@ -45,7 +45,7 @@ const Page = () => {
     }
 
     return (
-        <main className="max-w-6xl mx-auto px-6 py-10">
+        <main className="max-w-6xl mx-auto px-6 py-10 mt-20">
             <nav
                 aria-label="breadcrumb"
                 className="mb-6 flex items-center text-sm text-gray-600"
@@ -81,7 +81,7 @@ const Page = () => {
                         >
                             <div className="relative w-full h-48 mb-3">
                                 <Image
-                                    src={`http://localhost:4000/${product.image_urls[0]}`}
+                                    src={`/${product.image_urls[0]}`}
                                     alt={product.name}
                                     fill
                                     className="w-full h-full object-cover rounded-t-lg"

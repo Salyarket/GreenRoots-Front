@@ -121,10 +121,10 @@ const PageClient = ({ product }: { product: IProduct | null }) => {
           <Map
             places={
               product.productLocations?.map((pl) => ({
-                id: pl.location.id,
-                name: pl.location.name,
-                lat: pl.location.latitude ?? 46.6031,
-                lng: pl.location.longitude ?? 1.8883,
+                id: pl.location?.id ?? pl.location_id,
+                name: pl.location?.name ?? "Localisation",
+                lat: pl.location?.latitude ?? 46.6031,
+                lng: pl.location?.longitude ?? 1.8883,
               })) || []
             }
           />

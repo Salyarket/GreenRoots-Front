@@ -8,12 +8,12 @@ function normalizeImages(product: IProduct): IProduct {
     image_urls: (product.image_urls || []).map((url) => {
       let path = url;
 
-      // Convertir les URL to a relative path for public/ assets.
+      // Convertir les URL vers un chemin relatif pour les assets public/.
       if (/^https?:\/\//i.test(path)) {
         try {
           path = new URL(path).pathname;
         } catch {
-          // Si parsing échoue, garder l'original string.
+          // Si parsing échoue, garder le chemin tel quel
         }
       }
 

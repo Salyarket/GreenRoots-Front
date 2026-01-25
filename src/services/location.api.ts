@@ -3,7 +3,7 @@ import { apiFetch } from "./api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// Avori les localisations avec de la pagination
+// Avoir les localisations avec de la pagination
 export async function fetchLocations(page: number, limit: number) {
     const res = await apiFetch(
         `/locations/pagination?page=${page}&limit=${limit}`,
@@ -17,10 +17,8 @@ export async function fetchLocations(page: number, limit: number) {
     const data: PaginatedResponse<ILocation> = await res.json();
     return data;
 }
-// router.get("/locations", checkRoles(["admin"]), locationController.getAll);
 
-
-// get all orders from user (ADMIN ONLY VOIR BUTTON PAGE ACCUEIL TEST testSecureRoute.tsx : pour ADRIEN)
+// get all orders from user
 export async function getAllLocations() {
     const res = await apiFetch("/locations", { method: "GET" });
 
@@ -28,7 +26,7 @@ export async function getAllLocations() {
         throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
 
-    return res.json(); // devrait renvoyer les commandes de l'user
+    return res.json(); // doit renvoyer les commandes de l'user
 }
 
 
