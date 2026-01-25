@@ -1,7 +1,8 @@
 "use client";
 
 import { getOneOrder, getOrderItems } from "@/services/order.api";
-import useAuthStore, { Item, Order } from "@/store/AuthStore";
+import useAuthStore from "@/store/AuthStore";
+import { IOrder } from "@/types/index.types";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ const ConfirmationOrderPage = () => {
   const searchId = useSearchParams();
   const orderId = searchId.get("id");
 
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState<IOrder | null>(null);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -66,7 +67,9 @@ const ConfirmationOrderPage = () => {
 
           <div className="flex justify-between items-center">
             <span className="text-brand-darkgreen font-semibold">Date</span>
-            <span className="text-brand-green">{order.date}</span>
+            <span className="text-brand-green">
+              {new Date(order.created_at).toLocaleDateString("fr-FR")}
+            </span>
           </div>
         </div>
 
@@ -77,7 +80,7 @@ const ConfirmationOrderPage = () => {
           </h3>
 
           <div className="space-y-2">
-            {order.items.map((item: Item) => (
+            {order.items.map((item) => (
               <div
                 key={item.id}
                 className="flex justify-between items-center p-3 bg-brand-lightgreen/5 rounded"
