@@ -5,6 +5,7 @@ import { ILocation } from "@/types/index.types";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { normalizeImagePath } from "@/lib/normalizeImagePath";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
 
@@ -81,7 +82,7 @@ const Page = () => {
                         >
                             <div className="relative w-full h-48 mb-3">
                                 <Image
-                                    src={`/${product.image_urls[0]}`}
+                                    src={normalizeImagePath(product.image_urls[0])}
                                     alt={product.name}
                                     fill
                                     className="w-full h-full object-cover rounded-t-lg"

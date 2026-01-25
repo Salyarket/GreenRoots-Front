@@ -1,6 +1,31 @@
 import { Order } from "@/store/AuthStore";
+import { normalizeImagePath } from "@/lib/normalizeImagePath";
 import { apiFetch } from "./api";
 import { IOrder, PaginatedResponse } from "@/types/index.types";
+
+function normalizeOrderItems<T extends { product?: { image_urls?: string[] } }>(
+  items: T | T[] | undefined
+): T | T[] | undefined {
+  if (!items) return items;
+  const normalizeItem = (item: T): T => {
+    if (!item.product?.image_urls?.length) return item;
+    return {
+      ...item,
+      product: {
+        ...item.product,
+        image_urls: item.product.image_urls.map(normalizeImagePath),
+      },
+    };
+  };
+  return Array.isArray(items) ? items.map(normalizeItem) : normalizeItem(items);
+}
+
+function normalizeOrder(order: IOrder): IOrder {
+  return {
+    ...order,
+    items: normalizeOrderItems(order.items) as IOrder["items"],
+  };
+}
 
 // get all orders from user (using the wrapper)
 export async function getMyOrders(token: string): Promise<{ orders: Order[] }> {
@@ -15,7 +40,11 @@ export async function getMyOrders(token: string): Promise<{ orders: Order[] }> {
     throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  const data = await res.json();
+  if (Array.isArray(data?.orders)) {
+    data.orders = data.orders.map((order: IOrder) => normalizeOrder(order));
+  }
+  return data;
 }
 
 // get une commande d'un utilisateur
@@ -30,7 +59,8 @@ export async function getOneOrder(token: string, orderId: number) {
     throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  const data: IOrder = await res.json();
+  return normalizeOrder(data);
 }
 
 // créer une nouvelle commande
@@ -73,7 +103,8 @@ export async function getOrderItems(token: string, orderId: number) {
     throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  const data = await res.json();
+  return normalizeOrderItems(data);
 }
 
 // supprimer une commande par son id (admin)
@@ -131,7 +162,9 @@ export async function getOrdersPaginationAdmin(
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
 
-    return res.json();
+    const data: PaginatedResponse<IOrder> = await res.json();
+    data.data = data.data.map(normalizeOrder);
+    return data;
   } catch (error) {
     console.error("Erreur API:", error);
     return {
@@ -156,5 +189,6 @@ export async function getAllOrdersAdmin(token: string) {
     throw new Error(`GET /api/orders failed (${res.status}) ${txt}`);
   }
 
-  return res.json();
+  const data: IOrder[] = await res.json();
+  return data.map(normalizeOrder);
 }

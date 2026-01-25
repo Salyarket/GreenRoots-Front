@@ -1,4 +1,5 @@
 import { IProduct, PaginatedResponse } from "@/types/index.types";
+import { normalizeImagePath } from "@/lib/normalizeImagePath";
 import { apiFetch } from "./api";
 import { ProductFormData } from "@/lib/validators/productSchema";
 
@@ -19,7 +20,12 @@ export async function getProductsPaginationAdmin(
       throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
     }
 
-    return res.json();
+    const data: PaginatedResponse<IProduct> = await res.json();
+    data.data = data.data.map((product) => ({
+      ...product,
+      image_urls: (product.image_urls || []).map(normalizeImagePath),
+    }));
+    return data;
   } catch (error) {
     console.error("Erreur API:", error);
     return {
@@ -90,7 +96,11 @@ export async function createProductAdmin(
 export async function getProductByIdAdmin(id: number) {
   const res = await apiFetch(`/products/${id}`, { method: "GET" });
   if (!res.ok) throw new Error(`Erreur API: ${res.statusText}`);
-  return res.json();
+  const data: IProduct = await res.json();
+  return {
+    ...data,
+    image_urls: (data.image_urls || []).map(normalizeImagePath),
+  };
 }
 
 // update un produit

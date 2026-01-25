@@ -1,24 +1,12 @@
 import { PaginatedResponse, IProduct } from "@/types/index.types";
+import { normalizeImagePath } from "@/lib/normalizeImagePath";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 function normalizeImages(product: IProduct): IProduct {
   return {
     ...product,
-    image_urls: (product.image_urls || []).map((url) => {
-      let path = url;
-
-      // Convertir les URL vers un chemin relatif pour les assets public/.
-      if (/^https?:\/\//i.test(path)) {
-        try {
-          path = new URL(path).pathname;
-        } catch {
-          // Si parsing échoue, garder le chemin tel quel
-        }
-      }
-
-      return path.startsWith("/") ? path : `/${path}`;
-    }),
+    image_urls: (product.image_urls || []).map(normalizeImagePath),
   };
 }
 

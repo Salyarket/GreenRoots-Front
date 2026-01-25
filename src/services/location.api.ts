@@ -1,7 +1,22 @@
 import { PaginatedResponse, ILocation } from "@/types/index.types";
+import { normalizeImagePath } from "@/lib/normalizeImagePath";
 import { apiFetch } from "./api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+function normalizeLocation(location: ILocation): ILocation {
+    if (!location.productLocations?.length) return location;
+    return {
+        ...location,
+        productLocations: location.productLocations.map((pl) => ({
+            ...pl,
+            product: {
+                ...pl.product,
+                image_urls: (pl.product?.image_urls || []).map(normalizeImagePath),
+            },
+        })),
+    };
+}
 
 // Avoir les localisations avec de la pagination
 export async function fetchLocations(page: number, limit: number) {
@@ -42,7 +57,8 @@ export async function getAllLocationsWithRelations() {
             throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
         }
 
-        return res.json();
+        const data = await res.json();
+        return Array.isArray(data) ? data.map(normalizeLocation) : data;
     } catch (error) {
         console.error("Erreur lors de la récupération des localisations avec relations ❌", error);
         throw error;
@@ -61,7 +77,8 @@ export async function getOneLocationWithProducts(id: number): Promise<ILocation>
             throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
         }
 
-        return res.json();
+        const data = await res.json();
+        return Array.isArray(data) ? data.map(normalizeLocation) : data;
     } catch (error) {
         console.error("Erreur API:", error);
         throw error; // laisser throw pour que Next affiche error.tsx si ça bug
@@ -83,7 +100,8 @@ export async function createLocation(data: { name: string; latitude: number; lon
             throw new Error(`Erreur API: ${res.status} ${res.statusText}`);
         }
 
-        return res.json();
+        const data: ILocation = await res.json();
+        return normalizeLocation(data);
     } catch (error) {
         console.error("Erreur loggin", error);
         throw error;

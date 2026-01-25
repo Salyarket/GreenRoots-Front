@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
+import { normalizeImagePath } from "@/lib/normalizeImagePath";
 
 const OneOrderPage = () => {
   const { user } = useAuthStore();
@@ -105,7 +106,9 @@ const OneOrderPage = () => {
                       <div className="w-12 h-12 md:w-16 md:h-16 bg-brand-lightgreen/10 rounded flex items-center justify-center flex-shrink-0">
                         {item.product?.image_urls?.[0] && (
                           <Image
-                            src={`http://localhost:4000/${item.product.image_urls[0]}`}
+                            src={normalizeImagePath(
+                              item.product.image_urls[0]
+                            )}
                             alt={item.product?.name || "Produit"}
                             width={48}
                             height={48}
