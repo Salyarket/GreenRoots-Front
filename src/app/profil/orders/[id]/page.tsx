@@ -1,7 +1,7 @@
 "use client";
 
 import { getOneOrder } from "@/services/order.api";
-import useAuthStore, { Order } from "@/store/AuthStore";
+import useAuthStore from "@/store/AuthStore";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,11 +9,12 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { normalizeImagePath } from "@/lib/normalizeImagePath";
+import { IOrder } from "@/types/index.types";
 
 const OneOrderPage = () => {
   const { user } = useAuthStore();
   const { id } = useParams();
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState<IOrder | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -77,7 +78,7 @@ const OneOrderPage = () => {
                 Commande #{order.id}
               </h1>
               <p className="text-brand-green mt-1 md:mt-2 text-sm md:text-base">
-                {order.date} •{" "}
+                {new Date(order.created_at).toLocaleDateString("fr-FR")} •{" "}
                 <span
                   className={
                     order.status === "Terminée"
