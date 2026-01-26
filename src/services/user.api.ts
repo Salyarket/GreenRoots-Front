@@ -1,8 +1,6 @@
 import { PaginatedResponse, IUser } from "@/types/index.types";
 import { apiFetch } from "./api";
 
-// const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 export async function getUsersPagination(
     limit: number,
     page: number = 1

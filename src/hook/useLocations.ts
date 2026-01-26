@@ -28,7 +28,6 @@ export function useLocations(initialLimit = 10) {
             setLoading(false);
         }
     };
-
     // premier rendu
     useEffect(() => {
         fetchData(1, pagination.limit);

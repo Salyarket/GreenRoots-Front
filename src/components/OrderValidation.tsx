@@ -110,7 +110,7 @@ export default function OrderValidation() {
     }
   };
 
-  //  msg confirmation commande
+  //  message de confirmation commande
   return (
     <div>
       <button

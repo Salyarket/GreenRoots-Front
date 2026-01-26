@@ -71,7 +71,7 @@ export async function createNewOrder(token: string, data: any) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // vérifier si besoin du bearer
+      // vérifier si besoin du Bearer
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
@@ -147,7 +147,7 @@ export async function updateOrderStatus(
   return res.json();
 }
 
-// orders with pagination (admin)
+// commandes avec pagination (admin)
 export async function getOrdersPaginationAdmin(
   limit: number,
   page: number = 1

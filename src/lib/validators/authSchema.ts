@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// regex pour prenom nom
+// regex pour prénom et nom
 const onlyLetters = /^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/;
 // Schéma pour l'inscription
 export const registerSchema = z
@@ -41,7 +41,7 @@ export const loginSchema = z.object({
   password: z.string().min(8, "Mot de passe trop court (8 caractères min.)"),
 });
 
-// update user /profil
+// update user / profil
 export const updateUserSchema = z
   .object({
     firstname: z

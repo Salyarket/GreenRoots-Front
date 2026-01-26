@@ -1,4 +1,4 @@
-// cette page sera automatiquement rendu au client si il demande une URL qui ne match aucune route
+// cette page sera automatiquement rendue au client s'il demande une URL qui ne matche sur aucune route
 
 "use client"; // nécessaire pour les composants react (hooks)
 import Image from "next/image";

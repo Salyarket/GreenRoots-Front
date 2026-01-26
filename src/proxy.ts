@@ -10,7 +10,7 @@ export async function proxy(req: NextRequest) {
 
   console.log("➡️ Middleware check sur :", req.nextUrl.pathname);
 
-  // Pas d'accessToken → redirection
+  // Pas d'accessToken => redirection
   if (!accessToken) {
     console.log("❌ Aucun accessToken, redirection vers /connexion");
     return NextResponse.redirect(new URL("/connexion", req.url));

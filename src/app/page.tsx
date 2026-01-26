@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; // désactive le static site generation (SSG) pour cette page
 
 import Hero from "@/components/Hero/Hero";
 import BestSellers from "@/components/Sections/BestSellers";

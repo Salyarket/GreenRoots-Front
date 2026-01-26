@@ -38,12 +38,12 @@ const CookieBanner = () => {
         <p className="mb-4 md:mb-0 text-center md:text-left">
           Nous utilisons des cookies pour améliorer votre expérience sur notre
           site. En continuant à naviguer, vous acceptez notre utilisation des
-          cookies.
+          cookies 🍪
         </p>
         <div className="flex gap-4">
           <button
             onClick={acceptCookies}
-            className="bg-brand-darkgreen text-white px-4 py-2 rounded hover:bg-brand-green transition"
+            className="bg-brand-brown text-black px-4 py-2 rounded hover:bg-[#f4c27d] text-blacktransition"
           >
             Accepter
           </button>
