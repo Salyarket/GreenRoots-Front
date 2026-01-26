@@ -15,10 +15,13 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts"; //biblio de graphiques
+import { useEffect, useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
-import { FaBox, FaBoxOpen, FaUserPlus } from "react-icons/fa";
+import { FaBox, FaBoxOpen, FaUserPlus, FaRegEye } from "react-icons/fa";
 import { FaMagnifyingGlassChart } from "react-icons/fa6";
-import { MdDeleteOutline } from "react-icons/md";
+import useAuthStore from "@/store/AuthStore";
+import { getAllOrdersAdmin } from "@/services/order.api";
+import { IOrder } from "@/types/index.types";
 
 // données du BarChart des ventes
 const salesData = [
@@ -43,16 +46,68 @@ const COLORS = [
   "var(--chart-5)",
 ];
 
-// données des dernières commandes
-const orders = [
-  { id: "#12345", date: "10/09/2025", user: "Billie A.", total: "79,99€" },
-  { id: "#12344", date: "08/09/2025", user: "Lina H.", total: "69,99€" },
-  { id: "#12343", date: "08/09/2025", user: "San K.", total: "120,99€" },
-  { id: "#12342", date: "07/09/2025", user: "Mathieu B.", total: "32,99€" },
-  { id: "#12341", date: "07/09/2025", user: "Sarah T.", total: "69,99€" },
-];
-
 export default function Page() {
+  const { user } = useAuthStore();
+  const [latestOrders, setLatestOrders] = useState<IOrder[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [ordersError, setOrdersError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const token = user?.token;
+    if (!token) {
+      setOrdersLoading(false);
+      return;
+    }
+
+    const fetchLatest = async () => {
+      try {
+        setOrdersLoading(true);
+        setOrdersError(null);
+        const allOrders = await getAllOrdersAdmin(token);
+        const sorted = [...allOrders].sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() -
+            new Date(a.created_at).getTime()
+        );
+        if (!cancelled) {
+          setLatestOrders(sorted.slice(0, 5));
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error("Erreur récupération commandes admin:", err);
+          setOrdersError("Impossible de charger les commandes.");
+          setLatestOrders([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setOrdersLoading(false);
+        }
+      }
+    };
+
+    fetchLatest();
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.token]);
+
+  const formatStatus = (status: string) => {
+    const value = status?.toLowerCase();
+    if (value === "paid") return "Paid";
+    if (value === "pending") return "Pending";
+    if (value === "cancelled") return "Cancelled";
+    return status;
+  };
+
+  const statusClass = (status: string) => {
+    const value = status?.toLowerCase();
+    if (value === "paid") return "text-green-600";
+    if (value === "pending") return "text-yellow-600";
+    if (value === "cancelled") return "text-red-600";
+    return "text-gray-600";
+  };
+
   return (
     <main className="min-h-screen mt-40 px-6 custom-size-minmax">
       {/* Section bienvenue */}
@@ -236,34 +291,61 @@ export default function Page() {
               </tr>
             </thead>
             <tbody>
-              {/* on fait un Map pour générer une ligne par commande */}
-              {orders.map((order) => (
-                <tr key={order.id} className="border-t">
-                  <td className="px-4 py-3">{order.id}</td>
-                  <td className="px-4 py-3">{order.date}</td>
-                  <td className="px-4 py-3">{order.user}</td>
-                  <td className="px-4 py-3 text-green-600 font-semibold">
-                    Payée
-                  </td>
-                  <td className="px-4 py-3">{order.total}</td>
-                  <td className="px-4 py-3 w-[150px]">
-                    <div className="flex justify-start gap-4">
-                      <Link
-                        href={`/admin/commandes/edition/${order.id}`}
-                        className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
-                      >
-                        <FiEdit3 />
-                      </Link>
-                      <Link
-                        href={`/admin/commandes/suppression/${order.id}`}
-                        className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white"
-                      >
-                        <MdDeleteOutline />
-                      </Link>
-                    </div>
+              {ordersLoading ? (
+                <tr className="border-t">
+                  <td className="px-4 py-3 text-gray-500" colSpan={6}>
+                    Chargement des commandes...
                   </td>
                 </tr>
-              ))}
+              ) : ordersError ? (
+                <tr className="border-t">
+                  <td className="px-4 py-3 text-red-600" colSpan={6}>
+                    {ordersError}
+                  </td>
+                </tr>
+              ) : latestOrders.length === 0 ? (
+                <tr className="border-t">
+                  <td className="px-4 py-3 text-gray-500" colSpan={6}>
+                    Aucune commande trouvée.
+                  </td>
+                </tr>
+              ) : (
+                latestOrders.map((order) => (
+                  <tr key={order.id} className="border-t">
+                    <td className="px-4 py-3">#{order.id}</td>
+                    <td className="px-4 py-3">
+                      {new Date(order.created_at).toLocaleDateString("fr-FR")}
+                    </td>
+                    <td className="px-4 py-3">
+                      {order.user?.firstname} {order.user?.lastname}
+                    </td>
+                    <td
+                      className={`px-4 py-3 font-semibold ${statusClass(
+                        order.status
+                      )}`}
+                    >
+                      {formatStatus(order.status)}
+                    </td>
+                    <td className="px-4 py-3">{order.total}€</td>
+                    <td className="px-4 py-3 w-[150px]">
+                      <div className="flex justify-start gap-4">
+                        <Link
+                          href={`/admin/commandes/${order.id}`}
+                          className="border border-brand-darkgreen shadow-lg p-2 rounded-lg text-brand-darkgreen hover:bg-brand-lightgreen hover:border-brand-white hover:text-brand-white"
+                        >
+                          <FaRegEye />
+                        </Link>
+                        <Link
+                          href={`/admin/commandes/modification/${order.id}`}
+                          className="border border-red-800 shadow-lg p-2 rounded-lg text-red-800 hover:bg-red-800 hover:border-brand-white hover:text-brand-white"
+                        >
+                          <FiEdit3 />
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </CardContent>
