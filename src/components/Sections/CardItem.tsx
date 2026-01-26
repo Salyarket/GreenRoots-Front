@@ -43,10 +43,16 @@ const CardItem = ({
           alt={name}
           height={600}
           width={400}
-          className="w-full h-full object-cover rounded-t-lg"
+          className={`w-full object-cover rounded-t-lg ${
+            variant === "simple" ? "h-64" : "h-full"
+          }`}
         />
       ) : (
-        <div className="w-full h-[300px] bg-gray-200 flex items-center justify-center rounded-t-lg">
+        <div
+          className={`w-full ${
+            variant === "simple" ? "h-64" : "h-[300px]"
+          } bg-gray-200 flex items-center justify-center rounded-t-lg`}
+        >
           <span className="text-gray-500">Pas d&apos;image</span>
         </div>
       )}

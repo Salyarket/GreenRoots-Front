@@ -34,8 +34,9 @@ const BestSellers = async () => {
                 price={el.price}
                 carbon={el.carbon}
                 scientific_name={el.scientific_name}
+                description={el.description}
                 image_urls={el.image_urls}
-                variant={"simple"}
+                variant={"detailed"}
               />
             ))}
           </ul>
