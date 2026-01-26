@@ -30,7 +30,6 @@ const CardItem = ({
 }: CardItemProps) => {
   // pour faire la redirection slug
   const router = useRouter();
-
   return (
     <li
       onClick={() => router.push(`/catalogue/${id}`)}

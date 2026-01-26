@@ -87,7 +87,7 @@ const Header = () => {
   ];
 
 
-  const pathname = usePathname();
+    const pathname = usePathname();
 
 // Choisir la couleur selon la page
 let headerBg = "bg-transparent";
@@ -168,23 +168,23 @@ if (isScrolled) {
             </>
           )}
         </div>
-        {user && (
-          <div className="space-x-8 flex">
+        <div className="space-x-8 flex">
+          {user && (
             <Link href={"/profil"}>
               <CgProfile className="custom-btn-hover w-6 h-6" />
             </Link>
-            <div className="relative">
-              <Link href={"/panier"}>
-                <BsCart className="custom-btn-hover w-6 h-6 mr-2" />
-                {total > 0 && (
-                  <span className="absolute -top-4 -right-3.5 rounded-full w-6 h-6 bg-brand-brown text-brand-darkgreen text-sm font-extrabold flex items-center justify-center">
-                    {total}
-                  </span>
-                )}
-              </Link>
-            </div>
+          )}
+          <div className="relative">
+            <Link href={"/panier"}>
+              <BsCart className="custom-btn-hover w-6 h-6 mr-2" />
+              {total > 0 && (
+                <span className="absolute -top-4 -right-3.5 rounded-full w-6 h-6 bg-brand-brown text-brand-darkgreen text-sm font-extrabold flex items-center justify-center">
+                  {total}
+                </span>
+              )}
+            </Link>
           </div>
-        )}
+        </div>
       </nav>
 
       {/* menu qui s'ouvre en mobile */}
@@ -231,6 +231,4 @@ if (isScrolled) {
     
   );
 };
-
-
 export default Header;

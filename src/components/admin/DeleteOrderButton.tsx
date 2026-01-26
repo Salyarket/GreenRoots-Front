@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { MdDeleteOutline } from "react-icons/md";
 import { IOrder } from "@/types/index.types";
 import { deletOrderById } from "@/services/order.api";
@@ -12,6 +13,7 @@ export default function DeleteOrderButton({ order }: { order: IOrder }) {
 
   const { user } = useAuthStore();
   const token = user?.token;
+  const searchParams = useSearchParams();
 
   const handleDelete = async () => {
     if (!token) return;
@@ -21,7 +23,8 @@ export default function DeleteOrderButton({ order }: { order: IOrder }) {
       await deletOrderById(token, order.id);
       setOpen(false);
       alert(`✅ Commande ${order.id} supprimée avec succès`);
-      window.location.reload(); //reload la page
+      const page = searchParams.get("page") ?? "1";
+      window.location.href = `/admin/commandes?page=${page}`;
     } catch (err) {
       alert("❌ Erreur lors de la suppression");
     } finally {

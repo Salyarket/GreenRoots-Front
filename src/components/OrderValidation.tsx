@@ -5,6 +5,7 @@ import { getStockForProduct } from "@/services/product.api";
 import useAuthStore from "@/store/AuthStore";
 import useCartStore from "@/store/CartStore";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function OrderValidation() {
   const [message, setMessage] = useState("");
@@ -13,6 +14,8 @@ export default function OrderValidation() {
 
   const { items, getTotal } = useCartStore();
   const { user } = useAuthStore();
+  const loginPrompt =
+    "Veuillez créer un compte ou vous connecter pour valider votre panier.";
 
   // 1- au clic "Passer la commande" : on vérifie stock puis on ouvre la modale
   const handleValidation = async () => {
@@ -116,6 +119,15 @@ export default function OrderValidation() {
       >
         Passer la commande
       </button>
+
+      {!user && (
+        <p className="text-sm text-brand-darkgreen mt-2 text-center">
+          {loginPrompt}{" "}
+          <Link href="/connexion" className="underline">
+            Se connecter
+          </Link>
+        </p>
+      )}
 
       {message && (
         <p className="text-red-500 text-sm mt-2 text-center">{message}</p>
