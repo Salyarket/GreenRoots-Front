@@ -1,13 +1,12 @@
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+
 export function normalizeImagePath(input: string): string {
   let path = input.trim();
   if (!path) return path;
 
   if (/^https?:\/\//i.test(path)) {
-    try {
-      path = new URL(path).pathname;
-    } catch {
-      // Keep original path on parse failure.
-    }
+    // If it's already an absolute URL, keep it as-is.
+    return encodeURI(path);
   }
 
   path = path.split("?")[0]?.split("#")[0] ?? path;
@@ -22,6 +21,11 @@ export function normalizeImagePath(input: string): string {
 
   if (!path.startsWith("/")) {
     path = `/${path}`;
+  }
+
+  // If it's a local uploads path, serve it from the API domain.
+  if (path.startsWith("/uploads/") && API_BASE) {
+    return encodeURI(`${API_BASE}${path}`);
   }
 
   return encodeURI(path);
