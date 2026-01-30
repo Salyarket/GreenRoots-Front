@@ -18,6 +18,24 @@ export const metadata: Metadata = {
   title: "GreenRoots Boutique | Offrez un arbre, soutenez la reforestation",
   description:
     "GreenRoots est une boutique en ligne écoresponsable qui permet de financer la plantation d’arbres. Participez à la reforestation et contribuez à l'environnement.",
+    metadataBase: new URL("https://greenapp.wowportfolio.work"),
+  openGraph: {
+    title: "GreenRoots Boutique",
+    description:
+      "Offrez un arbre, soutenez la reforestation.",
+    url: "https://greenapp.wowportfolio.work",
+    siteName: "GreenRoots",
+    images: ["/og-image.jpg"], // image placée dans public/
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GreenRoots Boutique",
+    description:
+      "Offrez un arbre, soutenez la reforestation.",
+    images: ["/og-image.jpg"],
+  },
   icons: {
     icon: "/logo_green.svg",
   },
