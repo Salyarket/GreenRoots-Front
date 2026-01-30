@@ -8,7 +8,7 @@ const Loading = () => {
         width={20}
         src="/loader-clair.svg"
         alt="Loader GreenRoots"
-        className="w-52 h-52 animate-spin"
+        className="w-32 h-32 animate-spin"
       />
     </div>
   );
