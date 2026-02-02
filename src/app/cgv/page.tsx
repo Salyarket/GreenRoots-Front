@@ -63,7 +63,7 @@ const Page = () => {
 
           <p>
             Le responsable du traitement des données personnelles est
-            <strong> Monsieur Gilles LEFAIT</strong>, pour la société GreenRoots.
+            <strong> Monsieur Bobby Brown</strong>, pour la société GreenRoots.
           </p>
 
           <h3 className="font-semibold mt-6">Données collectées</h3>
@@ -89,9 +89,11 @@ const Page = () => {
           <h3 className="font-semibold mt-10">Droits des utilisateurs</h3>
           <p>
             Conformément au RGPD, l’utilisateur dispose d’un droit d’accès, de
-            rectification, d’effacement, d’opposition, de portabilité et de
-            limitation du traitement. Ces droits peuvent être exercés par
-            simple demande auprès de l’éditeur.
+            rectification, d’effacement (suppression), d’opposition, de
+            portabilité et de limitation du traitement. L’utilisateur peut
+            demander la suppression de ses données dans les limites légales.
+            Ces droits peuvent être exercés par simple demande auprès de
+            l’éditeur à contact@greenroots.fr.
           </p>
         </div>
 

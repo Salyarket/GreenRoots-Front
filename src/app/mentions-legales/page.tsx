@@ -30,7 +30,7 @@ const Page = () => {
               </li>
               <li>
                 <span className="font-semibold">Siège social :</span>{" "}
-                123 Rue de l’Environnement, 75001 Paris, France
+                1 chemin Dame Nature, 75011 Paris, France
               </li>
               <li>
                 <span className="font-semibold">SIREN / SIRET :</span>{" "}
@@ -135,7 +135,11 @@ const Page = () => {
           <p className="mb-3">
             GreenRoots peut collecter certaines données personnelles nécessaires à la
             gestion des commandes et à la relation client. Le responsable du traitement
-            est <span className="font-semibold">Mr Gilles LEFAIT</span>.
+            est <span className="font-semibold">Mr Bobby Brown</span>.
+          </p>
+          <p className="mb-3">
+            L’utilisateur peut demander la suppression de ses données personnelles et
+            exercer ses droits RGPD en contactant l’éditeur à contact@greenroots.fr.
           </p>
           <p>
             Pour plus d’informations (données collectées, finalités, bases légales,

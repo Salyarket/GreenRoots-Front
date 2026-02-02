@@ -3,7 +3,7 @@ const AProposPage = () => {
     { initials: "SH", firstName: "Saliha", lastName: "Harkat",  link: "https://github.com/Salyarket" },
     { initials: "OA", firstName: "Oumaïma", lastName: "Afakkir", link: "https://github.com/Oumaima-afk" },
     { initials: "AP", firstName: "Adrien", lastName: "Pâris", link: "https://github.com/AdrienParisDev" },
-    { initials: "TM", firstName: "Tarig", lastName: "Mekazni", link: "https://github.com/" },
+    { initials: "TM", firstName: "Tarig", lastName: "Mekhazni", link: "https://github.com/" },
   ];
 
   const frontTech = [
