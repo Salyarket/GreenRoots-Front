@@ -7,19 +7,22 @@ import Link from "next/link";
 import { openCookieBanner } from "@/lib/cookies/cookie";
 
 const Footer = () => {
+  const focusRing =
+    "focus-visible:outline-2 focus-visible:outline-brand-brown focus-visible:outline-offset-2";
+
   return (
     <footer className="bg-brand-darkgreen text-white py-12 px-16 brand custom-size-minmax">
       {/* Haut du footer en 3 colonnes */}
       <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8  ">
         {/* Colonne gauche : menu */}
         <div className="flex flex-col gap-2 text-center md:text-left">
-          <Link href="/catalogue" className="custom-btn-hover">
+          <Link href="/catalogue" className={`custom-btn-hover ${focusRing}`}>
             Catalogue
           </Link>
-          <Link href="/a-propos" className="custom-btn-hover">
+          <Link href="/a-propos" className={`custom-btn-hover ${focusRing}`}>
             À propos
           </Link>
-          <Link href="/contact" className="custom-btn-hover">
+          <Link href="/contact" className={`custom-btn-hover ${focusRing}`}>
             Contact
           </Link>
         </div>
@@ -33,7 +36,8 @@ const Footer = () => {
               href="https://www.instagram.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="custom-btn-hover"
+              className={`custom-btn-hover ${focusRing}`}
+              aria-label="Instagram (nouvelle fenêtre)"
             >
               <FaInstagram />
             </a>
@@ -41,7 +45,8 @@ const Footer = () => {
               href="https://x.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="custom-btn-hover"
+              className={`custom-btn-hover ${focusRing}`}
+              aria-label="X (nouvelle fenêtre)"
             >
               <FaXTwitter />
             </a>
@@ -49,7 +54,8 @@ const Footer = () => {
               href="https://www.linkedin.com/home"
               target="_blank"
               rel="noopener noreferrer"
-              className="custom-btn-hover"
+              className={`custom-btn-hover ${focusRing}`}
+              aria-label="LinkedIn (nouvelle fenêtre)"
             >
               <FaLinkedin />
             </a>
@@ -72,14 +78,17 @@ const Footer = () => {
       {/* Pages légales en bas */}
       <div className="mt-4 text-center text-sm ">
         <div className="flex justify-center items-center gap-2">
-        <Link href={"/mentions-legales"}>
+        <Link href={"/mentions-legales"} className={focusRing}>
           Mentions légales
         </Link>
         <span>|</span>
-        <Link href={"/cgv"}>CGV
+        <Link href={"/cgv"} className={focusRing}>CGV
         </Link>
         <span>|</span>
-        <button onClick={openCookieBanner} className="underline-none text-sm cursor-pointer">
+        <button
+          onClick={openCookieBanner}
+          className={`underline-none text-sm cursor-pointer ${focusRing}`}
+        >
   Gérer mes cookies
 </button>
 </div>

@@ -2,7 +2,7 @@ import AiFillAlert from "@/components/Sections/AlertBox";
 
 const Page = () => {
   return (
-    <main className="min-h-screen mt-16 mb-16 px-4 min-w-[360px] max-w-[1200px] mx-auto">
+    <div className="min-h-screen mt-16 mb-16 px-4 min-w-0 max-w-[1200px] mx-auto">
       <h1 className="text-xl md:text-2xl text-brand-darkgreen uppercase font-bold text-center">
         Conditions Générales & Politique de Confidentialité
       </h1>
@@ -133,7 +133,7 @@ const Page = () => {
           </p>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

@@ -99,6 +99,9 @@ if (isScrolled) {
 }
 
 
+  const focusRing =
+    "focus-visible:outline-2 focus-visible:outline-brand-brown focus-visible:outline-offset-2";
+
   return (
     <header
       className={`fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 text-2xl custom-size-minmax transition-colors duration-500 ${headerBg} text-white`}
@@ -106,8 +109,10 @@ if (isScrolled) {
     >
       <button
         onClick={() => setMenuOpen(!menuOpen)}
-        className="md:hidden custom-btn-hover"
-        aria-label="Toggle menu"
+        className={`md:hidden custom-btn-hover ${focusRing}`}
+        aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-nav"
       >
         <Image
           src={menuOpen ? "/icon_menu_close.svg" : "/icon_menu_open.svg"}
@@ -117,7 +122,7 @@ if (isScrolled) {
         />
       </button>
 
-      <Link href={"/"}>
+      <Link href={"/"} className={focusRing}>
         <Image
           src="/logo_white.svg"
           alt="GreenRoots"
@@ -139,7 +144,7 @@ if (isScrolled) {
                     key={el.id}
                     href={"/"}
                     onClick={logout}
-                    className="capitalize custom-btn-hover"
+                    className={`capitalize custom-btn-hover ${focusRing}`}
                   >
                     {el.link}
                   </Link>
@@ -147,7 +152,7 @@ if (isScrolled) {
                   <Link
                     key={el.id}
                     href={el.href}
-                    className="capitalize custom-btn-hover"
+                    className={`capitalize custom-btn-hover ${focusRing}`}
                   >
                     {el.link}
                   </Link>
@@ -160,7 +165,7 @@ if (isScrolled) {
                 <Link
                   key={el.id}
                   href={el.href}
-                  className={"capitalize custom-btn-hover"}
+                  className={`capitalize custom-btn-hover ${focusRing}`}
                 >
                   {el.link}
                 </Link>
@@ -170,12 +175,12 @@ if (isScrolled) {
         </div>
         <div className="space-x-8 flex">
           {user && (
-            <Link href={"/profil"}>
+            <Link href={"/profil"} aria-label="Profil" className={focusRing}>
               <CgProfile className="custom-btn-hover w-6 h-6" />
             </Link>
           )}
           <div className="relative">
-            <Link href={"/panier"}>
+            <Link href={"/panier"} aria-label="Panier" className={focusRing}>
               <BsCart className="custom-btn-hover w-6 h-6 mr-2" />
               {total > 0 && (
                 <span className="absolute -top-4 -right-3.5 rounded-full w-6 h-6 bg-brand-brown text-brand-darkgreen text-sm font-extrabold flex items-center justify-center">
@@ -189,7 +194,7 @@ if (isScrolled) {
 
       {/* menu qui s'ouvre en mobile */}
       {menuOpen && (
-        <div className="absolute top-24 left-0 w-full  min-h-[50vh] bg-brand-white text-black flex flex-col  items-center justify-center space-y-8 text-2xl  md:hidden">
+        <div id="mobile-nav" className="absolute top-24 left-0 w-full  min-h-[50vh] bg-brand-white text-black flex flex-col  items-center justify-center space-y-8 text-2xl  md:hidden">
           {user ? (
             <>
               {links_url_loggedIn.map((el) =>
@@ -197,7 +202,7 @@ if (isScrolled) {
                   <button
                     key={el.id}
                     onClick={logout}
-                    className="capitalize custom-btn-hover"
+                    className={`capitalize custom-btn-hover ${focusRing}`}
                   >
                     {el.link}
                   </button>
@@ -205,7 +210,7 @@ if (isScrolled) {
                   <Link
                     key={el.id}
                     href={el.href}
-                    className="capitalize custom-btn-hover"
+                    className={`capitalize custom-btn-hover ${focusRing}`}
                   >
                     {el.link}
                   </Link>
@@ -218,7 +223,7 @@ if (isScrolled) {
                 <Link
                   key={el.id}
                   href={el.href}
-                  className={"capitalize custom-btn-hover"}
+                  className={`capitalize custom-btn-hover ${focusRing}`}
                 >
                   {el.link}
                 </Link>

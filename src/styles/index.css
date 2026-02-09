@@ -23,7 +23,7 @@
          hover:scale-90 hover:cursor-pointer;
 }
 @utility custom-size-minmax {
-  @apply min-w-[360px] max-w-[1920px] m-auto;
+  @apply min-w-0 max-w-[1920px] m-auto;
 }
 
 body {
@@ -176,3 +176,25 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out;
 }
+
+/* Accessibilité : focus-visible pour les éléments interactifs */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid #eb9e3f;
+  outline-offset: 3px;
+}
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  background: #02431e;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+}
+.skip-link:focus-visible {
+  top: 8px;
+}
+
+
